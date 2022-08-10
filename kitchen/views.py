@@ -1,7 +1,8 @@
 from multiprocessing import context
 from django import forms
 from django.shortcuts import render
-from requests import request
+#don't know 🤔 why you add it
+#from requests import request
 
 from . import models
 
