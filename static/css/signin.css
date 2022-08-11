@@ -130,6 +130,9 @@ form button{
     .signin-wrapper{
         /* height: fit-content; */
     }
+    .signin-wrapper.signin{
+        height: fit-content;
+    }
     .signin-wrapper form{
         width: 90% !important;
         height: 100%;
