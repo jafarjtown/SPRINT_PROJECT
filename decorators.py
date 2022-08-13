@@ -44,8 +44,10 @@ def customer_only(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         user = request.user
-        if user.is_admin or user.is_kitchen:
+        if user.is_admin:
             return redirect('administrator:dashboard')
+        elif user.is_kitchen:
+            return redirect('kitchen:dashboard')
         else:
             return function(request, *args, **kwargs)
     return wrap

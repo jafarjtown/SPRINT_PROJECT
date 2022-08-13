@@ -15,15 +15,15 @@
     </header>
 {% endblock header %}
 {% block main %}
-{% include 'administrator/components/aside.html' %}
+{% include 'kitchen/components/aside.html' %}
         <section class="view">
             <div class="account_info">
+                <p class="view-name">{{user.kitchen.name}}</p>
                 <p class="view-name">Hello {{user.get_full_name}}</p>
                 <small class="view-id">ref : {{user.account_id}}</small>
             </div>
             
             <div class="shortcuts">
-            {% if user.restaurant %}
                 <div class="shortcut info">
                     <a href="{% url 'administrator:orders' %}">
                         <i class="fa-solid fa-cart-shopping"></i>
@@ -38,7 +38,7 @@
                     </a>
                 </div>
                 <div class="shortcut pen">
-                    <a href="{% url 'restaurant:order-pending' %}" disabled>
+                    <a href="{% url 'restaurant:order-pending' %}">
                         <i class="fa fa-timeline"></i>
                     Check pending Order 
                     </a>
@@ -47,43 +47,24 @@
                 <div class="shortcut pen">
                     <a href="{% url 'administrator:foods' %}">
                         <i class="fa-solid fa-utensils"></i>
-                    Foods
+                    Add Foods
                     </a>
                 </div>
                 <div class="shortcut pen">
                     <a href="{% url 'administrator:not-available' %}">
-                        <i class="fa-solid fa-bowl-food"></i>
+                        <i class="fa fa-timeline"></i>
                     Foods Not Available
                     </a>
-                    <b>{{user.restaurant.foods_not_available}}</b>
+                    <b>{{user.kitchen.foods_not_available}}</b>
 
                 </div>
                 <div class="shortcut pen">
                     <a href="{% url 'administrator:kitchens' %}">
                         <i class="fa-solid fa-kitchen-set"></i>
-                    Kitchen
+                    Update Foods
                     </a>
                 </div>
-                {% else %}
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:kitchens' %}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    Complate Registration
-                    </a>
-                </div>
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:new-restaurnat' %}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    Create Restaurant
-                    </a>
-                </div>
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:kitchens' %}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    Contact US
-                    </a>
-                </div>
-                {% endif %}
+
             </div>
                 
           

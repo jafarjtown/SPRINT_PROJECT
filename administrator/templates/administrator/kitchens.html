@@ -19,8 +19,10 @@
         <section class="view">
             <div class="shortcuts">
                 {% for kitchen in kitchens %}
-                 <div class="shortcut pen">
-                    <a href="{% url 'restaurant:order-pending' %}">
+                 <div class="shortcut kit" style="
+                 background-image: url({{kitchen.cover}});
+             ">
+                    <a href="{{kitchen.get_absolute_url}}">
                         <i class="fa-solid fa-kitchen-set"></i>
                     {{kitchen.name}}
                     </a>

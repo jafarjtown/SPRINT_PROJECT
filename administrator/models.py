@@ -32,6 +32,12 @@ class RestaurantService(models.Model):
         return foods
     
     @property
+    def foods_not_available(self):
+        not_available = 0
+        for kt in self.kitchens.all():
+            not_available += kt.foods_not_available
+        return not_available
+    @property
     def foods(self):
         all_foods = list()
         for kt in self.kitchens.all():

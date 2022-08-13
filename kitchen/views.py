@@ -16,11 +16,12 @@ def ActiveOrders(request):
     }
     return render(request, 'kitchen_active_orders.html',context)
 def Dashboard(request):
+    print(request.user.kitchen.foods_not_available)
     context = {
         "orders": models.Ordered.objects.all(),
         "user": request.user
     }
-    return render(request, 'kitchen_dashboard.html', context)
+    return render(request, 'kitchen/kitchen_dashboard.html', context)
 def Login(request):
     pass
 def News(request):

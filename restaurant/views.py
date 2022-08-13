@@ -5,7 +5,7 @@ from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
 from administrator.models import Blog
 from decorators import customer_only
-from kitchen.models import Category as Cat, Food, Order, Ordered
+from kitchen.models import Category as Cat, Food, Kitchen, Order, Ordered
 # Create your views here.
 
 
@@ -83,6 +83,14 @@ def OrderPending(request):
 @login_required
 def Profile(request):
     return render(request, 'restaurant/profile.html')
+
+def CancelOrder(request, order_id):
+    ordered = Ordered.objects.get(id = order_id)
+    order = ordered.kitchen.foods.get(name=ordered.name)
+    order.quantity = F('quantity') + ordered.quantity
+    order.save()
+    ordered.delete()
+    return redirect('restaurant:dashboard')
 
 @login_required
 @customer_only

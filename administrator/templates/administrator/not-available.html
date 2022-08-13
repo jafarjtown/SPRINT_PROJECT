@@ -36,7 +36,7 @@
     <h3>{{food.name}}</h3>
     <div class="cat-item-info">
         <div class="cat-item-price">N{{food.price}}</div>
-        <a class='request-food' href='/'>Request</a>
+        <a class='request-food' href="{% url 'administrator:kitchen' food.kitchen_offered.id %}">{{food.kitchen_offered.name}}</a>
     </div>
 </div>
 

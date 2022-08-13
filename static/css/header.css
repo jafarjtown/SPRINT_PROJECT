@@ -4,7 +4,7 @@ header{
     justify-content: space-between;
     padding: 5px 10px;
     color: rgb(53, 52, 52);
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
 
 }
 header nav ul{

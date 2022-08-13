@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'administrator/components/aside.html' %}
+       
+            <div class="restaurant">
+                <p>Note: Restaurant can only be created once</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <img src="" alt="">
+                    <input nname name="name" type="text" placeholder='Name'>
+                    <textarea address  placeholder='Address' name='address' ></textarea>
+                    <input phone type="text" placeholder='Phone Number' name='phone_no'>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+        
+
+{% endblock main %}

@@ -13,59 +13,63 @@
       <div class="left">
         <label for="fname">
           first name
-          <input type="text" id="fname" name='first name' />
+          <input type="text" id="fname" name='first name' required/>
         </label>
         <label for="dob">
           Date of Birth
-          <input id="dob" type="date" name='date of birth' />
+          <input id="dob" type="date" name='date of birth' required/>
         </label>
         <label for="email">
           Email
-          <input id="email" type="email" name='email' /> </label
+          <input id="email" type="email" name='email' required/> </label
         ><label for="password1">
           Password
-          <input id="password1" type="password" name='p1'
+          <input id="password1" type="password" name='p1' required
         /></label>
       </div>
       <img src="{% static 'img/logo_pic 1.jpg' %}" alt="" srcset="">
       <div class="right">
         <label for="lname" >
           Last name:
-          <input type="text" id="lname" name='last name'/>
+          <input type="text" id="lname" name='last name' required/>
         </label>
         <label for="pn">
           Phone No:
-          <input id="pn" type="tel" name='phone number' />
+          <input id="pn" type="tel" name='phone number' required/>
         </label>
         <label for="username">
           Username
-          <input id="username" type="tezt" name='username'/> </label
+          <input id="username" type="tezt" name='username' required/> </label
         ><label for="password2">
           ConfirmPassword
-          <input id="password2" type="password" name='p2'
+          <input id="password2" type="password" name='p2' required
         /></label>
       </div>
     </div>
     <div class="down">
       <div class="top">
         <label for="staff">
-            Staff
-            <input id="staff"  type="radio" name="account_type" value='SF'/>
+          Student
+            <input id="staff"  type="radio" name="account_type" value='Student' required />
         </label>
         <label for="student">
-            Student
-            <input id="student" type="radio" name="account_type" value='ST' />
+            Staff
+            <input id="student" type="radio" name="account_type" value='Staff' required/>
         </label>
         <label for="orders">
             Others
-            <input id="orders" type="radio" name="account_type" value='OT'/>
+            <input id="orders" type="radio" name="account_type" value='Orther' required/>
         </label>
       </div>
       <label for="is">
           Staff|Student|others ID
-          <input id="id" type="text" name='account_id'></label>
+          <input id="id" type="text" name='account_id' required></label>
     </div>
     <button type="submit">Sign Up</button>
+    <div class="tail">
+      <a href="{% url 'password_reset' %}">forgot password?</a>
+      <a href="{% url 'authentication:login' %}">Sign In</a>
+  </div>
   </form>
 </div>
 {% endblock main %}

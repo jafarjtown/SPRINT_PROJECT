@@ -1,5 +1,7 @@
 from django.db import models
 
+from authentication.models import User
+
 # Create your models here.
 
 class Category(models.Model):
@@ -22,7 +24,23 @@ class Kitchen(models.Model):
     address = models.TextField()
     phone_number = models.CharField(max_length=15)
     image = models.ImageField()
+    # attendant ref
+    attendant = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     
+    @property
+    def foods_not_available(self):
+        return len(self.foods.filter(quantity__lte = 1))
+    
+    
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('administrator:kitchen', kwargs={'kitchen_id': self.pk})
+    
+    @property
+    def cover(self):
+        if self.image:
+            return self.image.url
+        return None
     
     @property
     def available_foods(self):
@@ -31,6 +49,17 @@ class Kitchen(models.Model):
     @property
     def waiting_order(self):
         return self.ordered.filter(delivered = False)
+    
+    @property
+    def orders_sum(self):
+        obj = {}
+        for o in self.ordered.all():
+            if obj.get(str(o.order.ordered_date)) == None:
+                obj[str(o.order.ordered_date)] = {'items': [], 'date': o.order.ordered_date, 'total': 0}
+            obj[str(o.order.ordered_date)]['items'].append(o)
+            obj[str(o.order.ordered_date)]['total'] += (int(o.price) * int(o.quantity))
+            # ord.add(o.order)
+        return obj.values()
 
 class Payment(models.Model):
     pass

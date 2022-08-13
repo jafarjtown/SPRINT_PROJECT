@@ -50,7 +50,7 @@ def Register(request):
                 ty = request.POST.get('account_type')
                 user = User.objects.create_user(username=u,first_name=f,last_name=l,email=e,account_id=id,account_type=ty, date_of_birth=dob, phone_no=ph, password=p1)
                 add_message(request, constants.SUCCESS, 'Account created')
-                print(user)
                 login(request, user)
+                return redirect('restaurant:dashboard')
                 
     return render(request, 'authentication/signin.html')

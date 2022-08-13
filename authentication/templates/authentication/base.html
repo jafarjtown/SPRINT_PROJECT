@@ -19,16 +19,17 @@
   <body>
     {% if messages %}
       {% for message in messages %}
-        <p style="
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        text-align: center;
-        background: aliceblue;
-        transform: translate(-50%);
-        padding: 5px 20px;
-        font-weight: 700;
-        font-size: large;
+      <p style="
+      position: relative;
+      top: 10px;
+      left: 50%;
+      text-align: center;
+      transform: translate(-50%);
+      padding: 5px 20px;
+      font-weight: 700;
+      font-size: large;
+      margin-bottom: 20px;
+      background-color: white;
     ">{{message}}</p>
       {% endfor %}
     {% endif %}

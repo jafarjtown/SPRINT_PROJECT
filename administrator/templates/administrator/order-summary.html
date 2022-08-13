@@ -17,7 +17,7 @@
 {% block main %}
 {% include 'administrator/components/aside.html' %}
         <div class="order-summary">
-            {% for order in orders %}
+            {% for order in summary %}
             <h1>ORDER SUMMARY {{order.date}}</h1>
             <div class="order-sum">
                 <b>SN</b>
