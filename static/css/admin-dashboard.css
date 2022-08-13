@@ -477,6 +477,16 @@ section.view{
         width: 100%;
         padding: 5px;
     }
+    .view.kit{
+        padding: 5px;
+    }
+    .view.kit .shortcut{
+        width: 100%;
+        margin: 0;
+    }
+    .view.kit .shortcuts{
+        width: 100%;
+    }
     .account_info{
         width: 100%;
     }

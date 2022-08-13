@@ -173,7 +173,7 @@ section.view{
     display: flex;
     justify-content: space-around;
     gap: 10px;
-    margin-top: 20%;
+    margin-top: 10%;
 }.profile .left, .profile .right{
     display: flex;
     flex-direction: column;
