@@ -41,9 +41,9 @@
                 <p>Total: <b>{{order.total_price}}</b></p>
             </div>
             <div>
-                <a href="/">check status</a>
-                <a href="/">check customer</a>
-                <a href="/">check kitchen</a>
+                <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
+                <a href="{% url 'administrator:customer-profile' order.customer.username %}">check customer</a>
+                <a href="{% url 'administrator:kitchen' order.kitchen.id %}">check kitchen</a>
                 <b>
                     
                     {% if order.delivered %}

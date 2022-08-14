@@ -509,7 +509,7 @@ section.view{
         width: fit-content;
     }
     .order-item-wrapper{
-        width: fit-content;
+        width: 100%;
         justify-content: flex-start;
         align-items: center;
     }

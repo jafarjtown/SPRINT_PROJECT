@@ -1,11 +1,12 @@
 from django.shortcuts import redirect, render
-from django.db.models import Q
+from django.db.models import Q, F
+from django.core.exceptions import ObjectDoesNotExist
 
 from administrator.forms import BlogForm
 from administrator.models import Blog, RestaurantService
 from authentication.models import User
 from decorators import administrator_only
-from kitchen.models import Kitchen
+from kitchen.models import Kitchen, Ordered
 
 # Create your views here.
 
@@ -155,3 +156,20 @@ def KitchenOrdersSummary(request, kitchen_id):
     summary = kitchen.orders_sum
     print(summary)
     return render(request, 'administrator/order-summary.html', {'summary': summary}) 
+
+@administrator_only
+def CustomerProfile(request, username):
+    customer = User.objects.get(username = username)
+    return render(request, 'administrator/customer-profile.html', {'customer': customer})
+
+@administrator_only
+def DeclinedOrder(request, order_id):
+    ordered = Ordered.objects.get(id = order_id)
+    try:
+        order = ordered.kitchen.foods.get(name = ordered.name)
+        order.quantity = F('quantity') + ordered.quantity
+        order.save()
+        ordered.delete()
+    except ObjectDoesNotExist:
+        ordered.delete()
+    return redirect('administrator:orders')

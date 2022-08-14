@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+        
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'administrator/components/aside.html' %}
+        <section class="view">
+        <div class="status">
+          <div class="profile">
+            <div class="left">
+                <div class="profile-info">
+                  <span class="title">First name</span>
+                  <span class="value">{{customer.first_name}}</span>
+                </div>
+                <div class="profile-info">
+                    <span class="title">Username</span>
+                    <span class="value">{{customer.username}}</span>
+                </div>
+                <div class="profile-info">
+                    <span class="title">Phone Number</span>
+                    <span class="value">{{customer.phone_no}}</span>
+                </div>
+
+            </div>
+            <div class="right">
+                <div class="profile-info">
+                    <span class="title">Last name</span>
+                    <span class="value">{{customer.last_name}}</span>
+                  </div>
+                  <div class="profile-info">
+                      <span class="title">Date of Birth</span>
+                      <span class="value">{{customer.date_of_birth}}</span>
+                  </div>
+                  <div class="profile-info">
+                      <span class="title">Email</span>
+                      <span class="value">{{customer.email}}</span>
+                  </div>
+            </div>
+          </div>
+          <div class="profile-bottom">
+            <div class="profile-info">
+                <span class="title">Status</span>
+                <span class="value">{{customer.account_type}}</span>
+              </div>
+          </div>
+        </div>
+      </section>
+  {% endblock main %}
