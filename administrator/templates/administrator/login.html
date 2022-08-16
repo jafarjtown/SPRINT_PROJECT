@@ -1,11 +1,11 @@
 {% extends 'authentication/base.html' %}
     
 {% block main %}
-<div class="signin-wrapper">
+<div class="signin-wrapper admin">
   <form action="" method='post' class="login">
     {% csrf_token %}
     <div class="head">
-      <h2>Customer Login <i class="fa fa-user-lock"></i></h2>
+      <h2>Admin Login <i class="fa fa-user-gear"></i></h2>
     </div>
     <label for="username">
         Username
@@ -13,12 +13,11 @@
     </label>
     <label for="password">
         Password
-        <input id="password" type="text" name='password'>
+        <input id="password" type="password" name='password'>
     </label>
-    <button type="submit">Login</button>
+    <button type="submit">Sign In</button>
     <div class="tail">
         <a href="/">forgot password?</a>
-        <a href="{% url 'authentication:register' %}">Sign Up</a>
     </div>
   </form>
 </div>

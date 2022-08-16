@@ -1,5 +1,4 @@
 const orderBtns = document.querySelectorAll('[data-open-order]')
-console.log(orderBtns)
 orderBtns.forEach(btn => {
     const catItem = btn.parentElement.parentElement
     const modal = catItem.querySelector('.cat-item-modal-wrp')

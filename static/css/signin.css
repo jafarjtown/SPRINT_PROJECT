@@ -157,3 +157,13 @@ form button{
         width: 100%;
     }
 }
+.signin-wrapper.admin form{
+    padding: 20px;
+}
+.signin-wrapper.admin input{
+    width: 200px;
+}
+.signin-wrapper.admin button{
+    align-self: auto;
+    background-color: rgb(111, 240, 111);
+}

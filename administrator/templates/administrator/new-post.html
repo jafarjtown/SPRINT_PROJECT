@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-    
+   
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
 
@@ -8,28 +11,37 @@
     
     {% block style %}
         <style>
-            .new-post-btn{
+            .post-btn{
                 width: 100px;
-                padding: 10px;margin: 10px;
-                background-color: white;
-                color: black;
+                margin: 10px;
+                background-color: rgb(5, 37, 5);
+                color: white;
                 text-decoration: none;
                 height: fit-content;
+                align-self: flex-end;
+                padding: 10px;
+                border-radius: 5px;
             }
             form{
                 width: 400px;
+                height: 500px;
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                background-color: rgb(12 88 12);
+                
+                padding:10px; 
+                border-radius: 10px;
             }
-            form p{
-                display: flex;
-                flex-direction: column;
-            }
-            form input, form textarea{
+            form textarea{
                 padding: 10px;
                 outline: none;
                 resize: none;
+                flex: 1;
+                background-color: transparent;
+                color: white;
+                border: none;
+                font-size: large;
             }
         </style>
     {% endblock style %}
@@ -47,8 +59,8 @@
         <section class="view">
             <form method="post">
                 {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit">Save</button>
+                {{form.body}}
+                <button type="submit" class="post-btn">Save</button>
             </form>
         </section>
 

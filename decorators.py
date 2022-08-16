@@ -23,10 +23,13 @@ def administrator_only(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         user = request.user
-        if user.is_admin: 
-            return function(request, *args, **kwargs)
+        if user.is_authenticated:
+            if user.is_admin: 
+                return function(request, *args, **kwargs)
+            else:
+                return redirect('restaurant:welcome')
         else:
-            return redirect('restaurant:welcome')
+            return redirect('administrator:login')
     return wrap
 
 def kitchen_only(function):

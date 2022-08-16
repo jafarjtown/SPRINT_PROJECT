@@ -7,7 +7,7 @@
 {% endblock styles %}
 
 {% block script %}
-<script src="{% static 'js/dashboard.js' %}" defer></script>
+<script src="{% static 'js/admin.js' %}" defer></script>
 {% endblock script %}
 {% block header %}
     <header>
@@ -20,50 +20,30 @@
             <div class="account_info">
                 <p class="view-name">{{user.kitchen.name}}</p>
                 <p class="view-name">Hello {{user.get_full_name}}</p>
-                <small class="view-id">ref : {{user.account_id}}</small>
+                <small class="view-id">Kitchen Attendant</small>
             </div>
             
             <div class="shortcuts">
                 <div class="shortcut info">
-                    <a href="{% url 'administrator:orders' %}">
+                    <a href="{% url 'kitchen:orders' %}">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Orders
                     
                     </a>
                 </div>
-                <div class="shortcut his">
-                    <a href="{% url 'administrator:orders-summary' %}">
-                        <i class="fa fa-table-list"></i>
-                    Orders Summary
+                <div class="shortcut pen">
+                    <a href="{% url 'kitchen:manage-food' %}">
+                        <i class="fa-solid fa-bowl-food"></i>
+                        Foods
                     </a>
                 </div>
                 <div class="shortcut pen">
-                    <a href="{% url 'restaurant:order-pending' %}">
-                        <i class="fa fa-timeline"></i>
-                    Check pending Order 
-                    </a>
-
-                </div>
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:foods' %}">
+                    <a href="{% url 'kitchen:add-food' %}">
                         <i class="fa-solid fa-utensils"></i>
                     Add Foods
                     </a>
                 </div>
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:not-available' %}">
-                        <i class="fa fa-timeline"></i>
-                    Foods Not Available
-                    </a>
-                    <b>{{user.kitchen.foods_not_available}}</b>
-
-                </div>
-                <div class="shortcut pen">
-                    <a href="{% url 'administrator:kitchens' %}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    Update Foods
-                    </a>
-                </div>
+               
 
             </div>
                 

@@ -5,9 +5,8 @@
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
 
 {% endblock styles %}
-
 {% block script %}
-<script src="{% static 'js/dashboard.js' %}" defer></script>
+<script src="{% static 'js/admin.js' %}" defer></script>
 {% endblock script %}
 {% block header %}
     <header>
@@ -43,7 +42,6 @@
             <div>
                 <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
                 <a href="{% url 'administrator:customer-profile' order.customer.username %}">check customer</a>
-                <a href="{% url 'administrator:kitchen' order.kitchen.id %}">check kitchen</a>
                 <b>
                     
                     {% if order.delivered %}

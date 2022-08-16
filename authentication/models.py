@@ -15,10 +15,13 @@ class User(AbstractUser):
     account_id = models.CharField(max_length=50)
     #to know wether account is kitchen or customers
     is_kitchen = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
     gender = models.CharField(max_length=10)
+    profile_picture = models.ImageField(upload_to='avatar-pic')
     pass
 
+    @property
+    def is_admin(self):
+        return self.is_superuser
 
     def orders(self):
         all_orders = list()

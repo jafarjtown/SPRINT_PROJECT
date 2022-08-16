@@ -31,14 +31,17 @@ header button{
     font-size: larger;
 }
 aside{
-    display: none;
     flex-direction: column;
+    width: 200px;
     border-right: 1px solid;
-    width: fit-content;
     height: 100%;
-}
-aside.show{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+aside > i{
+    font-size: 80px;
 }
 aside ul{
     list-style: none;
@@ -46,13 +49,56 @@ aside ul{
     flex-direction: column;
     gap: 15px;
     padding: 10px;
+    width: 100%;
 }
-aside a{
+aside > ul a, aside > ul i{
     text-decoration: none;
     color: white;
     font-weight: 600;
+    
+}
+aside > ul a{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+}
+aside li ul{
+    padding-left: 30px;
+}
+aside li ul a{
+    font-size: 15px;
+    color: black;
+}
+aside > ul i{
     font-size: 5vh;
 }
+.admin-sets-li{
+    position: relative;
+}
+.admin-sets{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: none;
+    
+}
+.admin-sets-list li{
+    list-style: disc;
+}
+.admin-sets-list{
+    position: absolute;
+    top: -20px;
+    right: -90px;
+    background-color: white;
+    /* padding: 6px; */
+    /* width: fit-content; */
+    height: fit-content;
+    border-radius: 10px;
+    display: none;
+}
+
 section.view{
     padding: 10px;
     margin: auto;
@@ -102,10 +148,33 @@ section.view{
     margin: 10px;
     position: relative;
 }
+.shortcut .admin-sets-list{
+    bottom: -50px;
+    right: 0;
+    top: initial;
+    padding: 5px;
+}
+.shortcut > .admin-sets-list a{
+    font-size: 15px !important;
+    text-transform: lowercase;
+    color: #000;
+
+}
+.shortcut .admin-sets-list ul{
+    /* padding: 8px; */
+    padding-left: 26px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.shortcut > .admin-sets-list li{
+    text-align: left !important;
+}
 .shortcut > b{
-    position: absolute;
+    position: relative;
     padding: 10px;
-    background-color: red;
+    background-color: rgb(78, 158, 96);
     color: white;
     font-weight: 600;
     top: -10px;
@@ -122,6 +191,12 @@ section.view{
     font-size: 50px;
     margin-bottom: 5px;
 }
+.show{
+    display: flex;
+}
+.hide{
+    display: none;
+}
 .view.kit .shortcuts{
     width: fit-content;
     align-self: center;
@@ -131,6 +206,25 @@ section.view{
 }
 .shortcut.kit{
     padding: 0;
+}
+.shortcut.short{
+    height: fit-content;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.shortcut.short a{
+    padding: 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    flex: 1;
+    /* text-align: center; */
 }
 .shortcut.kit a{
     padding: 3em;
@@ -211,48 +305,65 @@ section.view{
     border-radius: 4px;
 
 }
-.profile{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
+.profile-admin{
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'fullname fullname'
+    'username date'
+    'phone gender'
+    'email email'
+    'null link'
+
+    ;
     gap: 10px;
-    margin-top: 20%;
-}.profile .left, .profile .right{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.profile-info{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.profile-info .title{
-    color: rgb(12, 88, 12);
-    font-weight: 600;
-}
-.profile-info .value{
-    background-color: lightgray;
-    padding: 10px;
-    width: 300px;
-}
-.profile-bottom .profile-info{
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.profile-update-btn{
-    align-self: flex-end;
-    background-color: rgb(12, 88, 12);
-    padding: 10px 20px;
-    margin-right: 10%;
-    color: white;
-    font-weight: 600;
+    margin: auto;
     border: 1px solid;
-    border-radius: 10px;
-    cursor: pointer;
+    width: 60%;
+    height: 400px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.profile-admin div{
+    background-color: white;
+    padding: 10px;
+    height: fit-content;
+    text-align: center;
+    border-radius: 5px;
+}
+.profile-admin .full_name{
+    grid-area: fullname;
+}
+.profile-admin .username{
+    grid-area: username;
+}
+.profile-admin .dateofbirth{
+    grid-area: date;
+}
+.profile-admin .phone{
+    grid-area: phone;
+}
+.profile-admin .gender{
+    grid-area: gender;
+}
+.profile-admin .email{
+    grid-area: email;
 }
 
+.profile-admin a{
+    grid-area: link;
+    margin-right: 10px;
+    text-align: center;
+    width: 200px;
+    background-color: #064606;
+    color: white;
+    padding: 10px;
+    justify-self: end;
+    height: fit-content;
+    text-decoration: none;
+    border-radius: 5px;
+}
 /* update */
 .account_info{
     background-color: #5faf5fc4;
@@ -435,15 +546,6 @@ section.view{
     ;
     gap: 10px;
 }
-.kitchen  form{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas: 
-    'name phone image'
-    'address address address'
-    ;
-    gap: 10px;
-}
 .restaurant form input, .restaurant form textarea, .kitchen form input, .kitchen form textarea{
     padding: 10px;
     border: 1px solid;
@@ -471,6 +573,207 @@ section.view{
 .restaurant p{
     color: white;
     font-weight: 600;
+}
+.food-add{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.food-add form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'img img'
+    'file file'
+    'name price'
+    'category quantity'
+    'btn btn'
+    ;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 10px;
+}
+.food-add input{
+    padding: 10px;
+    outline: none;
+}
+.food-add [name='name']{
+    grid-area: name;
+}
+.food-add [name='quantity']{
+    grid-area: quantity;
+}
+.food-add img{
+    grid-area: img;
+    height: 200px;
+    width: 100%;
+    border: 1px solid;
+    object-fit: contain;
+}
+.food-add [name='image']{
+    grid-area: file;
+}
+.food-add select{
+    grid-area: category;
+    width: 100%;
+}
+.food-add button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: rgb(9, 92, 9);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+.food-add [name='price']{
+    grid-area: price;
+}
+
+.cat-list{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.cat-item{
+    width: 300px;
+    height: 300px;
+    background-color: rgb(104, 153, 47);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-img{
+    border-radius: 10px;
+    width: 100%;
+    height: 76%;
+    background-color: white;
+    object-fit: contain;
+}
+.cat-item h3{
+    align-self: center;
+    margin: 0%;
+}
+.cat-item-info{
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+.cat-item-price,.cat-item-info button{
+    font-size: larger;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+.cat-item-info button{
+    text-decoration: none;
+    color: rgb(104, 153, 47);
+    background-color: white;
+    padding: 5px 20px;
+    border-radius: 5px;
+
+}
+.cat-item-modal-wrp{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(80, 80, 80, 0.582);
+    display:
+    none;
+    align-items: center;
+    justify-content: center;
+}
+.cat-item-modal{
+    margin: 20px;
+    /* width: 400px; */
+    height: fit-content;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-modal-top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.cat-item-modal-img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+.cat-item-modal-sets{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    justify-content: center;
+    margin: 10px;
+}
+.cat-item-modal form{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 4px;
+    
+}
+.textarea-label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    padding: 10px;
+    font-weight: 600;
+}
+.cat-item-modal-close{
+    padding: 5px;
+    font-weight: 600;
+    font-size: large;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+.textarea-label textarea{
+    resize: none;
+    padding: 10px;
+}
+.cat-item-modal-btn{
+    background-color: rgb(104, 153, 47);
+    color: white;
+    font-weight: 600;
+    align-self: flex-end;
+    padding: 10px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+}
+.cat-item-modal-sets label{
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-modal-sets input{
+    width: 140px;
+    padding: 7px;
+    font-weight: 650;
+    font-size: medium;
+    margin: 4px 0;
 }
 @media screen and (max-width: 445px) {
     section.view{

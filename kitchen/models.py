@@ -20,12 +20,7 @@ class Food(models.Model):
     kitchen_offered = models.ForeignKey('Kitchen', on_delete=models.CASCADE, null=True, blank=True, related_name='foods')
     
 class Kitchen(models.Model):
-    name = models.CharField(max_length=25)
-    address = models.TextField()
-    phone_number = models.CharField(max_length=15)
-    image = models.ImageField()
-    # attendant ref
-    attendant = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
+    attendants = models.ManyToManyField(User,blank=True)
     
     @property
     def foods_not_available(self):
@@ -35,12 +30,6 @@ class Kitchen(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('administrator:kitchen', kwargs={'kitchen_id': self.pk})
-    
-    @property
-    def cover(self):
-        if self.image:
-            return self.image.url
-        return None
     
     @property
     def available_foods(self):

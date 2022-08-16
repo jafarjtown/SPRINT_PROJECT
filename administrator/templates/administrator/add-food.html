@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'administrator/components/aside.html' %}
+        <section class="view">
+            <div class="account_info">
+                <p class="view-name">Hello {{user.get_full_name}}</p>
+                <small class="view-id">Admin</small>
+            </div>
+            
+            <div class="shortcuts">
+                <div class="shortcut">
+                    <a href="{% url 'administrator:orders' %}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Orders
+                    
+                    </a>
+                </div>
+                <div class="shortcut">
+                    <a href="{% url 'administrator:orders-summary' %}">
+                        <i class="fa fa-table-list"></i>
+                    Orders Summary
+                    </a>
+                </div>
+                <div class="shortcut">
+                    <a href="{% url 'restaurant:order-pending' %}" disabled>
+                        <i class="fa fa-timeline"></i>
+                    Stem Chat
+                    </a>
+
+                </div>
+                <div class="shortcut short">
+                    <a href="{% url 'administrator:foods' %}">
+                        
+                    New Food
+                    </a>
+                    <b>{{user.restaurant.new_food}}</b>
+                </div>
+                <div class="shortcut short">
+                    <a href="{% url 'administrator:not-available' %}">
+                       
+                    Not Available
+                    </a>
+                    <b>{{user.restaurant.foods_not_available}}</b>
+
+                </div>
+                <div class="shortcut short">
+                    <a admin-kt>
+                       
+                    Kitchen
+                    </a>
+                    <div class="admin-sets-list" admin-kt-view>
+                        <ul>
+                            <li><a href="{% url 'administrator:kitchen' %}">Kitchen Staffs</a></li>
+                            <li><a href="/">Add staffs</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                
+          
+        </section>
+
+{% endblock main %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+        
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'administrator/components/aside.html' %}
+        <section class="view">
+       
+          <div class="profile-admin">
+          <div class="full_name">{{user.get_full_name}}</div>
+          <div class="username">{{user.username}}</div>
+          <div class="dateofbirth">{{user.date_of_birth}}</div>
+          <div class="phone">{{user.phone_no}}</div>
+          <div class="gender">{{user.gender}}</div>
+          <div class="email">{{user.email}}</div>
+          <a href="{% url 'administrator:update-profile' %}" class="profile-update-btn">update Profile</a>
+          </div>
+        
+      </section>
+  {% endblock main %}

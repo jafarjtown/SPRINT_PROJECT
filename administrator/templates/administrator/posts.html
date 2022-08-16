@@ -8,29 +8,43 @@
     
     {% block style %}
         <style>
-            .new-post-btn{
-                width: 100px;
-                padding: 10px;margin: 10px;
-                background-color: white;
-                color: black;
-                text-decoration: none;
-                height: fit-content;
+            .view.posts{
+                flex-direction:row;
+                gap: 10px;
+                flex-wrap: wrap;
             }
             .post{
                 background: rgb(12 88 12);
                 color: white;
                 width: fit-content;
                 padding: 10px;
-                max-height: 500px;
-                width: 350px;
+                height: 500px;
+                width: 400px;
                 border-radius: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+            .post > p{
+                flex: 1;
+            }
+            .buttons a{
+                padding: 10px;
+                width: 90px;
+                background-color: rgb(5, 37, 5);
+                color: white;
+                text-decoration: none;
+                text-align: center;
+            }
+            .buttons{
+                display: flex;
+                justify-content: space-between;
             }
         </style>
     {% endblock style %}
         
-{% block script %}
-<script src="{% static 'js/dashboard.js' %}" defer></script>
-{% endblock script %}
+    {% block script %}
+    <script src="{% static 'js/admin.js' %}" defer></script>
+    {% endblock script %}
 {% block header %}
     <header>
         <button data-toggler><i class="fa fa-bars"></i></button>
@@ -38,8 +52,7 @@
 {% endblock header %}
 {% block main %}
 {% include 'administrator/components/aside.html' %}
-<section class="view">
-            <a class="new-post-btn" href="{% url 'administrator:config-post' %}">new post</a>
+<section class="view posts">
             
        {% for post in posts %}
             <div class="post">

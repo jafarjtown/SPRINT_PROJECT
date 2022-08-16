@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'kitchen/components/aside.html' %}
+        <section class="view">
+
+            <div class="cat-list-wrp">
+                <h1>{{category}}</h1>
+        
+                <div class="cat-list">
+        {% for food in foods %}
+        
+        <div class="cat-item">
+            <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
+            <h3>{{food.name}}</h3>
+            <div class="cat-item-info">
+                <div class="cat-item-price">N{{food.price}}</div>
+                <button data-open-order>Manage</button>
+            </div>
+        
+            <div class="cat-item-modal-wrp">
+                <div class="cat-item-modal">
+                    <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
+                    <form method="post">
+                        {% csrf_token %}
+                   <div class="cat-item-modal-top">
+                    <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
+                    <div class="cat-item-modal-sets">
+                            <label for="price">
+                                Price
+                                <input type="number" value="{{food.price}}" name='price' id="price">
+                            </label>
+                            <label for="quantity">
+                                Quantity
+                                <input type="number" value="{{food.quantity}}" id="quantity" name='quantity' min='0'>
+                            </label>
+                    </div>
+                </div>
+                <input type="number" name="food" value="{{food.id}}" hidden><input type="text" name="name" value="{{food.name}}">
+                <button type="submit" class="cat-item-modal-btn">Save</button> 
+            </form>
+                </div>
+                
+            </div>
+        </div>
+        
+        {% endfor %}
+                </div>
+        
+            </div>
+          
+        </section>
+
+{% endblock main %}
+
+
+{% block script %}
+    
+
+
+    <script>
+        const orderBtns = document.querySelectorAll('[data-open-order]')
+orderBtns.forEach(btn => {
+    const catItem = btn.parentElement.parentElement
+    const modal = catItem.querySelector('.cat-item-modal-wrp')
+    btn.addEventListener('click', ()=> { 
+        const close = catItem.querySelector('.cat-item-modal-close')
+        modal.style.display = 'flex'
+        close.addEventListener('click', ()=> modal.style.display = 'none')
+
+    })
+    
+})
+    </script>
+   
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
