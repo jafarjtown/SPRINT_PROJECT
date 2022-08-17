@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 
 def is_logged_in(func):
     @wraps(func)
-    def wrap(request,*args, **kwargs):
+    def wrap(request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
             if user.is_admin:
@@ -19,18 +19,20 @@ def is_logged_in(func):
             return func(request, *args, **kwargs)
     return wrap
 
+
 def administrator_only(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
-            if user.is_admin: 
+            if user.is_admin:
                 return function(request, *args, **kwargs)
             else:
                 return redirect('restaurant:welcome')
         else:
             return redirect('administrator:login')
     return wrap
+
 
 def kitchen_only(function):
     @wraps(function)
