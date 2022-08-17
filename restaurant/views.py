@@ -52,9 +52,6 @@ def OrderFood(request, id):
         order_list[0].save()
         food.quantity = F('quantity') - int(request.POST.get('quantity'))
         food.save()
-        if food.kitchen_offered is not None:
-            ordered.kitchen=food.kitchen_offered
-            ordered.save()
         return redirect('restaurant:categories')
 
 

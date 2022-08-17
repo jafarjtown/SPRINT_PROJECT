@@ -69,11 +69,9 @@ class Ordered(models.Model):
     price = models.FloatField()
     quantity = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    # why not to change delivered to status 
     status = models.CharField(choices=STATUS, default='P', max_length=1)
     delivery_point = models.TextField()
     phone_no = models.CharField(max_length=15)
-    kitchen = models.ForeignKey(Kitchen, on_delete=models.SET_NULL, null=True, related_name='ordered')
     time = models.TimeField(auto_now_add=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, blank=True, null=True, related_name='items')
     
