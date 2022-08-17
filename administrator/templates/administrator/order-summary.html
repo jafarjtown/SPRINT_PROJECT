@@ -26,6 +26,7 @@
                 <b>time</b>
                 <b>Quantity</b>
                 <b>Amount</b>
+                <b>Status</b>
             </div>
             {% for item in order.items %}
                 <div class="order-sum">
@@ -35,6 +36,7 @@
                     <b>{{item.time}}</b>
                     <b>{{item.quantity}}</b>
                     <b>{{item.total_price}}</b>
+                    <b>{{item.get_status_display}}</b>
                 </div>
             {% endfor %} 
             

@@ -14,8 +14,8 @@ class Blog(models.Model):
         return reverse('restaurant:blog', kwargs={'post_id': self.pk})
 
 class RestaurantService(models.Model):
-    admin = models.OneToOneField('authentication.User', on_delete=models.SET_NULL, null=True,  related_name='restaurant')
-    kitchen = models.OneToOneField('kitchen.Kitchen',on_delete=models.SET_NULL, null=True,  related_name='restaurant')
+    admin = models.OneToOneField('authentication.User', on_delete=models.SET_NULL, null=True,  related_name='restaurant_admin')
+    kitchen = models.OneToOneField('kitchen.Kitchen',on_delete=models.SET_NULL, null=True,  related_name='restaurant_kitchen')
     address = models.TextField()
     name = models.CharField(max_length=25)
     phone_no = models.CharField(max_length=15)
@@ -43,7 +43,7 @@ class RestaurantService(models.Model):
     @property
     def orders_sum(self):
         obj = {}
-        for o in Ordered.objects.all():
+        for o in Ordered.objects.filter():
             if obj.get(str(o.order.ordered_date)) == None:
                 obj[str(o.order.ordered_date)] = {'items': [], 'date': o.order.ordered_date, 'total': 0}
             obj[str(o.order.ordered_date)]['items'].append(o)

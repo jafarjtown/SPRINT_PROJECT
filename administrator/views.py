@@ -9,8 +9,8 @@ from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
 from django.contrib.auth import login, logout,authenticate
 from django.contrib.auth.hashers import check_password,  make_password
-from kitchen.models import Category, Kitchen, Ordered
 
+from kitchen.models import Food, Kitchen, Ordered, Category
 # Create your views here.
 
 
@@ -59,21 +59,21 @@ def UpdateBlog(request, blog_id):
 
 @administrator_only
 def NotAvailable(request):
-    foods = request.user.restaurant.not_available_foods
+    foods = RestaurantService.objects.first().not_available_foods
     return render(request, 'administrator/not-available.html', {'foods': foods})
 @administrator_only
 def Orders(request):
-    user = request.user
+    
     orders = []
-    restaurant = user.restaurant
+    restaurant = RestaurantService.objects.first()
     orders.extend(restaurant.orders)
     return render(request, 'administrator/orders.html', {'orders': orders})
 
 @administrator_only
 def StudentCustomers(request):
-    user = request.user
+    
     customers = set()
-    restaurant = user.restaurant
+    restaurant = RestaurantService.objects.first()
     for ord in restaurant.orders:
         print(ord)
         customers.add(ord.customer)
@@ -81,24 +81,23 @@ def StudentCustomers(request):
 
 @administrator_only
 def OrderSummary(request):
-    user = request.user
+    
     orders = []
-    restaurant = user.restaurant
+    restaurant = RestaurantService.objects.first()
     orders.extend(restaurant.orders_sum)
     return render(request, 'administrator/order-summary.html', {'summary': orders})
     
 def PrintOrderSummary(request, date):
-    user = request.user
-    orders = user.restaurant.orders_sum_print
-    print(date)
-    print(orders[date])
+    
+    orders = RestaurantService.objects.first().orders_sum_print
+
     return render(request, 'administrator/components/print_orders.html',{'order': orders[date]})
 
 
 @administrator_only
 def Foods(request):
-    user = request.user
-    foods = user.restaurant.foods
+    
+    foods = RestaurantService.objects.first().foods
     return render(request, 'administrator/foods.html', {'foods': foods})
 
 
@@ -132,16 +131,16 @@ def NewKitchen(request):
 
 @administrator_only
 def KitchenView(request):
-    user = request.user
-    kitchen = user.restaurant.kitchen
+    
+    kitchen =  Kitchen.objects.first()
     return render(request, 'administrator/kitchen.html', {'kitchen':kitchen})
 
 
 @administrator_only
 def AssignKitchenAttendant(request):
-    user = request.user
+    
     if request.method == 'POST':
-        kitchen = user.restaurant.kitchen
+        kitchen = kitchen = Kitchen.objects.first()
         try:
             u = request.POST.get('username')
             dob = request.POST.get('date of birth')
@@ -154,7 +153,6 @@ def AssignKitchenAttendant(request):
             ty = request.POST.get('account_type')
             p1 = request.POST.get('password')
             attendant = User.objects.create_user(username=u,first_name=f,last_name=l,email=e,account_id=id,account_type=ty, date_of_birth=dob, phone_no=ph, password=p1)
-            kitchen = user.restaurant.kitchen
             kitchen.attendants.add(attendant)
             kitchen.save()
             attendant.is_kitchen = True
@@ -167,15 +165,14 @@ def AssignKitchenAttendant(request):
         
 @administrator_only
 def KitchenOrders(request):
-    user = request.user
-    kitchen = user.restaurant.kitchen
+    
+    kitchen = Kitchen.objects.first()
     orders = kitchen.ordered.all()
     return render(request, 'administrator/orders.html', {'orders': orders}) 
 
 @administrator_only
 def KitchenOrdersSummary(request):
-    user = request.user
-    kitchen = user.restaurant.kitchen
+    kitchen = Kitchen.objects.first()
     summary = kitchen.orders_sum
     print(summary)
     return render(request, 'administrator/order-summary.html', {'summary': summary}) 

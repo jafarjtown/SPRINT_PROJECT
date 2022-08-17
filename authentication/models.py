@@ -8,6 +8,12 @@ ACCOUNT_TYPE = (
     ('Other', 'Other'),
 )
 
+GENDER = (
+    ('M','Male'),
+    ('F','Female'),
+    ('O','Others',)
+)
+
 class User(AbstractUser):
     date_of_birth = models.DateField(null=True)
     phone_no = models.CharField(max_length=15)
@@ -15,7 +21,7 @@ class User(AbstractUser):
     account_id = models.CharField(max_length=50)
     #to know wether account is kitchen or customers
     is_kitchen = models.BooleanField(default=False)
-    gender = models.CharField(max_length=10)
+    gender = models.CharField(choices=GENDER, max_length=1)
     profile_picture = models.ImageField(upload_to='avatar-pic')
     pass
 

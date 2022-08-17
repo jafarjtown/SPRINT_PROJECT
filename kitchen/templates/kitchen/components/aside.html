@@ -11,6 +11,18 @@
         <li><a href="{% url 'administrator:posts' %}"><i class="fa fa-file"></i> Post</a></li>
         <li><a href="{% url 'kitchen:delivered' %}"><i class="fa-solid fa-file"></i> Delivered</a></li>
         
+        
+        <li><a href="{% url 'kitchen:not-available-food' %}"><i class="fa-solid fa-utensils"></i> Not Available ({{kitchen.foods_not_available}})</a></li>
+            {% comment %} <ul>
+                <li>
+                    <a href="{% url 'administrator:posts' %}">recent post</a>
+                </li>
+                <li>
+                    <a href="{% url 'administrator:config-post' %}">new post</a>
+                </li>
+            </ul> {% endcomment %}
+        </li>
+        {% comment %} <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-smile"></i> Add Customer</a></li> {% endcomment %}
         <li class="admin-sets-li" style="
         flex: 2;
         display: flex;
