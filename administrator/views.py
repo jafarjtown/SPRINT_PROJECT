@@ -9,7 +9,7 @@ from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
 from django.contrib.auth import login, logout,authenticate
 from django.contrib.auth.hashers import check_password,  make_password
-from kitchen.models import Kitchen, Ordered
+from kitchen.models import Category, Kitchen, Ordered
 
 # Create your views here.
 
@@ -86,6 +86,13 @@ def OrderSummary(request):
     restaurant = user.restaurant
     orders.extend(restaurant.orders_sum)
     return render(request, 'administrator/order-summary.html', {'summary': orders})
+    
+def PrintOrderSummary(request, date):
+    user = request.user
+    orders = user.restaurant.orders_sum_print
+    print(date)
+    print(orders[date])
+    return render(request, 'administrator/components/print_orders.html',{'order': orders[date]})
 
 
 @administrator_only
@@ -127,8 +134,7 @@ def NewKitchen(request):
 def KitchenView(request):
     user = request.user
     kitchen = user.restaurant.kitchen
-    users = User.objects.filter(is_admin=False,is_kitchen=False)
-    return render(request, 'administrator/kitchen.html', {'kitchen':kitchen, 'users':users})
+    return render(request, 'administrator/kitchen.html', {'kitchen':kitchen})
 
 
 @administrator_only
@@ -190,12 +196,20 @@ def DeclinedOrder(request, order_id):
         ordered.delete()
     return redirect('administrator:orders')
 
-def Category(request):
-    return render(request, 'administrator/category.html')
+def Categories(request):
+    categories = Category.objects.all()
+    return render(request, 'administrator/categories.html', {'categories': categories})
 
+def NewCategory(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')
+        name = request.POST.get('name')
+        Category.objects.create(name=name, image=image)
+        return redirect('administrator:category')
+    return render(request, 'administrator/category.html')
 def AddFood(request):
     return render(request, 'administrator/add-food.html')
-@administrator_only
+
 def ChangePassword(request):
     if request.method == 'POST':
         user = request.user

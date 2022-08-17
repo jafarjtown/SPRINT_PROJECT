@@ -10,6 +10,12 @@ class Category(models.Model):
     
     def __str__(self) -> str:
         return f'{self.name} category'
+    
+    @property
+    def cover(self):
+        if self.image:
+            return self.image.url
+        return ''
 
 class Food(models.Model):
     name = models.CharField(max_length=25)

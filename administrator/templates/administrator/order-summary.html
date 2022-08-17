@@ -34,11 +34,12 @@
                     <b>{{item.name}}</b>
                     <b>{{item.time}}</b>
                     <b>{{item.quantity}}</b>
-                    <b>{{item.price}}</b>
+                    <b>{{item.total_price}}</b>
                 </div>
             {% endfor %} 
             
             <b>Total: {{order.total}} </b>
+            <a class="print" style="width: fit-content;" href="{% url 'administrator:print-orders-summary' order.date %}">print</a>
         {% endfor %}
         </div>
         

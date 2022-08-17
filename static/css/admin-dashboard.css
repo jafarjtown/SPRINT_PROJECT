@@ -15,8 +15,13 @@ body{
 }
 main{
     width: 100%;
-   flex: 1;
-   display: flex;
+    flex: 1;
+    display: flex;
+    height: 80vh;
+}
+main > div, main > section{
+    /* height: 90vh; */
+    overflow: scroll;
 }
 header{
     display: flex;
@@ -50,6 +55,7 @@ aside ul{
     gap: 15px;
     padding: 10px;
     width: 100%;
+    flex: 1;
 }
 aside > ul a, aside > ul i{
     text-decoration: none;
@@ -97,6 +103,7 @@ aside > ul i{
     height: fit-content;
     border-radius: 10px;
     display: none;
+    z-index: 100;
 }
 
 section.view{
@@ -106,6 +113,8 @@ section.view{
     display: flex;
     flex-direction: column;
     padding: 5px 20px;
+    height: 100%;
+    overflow: scroll;
 }
 .view.kit{
     margin: 0%;
@@ -309,14 +318,12 @@ section.view{
     background-color: transparent;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-    'fullname fullname'
-    'username date'
-    'phone gender'
-    'email email'
-    'null link'
-
-    ;
+    grid-template-areas:
+        'fullname fullname'
+        'username date'
+        'phone gender'
+        'email email'
+        'null link';
     gap: 10px;
     margin: auto;
     border: 1px solid;
@@ -391,8 +398,8 @@ section.view{
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: center; */
     gap: 10px;
     padding: 10px;
 }
@@ -731,7 +738,6 @@ section.view{
     flex-direction: column;
     align-items: center;
     padding: 10px 4px;
-    
 }
 .textarea-label{
     width: 100%;
@@ -775,7 +781,69 @@ section.view{
     font-size: medium;
     margin: 4px 0;
 }
+.close-aside{
+    display: none;
+}
 @media screen and (max-width: 445px) {
+    .close-aside{
+        display: block;
+    }
+    .food-add{
+        display: block;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .food-add form{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'img'
+            'file'
+            'name'
+            'price'
+            'category'
+            'quantity'
+            'btn';
+        margin: 0 10px;
+    }
+    .cat-item-modal-top{
+        display: block;
+    }
+    .new-cat{
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            'img'
+            'file'
+            'name'
+            'btn' !important;
+        width: 90% !important;
+    }
+    .profile-admin{
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        'fullname'
+        'username' 
+        'date'
+        'phone' 
+        'gender'
+        'email'
+        'link';
+        width: 100%;
+    }
+    aside{
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #064606;
+        z-index: 99;
+        overflow-y: scroll;
+    }
+    .close-aside{
+        width: 100%;
+        padding: 5px;
+        font-weight: 600;
+        cursor: pointer;
+    }
     section.view{
         width: 100%;
         padding: 5px;
@@ -853,4 +921,58 @@ section.view{
         width: 100%;
     }
     
+}
+.print{
+    padding: 10px;
+    background-color: rgb(79, 79, 255);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+}
+.new-cat{
+    display: grid;
+    align-self: center;
+    margin: auto;
+    /* width: fit-content; */
+    padding: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        'img img'
+        'file name'
+        'btn btn';
+    gap: 10px;
+    background-color: white;
+}
+.new-cat img{
+    grid-area: img;
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+    border: 1px solid;
+}
+
+.new-cat input{
+    padding: 10px;
+    height: fit-content;
+    width: 200px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+.new-cat button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: #064606;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.new-cat [name='file']{
+    grid-area: file;
+}
+.new-cat [name='name']{
+    grid-area: name;
+    border: 1px solid;
 }

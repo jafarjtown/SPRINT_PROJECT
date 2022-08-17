@@ -18,37 +18,25 @@
 {% include 'administrator/components/aside.html' %}
         <section class="view kit">
 
-            <h1>{{kitchen.name}}</h1>
-            <p>{{kitchen.address}}</p>
-            <b>{{kitchen.phone_number}}</b>
-            
-            {% if kitchen.attendant %}
-                <b>{{kitchen.attendant.get_full_name}}</b>
-            {% else %}
-                <form action="{% url 'administrator:assign-attendant' kitchen.id %}" method="post">
-                    {% csrf_token %}
-                    <input type="search" list="users" name="user">
-                    <button>set</button>
-                    <datalist  id="users">
-                        
-                        {% for user in users %}
-                            <option>{{user.username}}</option>
-                        {% endfor %}
-                            
-                    </datalist>
-                </form>
-            {% endif %}
-            <img src="{{kitchen.cover}}" />
+            <h1>Kitchen</h1>
+            <p>Attendants</p>
+            <ol>
+
+                {% for attendant in kitchen.attendants.all %}
+                <li>{{attendant.get_full_name}}</li>
+                
+                {% endfor %}
+            </ol>
             <div class="shortcuts">
                     <div class="shortcut info">
-                        <a href="{% url 'administrator:kitchen-orders' kitchen.id %}">
+                        <a href="{% url 'administrator:kitchen-orders' %}">
                             <i class="fa-solid fa-cart-shopping"></i>
                             Orders
                         
                         </a>
                     </div>
                     <div class="shortcut his">
-                        <a href="{% url 'administrator:kitchen-orders-summary' kitchen.id %}">
+                        <a href="{% url 'administrator:kitchen-orders-summary' %}">
                             <i class="fa fa-table-list"></i>
                         Orders Summary
                         </a>
@@ -73,12 +61,7 @@
                         </a>
     
                     </div>
-                    <div class="shortcut pen">
-                        <a href="{% url 'administrator:kitchens' %}">
-                            <i class="fa-solid fa-kitchen-set"></i>
-                        Kitchen
-                        </a>
-                    </div>
+                   
                     </div>
                 
 

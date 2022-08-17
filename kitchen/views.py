@@ -1,5 +1,5 @@
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from administrator.views import Category
 
@@ -23,13 +23,24 @@ def Orders(request):
             ord.append(o)
     # print(request.user)
     return render(request, 'kitchen/orders.html', {'orders': ord})
+def Delivered(request):
+    orders = models.Ordered.objects.filter(delivered = True)
+    return render(request, 'kitchen/delivered.html', {'orders':orders})
+def DeliveredNow(request, id):
+    order = models.Ordered.objects.get(id = id)
+    order.delivered = True
+    order.save()
+    return redirect('kitchen:orders')
 
+def Print(request, id):
+    order = models.Ordered.objects.get(id = id)
+    return render(request, 'kitchen/components/print.html', {'order': order})
 
 def ActiveOrders(request):
     context = {
-        "object": models.Order.objects.filter(is_delivered=False)
+        "object": models.Ordered.objects.filter(delivered=False)
     }
-    return render(request, 'kitchen_active_orders.html',context)
+    return render(request, 'kitchen/kitchen_active_orders.html',context)
 def Dashboard(request):
     context = {
         "orders": models.Ordered.objects.all(),

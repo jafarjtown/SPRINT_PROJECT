@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{order.name}}-order</title>
+    <style>
+        table, td,tr{
+            border-collapse: collapse;
+            border: 2px solid;
+        }
+        .signs{
+            display: flex;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+        .sign{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 200px;
+        }
+        .line{
+            
+            border-bottom: 1px solid;
+            width: 100%;
+            text-align: right;
+            margin-top: 10px;
+            
+        }
+        body{
+            padding: 10% 20%;
+            font-size: larger;
+        }
+        .img{
+            width: 500px;
+            height: 300px;
+            object-fit: cover;
+        }
+        @media print {
+            body{
+                padding: 5% 10%;
+            }
+        }
+        .head{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .head img{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="item">
+        <div class="head">
+            <img src="{% static 'img/logo_pic 1.jpg' %}" alt="">
+            <b>Stem Eatery</b>
+        </div>
+        <img src="{{order.image}}" class="img" alt="{{order.name}}">
+        <p>Food : <b>{{order.name}}</b></p>
+        <p>Price : <b>{{order.total_price}}</b></p>
+        <p>Quantity : <b>{{order.quantity}}</b></p>
+        <p>Customer Name: <b>{{order.customer.get_full_name}}</b></p>
+        <p>Customer Contact 1: <b>{{order.phone_number}}</b></p>
+        <p>Customer Contact 2 (Alternate): <b>{{order.customer.phone_no}}</b></p>
+        <p>Delivery Point : <br> {{order.delivery_point}}</p>
+        <hr>
+        <div class="signs">
+            <div class="sign">
+                <b>Delivery person sign</b>
+                <div class="line">
+                    <span class="date"></span>
+                </div>
+            </div>
+            <div class="sign">
+                <b>customer sign</b>
+                <div class="line">
+                    <span class="date"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const date = () => {
+            let date = new Date()
+            let d = date.getDate()
+            let m = date.getMonth()
+            let y = date.getFullYear()
+            return `${d}/${m}/${y}`
+
+        }
+        document.querySelectorAll('.date').forEach(span => span.innerText = date())
+        print()
+    </script>
+</body>
+</html>

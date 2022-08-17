@@ -1,6 +1,8 @@
 {% load static %}
 
-<aside>
+<aside class="aside" data-aside>
+    
+    <button class="close-aside">close</button>
         <i class="fa fa-user-circle"></i>
         <span>
             <a href="{% url 'administrator:profile' %}">Profile</a>
@@ -32,4 +34,10 @@
             </div>
         </li>
     </ul>
+    <script>
+        function closeAside(){
+            document.querySelector('aside').classList.toggle('show')
+        }
+        document.querySelector('.close-aside').addEventListener('click', closeAside)
+    </script>
 </aside>

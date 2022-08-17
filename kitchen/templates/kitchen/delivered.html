@@ -4,7 +4,11 @@
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
 
-{% endblock %}
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
 {% block header %}
     <header>
         <button data-toggler><i class="fa fa-bars"></i></button>
@@ -13,8 +17,8 @@
 {% block main %}
 {% include 'kitchen/components/aside.html' %}
 <div class="order-item-wrapper">
-    <h1>Active Orders</h1>
-{% for order in object %}
+    <h1>All Delivered foods</h1>
+{% for order in orders %}
     <div class="order-item">
         <img src="{{order.image}}" />
         <div>
@@ -36,15 +40,15 @@
         </div>
         <div>
             {% if order.delivered  == False %}
-                    <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
+            <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
             {% endif %}
-            <a class="print" href="{% url 'kitchen:print' order.id %}">print</a>
+            <a href="{% url 'administrator:customer-profile' order.customer.username %}">check customer</a>
             <b>
                 
                 {% if order.delivered %}
                     Delivered
                 {% else %}
-                    <a href="{% url 'kitchen:delivered-now' order.id %}">Delivered now</a>
+                    Not Delivered
                 {% endif %}
                     
             </b>
@@ -54,12 +58,4 @@
 {% endfor %}
 </div>
 
-    
-
-
-{% endblock %}
-
-{% block script %}
-<script src="{% static 'js/admin.js' %}" defer></script>
-
-{% endblock script %}
+{% endblock main %}

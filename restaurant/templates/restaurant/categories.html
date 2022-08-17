@@ -5,7 +5,7 @@
     {% for category in categories %}
     <div class="category">
         <h3>{{category.name}}</h3>
-        <img src="{{category.image.url}}" alt="{{category.name}}">
+        <img src="{{category.cover}}" alt="{{category.name}}">
         <a href="{% url 'restaurant:category-list' category.name %}">view</a>
     </div>
     {% endfor %}

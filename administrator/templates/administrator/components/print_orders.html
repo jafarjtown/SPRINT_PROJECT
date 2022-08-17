@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+    <style>
+        .head{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .head img{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        body{
+            background-color: white;
+            background-image: none;
+            padding: 10% 20%;
+            font-size: larger;
+
+        }
+        @media print {
+            body{
+                padding: 5% 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <img src="{% static 'img/logo_pic 1.jpg' %}" alt="">
+        <b>Stem Eatery</b>
+    </div>
+    <div class="order-summary">
+        <h1>ORDER SUMMARY {{order.date}}</h1>
+        <div class="order-sum">
+            <b>SN</b>
+            <b>Username</b>
+            <b>Food</b>
+            <b>time</b>
+            <b>Quantity</b>
+            <b>Amount</b>
+        </div>
+        {% for item in order.items %}
+            <div class="order-sum">
+                <b>{{forloop.counter}}</b>
+                <b>{{item.customer.username}}</b>
+                <b>{{item.name}}</b>
+                <b>{{item.time}}</b>
+                <b>{{item.quantity}}</b>
+                <b>{{item.total_price}}</b>
+            </div>
+        {% endfor %} 
+        
+        <b>Total: {{order.total}} </b>
+    </div>
+
+    <script>
+        print()
+    </script>
+</body>
+</html>

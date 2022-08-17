@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+
+{% block script %}
+<script>
+
+
+    const inputFile = document.querySelector('#file')
+    
+    inputFile.addEventListener('change', (e)=> {
+        
+        document.querySelector('#image').src = URL.createObjectURL(e.target.files[0])
+    })
+
+</script>
+<script src="{% static 'js/admin.js' %}" defer></script>
+    
+{% endblock script %}
+    
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'administrator/components/aside.html' %}
+        <section class="view">
+            <form method="post" class="new-cat" enctype="multipart/form-data">
+                {% csrf_token %}
+                <img  alt="image of category"  id="image">
+                <input type="file" name="image" id="file" required>
+                <input type="text" name="name" placeholder="name of category" required>
+                <button>Save</button>
+            </form>
+        </section>
+
+{% endblock main %}

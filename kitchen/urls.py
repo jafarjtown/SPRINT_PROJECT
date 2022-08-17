@@ -8,7 +8,10 @@ urlpatterns = [
     path('customers-orders/', views.CustomerOrders, name='customer-orders'),
     path('active-orders/', views.ActiveOrders, name='active-orders'),
     path('orders/', views.Orders, name='orders'),
+    path('delivered/', views.Delivered, name='delivered'),
+    path('delivered/<int:id>/', views.DeliveredNow, name='delivered-now'),
     path('news/', views.News, name='news'),
+    path('print/<int:id>/', views.Print, name='print'),
     path('add-food/', views.Add_food, name='add-food'),
     path('manage-food/', views.Manage_Food, name='manage-food'),
 ]

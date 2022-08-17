@@ -50,3 +50,14 @@ class RestaurantService(models.Model):
             obj[str(o.order.ordered_date)]['total'] += (int(o.price) * int(o.quantity))
         print(obj)
         return obj.values()
+    
+    @property
+    def orders_sum_print(self):
+        obj = {}
+        for o in Ordered.objects.all():
+            if obj.get(str(o.order.ordered_date)) == None:
+                obj[str(o.order.ordered_date)] = {'items': [], 'date': o.order.ordered_date, 'total': 0}
+            obj[str(o.order.ordered_date)]['items'].append(o)
+            obj[str(o.order.ordered_date)]['total'] += (int(o.price) * int(o.quantity))
+    
+        return obj

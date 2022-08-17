@@ -43,12 +43,17 @@
                 border: none;
                 font-size: large;
             }
+            @media screen and (max-width: 445px) {
+                form{
+                    width: 100%;
+                }
+            }
         </style>
     {% endblock style %}
-        
+{% comment %}         
 {% block script %}
 <script src="{% static 'js/dashboard.js' %}" defer></script>
-{% endblock script %}
+{% endblock script %} {% endcomment %}
 {% block header %}
     <header>
         <button data-toggler><i class="fa fa-bars"></i></button>

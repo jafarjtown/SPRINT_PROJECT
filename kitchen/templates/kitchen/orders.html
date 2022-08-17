@@ -20,6 +20,7 @@
     <h1>All Orders</h1>
 {% for order in orders %}
     <div class="order-item">
+        
         <img src="{{order.image}}" />
         <div>
             <p>Customer Name: <b>{{order.customer.get_full_name}}</b></p>
@@ -39,14 +40,16 @@
             <p>Total: <b>{{order.total_price}}</b></p>
         </div>
         <div>
-            <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
+            {% if order.delivered  == False %}
+                    <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
+            {% endif %}
             <a href="{% url 'administrator:customer-profile' order.customer.username %}">check customer</a>
             <b>
                 
                 {% if order.delivered %}
                     Delivered
                 {% else %}
-                    Not Delivered
+                    <a href="{% url 'kitchen:delivered-now' order.id %}">Delivered now</a>
                 {% endif %}
                     
             </b>

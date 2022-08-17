@@ -17,13 +17,13 @@
 {% include 'administrator/components/aside.html' %}
         <section class="view">
             <div class="shortcuts">
-                {% for kitchen in kitchens %}
+                {% for category in categories %}
                  <div class="shortcut kit" style="
-                 background-image: url({{kitchen.cover}});
+                 background-image: url({{category.cover}});
              ">
                     <a href="{{kitchen.get_absolute_url}}">
                         <i class="fa-solid fa-kitchen-set"></i>
-                    {{kitchen.name}}
+                    {{category.name}}
                     </a>
                 </div>
                 {% endfor %}
@@ -31,9 +31,9 @@
                 <div class="shortcut kit" style="
                  background-color: white;
              ">
-                    <a href="{% url 'administrator:new-kitchen' %}">
+                    <a href="{% url 'administrator:new-cat' %}">
                         <i class="fa-solid fa-kitchen-set"></i>
-                    Add Kitchen
+                    Add Category
                     </a>
                 </div>
                
