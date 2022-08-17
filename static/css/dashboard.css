@@ -245,6 +245,7 @@ section.view{
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid;
+    /* font-size: 10px; */
 }
 .order-item span{
     font-weight: 600;
@@ -252,6 +253,9 @@ section.view{
     
 }
 @media screen and (max-width: 445px) {
+    .order-item{
+        font-size: 10px
+    }
     section.view{
         width: 100%;
         padding: 5px;

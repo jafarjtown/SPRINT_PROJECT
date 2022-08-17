@@ -112,7 +112,7 @@ class Order(models.Model):
 
     @property
     def total(self):
-        return sum([item.price for item in self.items.all()])
+        return sum([item.price * item.quantity for item in self.items.all()])
     
     @property
     def quantity(self):

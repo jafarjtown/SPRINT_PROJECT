@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
 from administrator.models import Blog
+from administrator.views import Foods
 from decorators import customer_only
 from kitchen.models import Category as Cat, Food, Kitchen, Order, Ordered
 # Create your views here.
@@ -86,7 +87,7 @@ def Profile(request):
 
 def CancelOrder(request, order_id):
     ordered = Ordered.objects.get(id = order_id)
-    order = ordered.kitchen.foods.get(name=ordered.name)
+    order = Food.objects.get(name=ordered.name)
     order.quantity = F('quantity') + ordered.quantity
     order.save()
     ordered.delete()

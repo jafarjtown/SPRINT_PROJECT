@@ -86,7 +86,7 @@
                     <h3>Latest News</h3>
                     
                     {% for post in posts %}
-                        <p>{{post.title|truncatechars:25}}- <a href="{{post.get_absolute_url}}">view</a></p>
+                        <p>{{post.body|truncatechars:25}}- <a href="{{post.get_absolute_url}}">view</a></p>
                     {% endfor %}
                         
                 </div>

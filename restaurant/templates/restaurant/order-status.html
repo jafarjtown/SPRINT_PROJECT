@@ -36,13 +36,7 @@
             </div>
             <div>
                 <b>
-                    
-                    {% if order.delivered %}
-                        Delivered
-                    {% else %}
-                        Not Delivered
-                    {% endif %}
-                        
+                    {{order.get_status_display}}
                 </b>
             </div>
         </div>
