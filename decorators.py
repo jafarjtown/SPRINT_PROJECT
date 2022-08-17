@@ -10,7 +10,7 @@ def is_logged_in(func):
     def wrap(request,*args, **kwargs):
         user = request.user
         if user.is_authenticated:
-            if user.is_admin or user.is_kitchen:
+            if user.is_admin:
                 return redirect('administrator:dashboard')
             elif user.is_kitchen:
                 return redirect('kitchen:dashboard')
@@ -36,10 +36,13 @@ def kitchen_only(function):
     @wraps(function)
     def wrap(request, *args, **kwargs):
         user = request.user
-        if user.is_kitchen:
-            return function(request, *args, **kwargs)
+        if user.is_authenticated:
+            if user.is_kitchen:
+                return function(request, *args, **kwargs)
+            else:
+                return redirect('restaurant:welcome')
         else:
-            return redirect('restaurant:welcome')
+            return redirect('authentication:login')
     return wrap
 
 

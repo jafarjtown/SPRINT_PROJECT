@@ -6,23 +6,22 @@
             <a href="{% url 'administrator:profile' %}">Profile</a>
         </span>
     <ul>
-        <li><a href="{% url 'administrator:add-food' %}"><i class="fa-solid fa-bowl-food"></i> Add Food</a></li>
-        <li><a href="{% url 'administrator:category' %}"><i class="fa fa-bowl-food"></i> Category</a></li>
-        <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-user-gear"></i> Customers</a></li>
-        <li><a href="{% url 'administrator:posts' %}"><i class="fa-solid fa-user-gear"></i> Admin</a></li>
+        <li><a href="{% url 'kitchen:add-food' %}"><i class="fa-solid fa-bowl-food"></i> Add Food</a></li>
         <li><a href="{% url 'administrator:posts' %}"><i class="fa-solid fa-file-lines"></i> Post</a>
-            <ul>
+        <li><a href="{% url 'kitchen:add-food' %}"><i class="fa fa-bowl-food"></i> Dilevered</a></li>
+        <li><a href="{% url 'kitchen:not-available-food' %}"><i class="fa-solid fa-utensils"></i> Not Available ({{kitchen.foods_not_available}})</a></li>
+            {% comment %} <ul>
                 <li>
                     <a href="{% url 'administrator:posts' %}">recent post</a>
                 </li>
                 <li>
                     <a href="{% url 'administrator:config-post' %}">new post</a>
                 </li>
-            </ul>
+            </ul> {% endcomment %}
         </li>
-        <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-smile"></i> Add Customer</a></li>
+        {% comment %} <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-smile"></i> Add Customer</a></li> {% endcomment %}
         <li class="admin-sets-li">
-            <button class="admin-sets" admin-sets>Admin settings</button>
+            <button class="admin-sets" admin-sets>settings</button>
             <div class="admin-sets-list" admin-sets-view>
                 <ul>
                     <li><a href="/">Edit Profile Picture</a></li>

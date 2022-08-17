@@ -3,6 +3,11 @@ from django.db import models
 from authentication.models import User
 
 # Create your models here.
+STATUS = (
+    ('D', 'Delivered'),
+    ('R', 'Decline'),
+    ('P', 'Pending')
+)
 
 class Category(models.Model):
     name = models.CharField(max_length=25)
@@ -19,12 +24,14 @@ class Food(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='foods')
     kitchen_offered = models.ForeignKey('Kitchen', on_delete=models.CASCADE, null=True, blank=True, related_name='foods')
     
+    def __str__(self) -> str:
+        return self.name
 class Kitchen(models.Model):
     attendants = models.ManyToManyField(User,blank=True)
     
     @property
     def foods_not_available(self):
-        return len(self.foods.filter(quantity__lte = 1))
+        return len(Food.objects.filter(quantity__lte = 1))
     
     
     def get_absolute_url(self):
@@ -50,22 +57,23 @@ class Kitchen(models.Model):
             # ord.add(o.order)
         return obj.values()
 
-class Payment(models.Model):
-    pass
-
 class Ordered(models.Model):
     name = models.CharField(max_length=25)
     image = models.CharField(blank=True, max_length=50)
     price = models.FloatField()
     quantity = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    # why not to change delivered to status 
     delivered = models.BooleanField(default=False)
+    status = models.CharField(choices=STATUS, default='P', max_length=1)
     delivery_point = models.TextField()
     phone_no = models.CharField(max_length=15)
     kitchen = models.ForeignKey(Kitchen, on_delete=models.SET_NULL, null=True, related_name='ordered')
     time = models.TimeField(auto_now_add=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, blank=True, null=True, related_name='items')
     
+    def __str__(self) -> str:
+        return f'{self.order.ordered_date} - ( {self.delivery_point} )'
     @property
     def get_kitchen_await_orders(self):
         orders = self.objects.filter(kitchen=self.kitchen,delivered=False)
@@ -87,8 +95,10 @@ class Order(models.Model):
     customer = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True)
     # for date only
     ordered_date = models.DateField()
-    payment = models.ForeignKey('Payment', on_delete=models.CASCADE, blank=True, null=True)
     is_delivered = models.BooleanField(default=True)
+
+    def __str__(self) -> str:
+        return self.ordered_date
     
     @property
     def get_kitchen_await_orders(self):
@@ -103,9 +113,4 @@ class Order(models.Model):
     def quantity(self):
         return sum([items.quantity for items in self.items.all()])
     
-
-class News(models.Model):
-    date = models.DateTimeField(auto_now=True)
-    text = models.CharField(max_length=500)
-
-    
+  

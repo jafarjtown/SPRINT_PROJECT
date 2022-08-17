@@ -39,15 +39,16 @@
             <p>Total: <b>{{order.total_price}}</b></p>
         </div>
         <div>
-            <a href="{% url 'administrator:declined-orders' order.id %}">Declined</a>
-            <a href="{% url 'administrator:customer-profile' order.customer.username %}">check customer</a>
+            <a href="{% url 'kitchen:confirm-order' order.id %}">Confirm</a>
+            <a href="{% url 'kitchen:decline-order' order.id %}">Declined</a>
+            <p>Status:</p>
             <b>
-                
-                {% if order.delivered %}
+                {{order.get_status_display}}
+                {% comment %} {% if order.delivered %}
                     Delivered
                 {% else %}
                     Not Delivered
-                {% endif %}
+                {% endif %} {% endcomment %}
                     
             </b>
         </div>

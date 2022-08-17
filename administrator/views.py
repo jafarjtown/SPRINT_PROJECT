@@ -9,7 +9,7 @@ from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
 from django.contrib.auth import login, logout,authenticate
 from django.contrib.auth.hashers import check_password,  make_password
-from kitchen.models import Kitchen, Ordered
+from kitchen.models import Food, Kitchen, Ordered
 
 # Create your views here.
 
