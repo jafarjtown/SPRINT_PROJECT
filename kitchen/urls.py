@@ -9,7 +9,10 @@ urlpatterns = [
     path('active-orders/', views.ActiveOrders, name='active-orders'),
     path('orders/', views.Orders, name='orders'),
     path('delivered/', views.Delivered, name='delivered'),
-    path('delivered/<int:id>/', views.DeliveredNow, name='delivered-now'),
+    # ..........
+    # confirm/decline replace this
+    # path('delivered/<int:id>/', views.DeliveredNow, name='delivered-now'),
+    # ..........
     # path('news/', views.News, name='news'),
     path('print/<int:id>/', views.Print, name='print'),
     path('orders/<str:order_id>/confirm/', views.OrderConfirm, name='confirm-order'),

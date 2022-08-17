@@ -41,7 +41,7 @@
         </div>
         <div>
 
-            {% if order.delivered  == False %}
+            {% if order.status  == 'P' or order.status == 'R' %}
                     <a href="{% url 'kitchen:decline-order' order.id %}">Declined</a>
                     <a href="{% url 'kitchen:confirm-order' order.id %}">Confirm</a>
             {% endif %}

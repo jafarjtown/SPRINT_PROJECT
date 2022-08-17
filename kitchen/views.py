@@ -18,37 +18,43 @@ from . import models
 
 @kitchen_only
 def Orders(request):
-    ord = list()
-    orders = models.Order.objects.all()
+    # ord = list()
     kitchen = models.Kitchen.objects.all()[0]
     
-    for order in orders:
-        for o in order.items.all():
-            ord.append(o)
-    # print(request.user)
-    return render(request, 'kitchen/orders.html', {'orders': ord, 'kitchen':kitchen})
+    # .....
+    # lets get the ordered item all at once without
+    # looping through Orders
+    orders = models.Ordered.objects.all()
+    # this is same as
+    # here we elimate the use of for loop and the databse query
+    # ......
+    
+    # ......
+    # this
+    # orders = models.Order.objects.all()
+    # for order in orders:
+    #     for o in order.items.all():
+    #         ord.append(o)
+    # .......
+    return render(request, 'kitchen/orders.html', {'orders': orders, 'kitchen':kitchen})
+
 def Delivered(request):
     orders = models.Ordered.objects.filter(status = 'D')
-    return render(request, 'kitchen/delivered.html', {'orders':orders})
-def DeliveredNow(request, id):
-    order = models.Ordered.objects.get(id = id)
-    order.delivered = True
-    order.save()
-    return redirect('kitchen:orders')
+    return render(request, 'kitchen/delivered.html', {'orders':orders,"kitchen": models.Kitchen.objects.all()[0]})
 
 def Print(request, id):
     order = models.Ordered.objects.get(id = id)
-    return render(request, 'kitchen/components/print.html', {'order': order})
+    return render(request, 'kitchen/components/print.html', {'order': order,"kitchen": models.Kitchen.objects.all()[0]})
 
 @kitchen_only
 def ActiveOrders(request):
-    # context = {
-    #     "object": models.Ordered.objects.filter(delivered=False)
-    # }
-    return render(request, 'kitchen/kitchen_active_orders.html',{
+    context = {
         "object": models.Order.objects.filter(is_delivered=False),
         "kitchen": models.Kitchen.objects.all()[0]
-    })
+    }
+    # why can't we just get Pending orders to be our Active Orders 
+    context['object'] = models.Ordered.objects.filter(status = 'P')
+    return render(request, 'kitchen/kitchen_active_orders.html',context)
     # return render(request, 'kitchen/kitchen_active_orders.html',context)
 
 @kitchen_only
@@ -63,7 +69,8 @@ def Dashboard(request):
 @kitchen_only
 def CustomerOrders(request):
     context = {
-        "object": models.Ordered.objects.all()
+        "object": models.Ordered.objects.all(),
+        "kitchen": models.Kitchen.objects.all()[0]
     }
     return render(request, 'kitchen_customer_view.html', context)
 
