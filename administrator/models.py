@@ -1,8 +1,14 @@
 from django.db import models
 
 from kitchen.models import Ordered
-
+import datetime
 # Create your models here.
+
+class Message(models.Model):
+    sender = models.CharField(max_length=25)
+    text = models.TextField()
+    timestamp = models.DateTimeField(default=datetime.datetime.now())
+    attached_file = models.ImageField(upload_to='message/files/')
 
 class Blog(models.Model):
     author = models.ForeignKey('authentication.User', models.SET_NULL, null=True,  related_name='posts')

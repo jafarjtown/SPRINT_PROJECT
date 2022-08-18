@@ -921,6 +921,10 @@ section.view{
     .restaurant form input{
         width: 100%;
     }
+    .chat-view{
+        width: 100%;
+        margin: 0% !important;
+    }
     
 }
 .print{
@@ -976,4 +980,70 @@ section.view{
 .new-cat [name='name']{
     grid-area: name;
     border: 1px solid;
+}
+.chat-view{
+    max-width: 500px;
+    height: 100%;
+    border: 1px solid;
+    margin: 0 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+.chat-body{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px 10px;
+    overflow-y: scroll;
+}
+.chat-view form{
+    width: 100%;
+    height: fit-content;
+    border-top: 1px solid;
+    padding: 5px 10px;
+}
+.chat-view form div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.chat-view form button{
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.chat-view form textarea{
+    height: 100px;
+    min-height: 50px;
+    flex: 2;
+    border: 1px solid;
+    outline: none;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+}
+.chat-view form img{
+   height: 300px;
+   width: 100%;
+   object-fit: contain;
+   display: none;
+}
+.chat-body .message p img{
+    width: 100%;
+    object-fit: contain;
+}
+.chat-body .message p{
+    max-width: 300px;
+    border: 1px solid lightgray;
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+.chat-body .message span{
+    font-size: 15px;
+    color: lightgray;
+    font-style: italic;
 }

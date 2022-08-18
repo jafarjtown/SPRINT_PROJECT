@@ -23,6 +23,7 @@ urlpatterns = [
     path('category/', views.Categories, name='category'),
     path('category/new/', views.NewCategory, name='new-cat'),
     path('posts/', views.Blogs, name='posts'),
+    path('chat/', views.StemChat, name='chat'),
     path('config-post/', views.NewBlog, name='config-post'),
     path('config-post/<int:blog_id>/', views.UpdateBlog, name='update-post'),
     path('customers/', views.StudentCustomers, name='student-customers'),

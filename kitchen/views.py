@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from administrator.views import Category
 from decorators import is_logged_in, kitchen_only
+from administrator.models import Message
 # from administrator.views import Category
 from . import models
 
@@ -15,6 +16,24 @@ from . import models
 #TODO: Login
 #TODO: News
 #TODO: Customer Orders
+
+
+def StemChat(request):
+    if request.method == 'POST':
+        import datetime
+        user = request.user.username
+        text = request.POST.get('text')
+        message  = Message()
+        message.sender = user
+        message.text = text
+        message.timestamp = datetime.datetime.now()
+        if request.FILES.get('file') != None:
+            message.attached_file = request.FILES.get('file')
+        message.save()
+        return redirect('kitchen:chat')
+    messages = Message.objects.all()[:15]
+    return render(request, 'kitchen/stemchat.html', {'msgs':messages})
+
 
 @kitchen_only
 def Orders(request):

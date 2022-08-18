@@ -3,7 +3,7 @@ from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist
 
 from administrator.forms import BlogForm
-from administrator.models import Blog, RestaurantService
+from administrator.models import Blog, Message, RestaurantService
 from authentication.models import User
 from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
@@ -18,6 +18,21 @@ from kitchen.models import Food, Kitchen, Ordered, Category
 def Dashboard(request):
     return render(request, 'administrator/dashboard.html')
 
+def StemChat(request):
+    if request.method == 'POST':
+        import datetime
+        user = request.user.username
+        text = request.POST.get('text')
+        message  = Message()
+        message.sender = user
+        message.text = text
+        message.timestamp = datetime.datetime.now()
+        if request.FILES.get('file') != None:
+            message.attached_file = request.FILES.get('file')
+        message.save()
+        return redirect('administrator:chat')
+    messages = Message.objects.all()[:15]
+    return render(request, 'administrator/stemchat.html', {'msgs':messages})
 
 @administrator_only
 def Profile(request):
