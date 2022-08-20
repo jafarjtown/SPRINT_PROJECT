@@ -8,6 +8,7 @@ from authentication.models import User
 from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password,  make_password
 
 from kitchen.models import Food, Kitchen, Ordered, Category
@@ -16,8 +17,8 @@ from kitchen.models import Food, Kitchen, Ordered, Category
 
 @administrator_only
 def Dashboard(request):
-    return render(request, 'administrator/dashboard.html')
-
+    return render(request, 'administrator/dashboard.html',{'restaurant': RestaurantService.objects.first()})
+@administrator_only
 def StemChat(request):
     if request.method == 'POST':
         import datetime
@@ -96,11 +97,7 @@ def Orders(request):
 @administrator_only
 def StudentCustomers(request):
 
-    customers = set()
-    restaurant = RestaurantService.objects.first()
-    for ord in restaurant.orders:
-        print(ord)
-        customers.add(ord.customer)
+    customers = User.objects.filter(is_superuser = False,is_kitchen = False)
     return render(request, 'administrator/customers.html', {'customers': customers})
 
 
@@ -112,7 +109,7 @@ def OrderSummary(request):
     orders.extend(restaurant.orders_sum)
     return render(request, 'administrator/order-summary.html', {'summary': orders})
 
-
+@administrator_only
 def PrintOrderSummary(request, date):
 
     orders = RestaurantService.objects.first().orders_sum_print
@@ -123,7 +120,7 @@ def PrintOrderSummary(request, date):
 @administrator_only
 def Foods(request):
 
-    foods = RestaurantService.objects.first().foods
+    foods = Food.objects.filter(quantity__gt=0)
     return render(request, 'administrator/foods.html', {'foods': foods})
 
 
@@ -215,7 +212,7 @@ def CustomerProfile(request, username):
     customer = User.objects.get(username=username)
     return render(request, 'administrator/customer-profile.html', {'customer': customer})
 
-
+@login_required
 def DeclinedOrder(request, order_id):
     ordered = Ordered.objects.get(id=order_id)
     try:
@@ -227,12 +224,12 @@ def DeclinedOrder(request, order_id):
         ordered.delete()
     return redirect('administrator:orders')
 
-
+@administrator_only
 def Categories(request):
     categories = Category.objects.all()
     return render(request, 'administrator/categories.html', {'categories': categories})
 
-
+@administrator_only
 def NewCategory(request):
     if request.method == 'POST':
         image = request.FILES.get('image')

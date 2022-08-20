@@ -326,6 +326,9 @@ main{
 }
 
 @media screen and (max-width: 445px){
+    .greet{
+        margin: 15px 2px !important;
+    }
     .order-wrap .address{
         flex-direction: column;
         gap: 10px;

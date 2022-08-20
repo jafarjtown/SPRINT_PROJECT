@@ -24,9 +24,7 @@ urlpatterns = [
     path('administrator/', include('administrator.urls')),
     path('auth/', include('authentication.urls')),
     path('', include('restaurant.urls')),
-    # path('accounts/', include('allauth.urls')),
     path('kitchen/', include('kitchen.urls', namespace='kitchen') ),
-    
     path('password_reset/', PasswordResetView.as_view(template_name='authentication/forgetten_password.html'), name='password_reset'),
     path('password_reset_done/', PasswordResetDoneView.as_view(template_name='authentication/sent_password.html'), name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='authentication/change_password.html'), name='password_reset_confirm'),

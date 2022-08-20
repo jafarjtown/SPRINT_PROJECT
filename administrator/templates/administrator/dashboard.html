@@ -47,16 +47,15 @@
                 <div class="shortcut short">
                     <a href="{% url 'administrator:foods' %}">
                         
-                    New Food
+                    Foods
                     </a>
-                    <b>{{user.restaurant.new_food}}</b>
                 </div>
                 <div class="shortcut short">
                     <a href="{% url 'administrator:not-available' %}">
                        
                     Not Available
                     </a>
-                    <b>{{user.restaurant.foods_not_available}}</b>
+                    <b>{{restaurant.foods_not_available}}</b>
 
                 </div>
                 <div class="shortcut short">
