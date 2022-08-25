@@ -15,8 +15,8 @@ body{
 }
 main{
     width: 100%;
-   flex: 1;
-   display: flex;
+    flex: 1;
+    display: flex;
 }
 header{
     display: flex;
@@ -51,7 +51,9 @@ aside a{
     text-decoration: none;
     color:  var(--primary-color);
     font-weight: 600;
-    font-size: 5vh;
+    font-size: 1em;
+    display: flex;
+    gap: 5px;
 }
 section.view{
     padding: 10px;
@@ -223,7 +225,7 @@ section.view{
 .confirm, .unconfirm{
     height: 20px;
     width: 90%;
-    padding: 5px 40%;
+    padding: 5px 10%;
     background-color: black;
     color: white;
 }
@@ -233,19 +235,41 @@ section.view{
 .unconfirm{
     background-color: rgb(223, 29, 29);
 }
-.order-item-wrapper{
+.order-item-wrapper,
+.order-item-wrapper-his{
     width: 100%;
 }
 .order-item-wrapper > h2{
     margin: 10px;
 }
-.order-item{
+.order-item,
+.order-item-his{
     display: flex;
-    width: 100%;
+    width: 1000px;
+    height: fit-content;
+    background-color: white;
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid;
-    /* font-size: 10px; */
+    margin-top: 5px;
+}
+.order-item-his{
+    flex-direction: row;
+    width: 100%;
+}
+.order-item >  div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.order-item > p{
+    width: 20%;
+}
+.order-item img{
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid;
 }
 .order-item span{
     font-weight: 600;
@@ -253,8 +277,13 @@ section.view{
     
 }
 @media screen and (max-width: 445px) {
+    aside a{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .order-item{
-        font-size: 10px
+        font-size: 10px;
     }
     section.view{
         width: 100%;
@@ -268,14 +297,25 @@ section.view{
     }
     .profile, .updates{
         margin-top: 10px;
-       flex-direction: column;
-       gap: 10px;
+        flex-direction: column;
+        gap: 10px;
     }
 .update{
     width: 100%;
-
 }
     .profile .value,.profile-bottom .value{
+        width: 100%;
+    }
+    .order-item-wrapper{
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .order-item{
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .order-item img{
         width: 100%;
     }
     .shortcuts{
@@ -283,4 +323,63 @@ section.view{
         gap: 10px;
     }
     
+}
+
+
+
+
+
+
+.profile form{
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        'img img'
+        'fullname fullname'
+        'username dob'
+        'phone gender'
+        'email email'
+        'k btn';
+}
+.profile input{
+    padding: 10px 0;
+    border: 1px solid;
+    border-radius: 5px;
+    outline: none;
+}
+.profile input[disabled]{
+    background-color: rgb(209, 209, 209);
+    cursor: not-allowed;
+    /* color: white; */
+}
+.profile [full_name]{
+    grid-area: fullname;
+}
+.profile [email]{
+    grid-area: email;
+}
+.profile [username]{
+    grid-area: username;
+}
+.profile [dob]{
+    grid-area: dob;
+}
+.profile [phone]{
+    grid-area: phone;
+}
+.profile button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.profile form img{
+    grid-area: img;
+    height: 150px;
+    border: 1px solid;
 }

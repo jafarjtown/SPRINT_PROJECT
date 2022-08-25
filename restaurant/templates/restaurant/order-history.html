@@ -22,9 +22,9 @@
             <div class="status">
                     
                             {% for order in orders %}
-                                <div class="order-item-wrapper">
+                                <div class="order-item-wrapper-his">
                                     <h2>{{order.ordered_date}}</h2>
-                                    <div class="order-item">
+                                    <div class="order-item-his">
                                         <span>Name</span>
                                         <span>Category</span>
                                         
@@ -32,7 +32,7 @@
                                         <span>price</span>  
                                     </div>
                                     {% for item in order.items.all %}
-                                        <div class="order-item">
+                                        <div class="order-item-his">
                                             <span>{{item.name}}</span>
                                             <span>{{item.category.name}}</span>
                                             
@@ -40,7 +40,7 @@
                                             <span>N{{item.total_price}}</span>  
                                         </div>
                                     {% endfor %}
-                                    <div class="order-item">
+                                    <div class="order-item-his">
                                         <span></span>
                                         <span></span>
                                         <span></span>

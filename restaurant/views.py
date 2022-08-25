@@ -1,6 +1,8 @@
 # from re import M
+import imp
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages import add_message, constants
 from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
 from administrator.models import Blog
@@ -47,7 +49,7 @@ def PostHome(request, post_id):
 def About(request):
     return render(request, 'restaurant/about.html')
 
-
+@login_required
 @customer_only
 def OrderFood(request, id):
     if request.method == 'POST':
@@ -92,7 +94,8 @@ def OrderHistory(request):
 @login_required
 @customer_only
 def OrderPending(request):
-    return render(request, 'restaurant/order-pending.html')
+    orders = request.user.waiting_orders
+    return render(request, 'restaurant/order-pending.html', {'orders':orders})
 
 
 @login_required
@@ -128,4 +131,5 @@ def UpdateProfile(request):
             user.first_name = first_name
             user.last_name = last_name
         user.save()
+        add_message(request, constants.SUCCESS, 'Profile Updated')
     return render(request, 'restaurant/update_profile.html')
