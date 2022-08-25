@@ -2,9 +2,10 @@
 
 <aside data-aside>
     <ul>
-        <li><a href="{% url 'restaurant:dashboard' %}"><i class="fa-solid fa-gauge-high"></i></a></li>
-        <li><a href="{% url 'restaurant:profile' %}"><i class="fa fa-user"></i></a></li>
-        <li><a href="{% url 'restaurant:welcome' %}"><i class="fa fa-home"></i></a></li>
-        <li><a href="{% url 'authentication:logout' %}"><i class="fa fa-sign-out"></i></a></li>
+        <li><a href="{% url 'restaurant:dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li><a href="{% url 'restaurant:profile' %}"><i class="fa fa-user"></i> Account</a> </li>
+        <li><a href="{% url 'restaurant:categories' %}"><i class="fa fa-bowl-food"></i> Categories</a> </li>
+        <li><a href="{% url 'restaurant:welcome' %}"><i class="fa fa-home"></i> Home</a> </li>
+        <li><a href="{% url 'authentication:logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
     </ul>
 </aside>

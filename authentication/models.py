@@ -1,4 +1,5 @@
 from django.db import models
+
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
@@ -38,4 +39,17 @@ class User(AbstractUser):
     
     @property
     def recents_orders(self):
-        return self.orders()[:5]
+        all_orders = list()
+        
+        for order in self.order_set.all():
+            all_orders.extend(order.items.filter(status = 'P'))
+        return all_orders
+    
+    @property
+    def waiting_orders(self):
+        all_orders = list()
+        
+        for order in self.order_set.all():
+            all_orders.extend(order.items.filter(models.Q(status = 'P')|models.Q(status = 'R')))
+        return all_orders
+        # return self.order_set.filter(status = 'P')
