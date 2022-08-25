@@ -3,13 +3,22 @@
 <header>
     <img src="{% static './img/logo_pic 1.jpg' %}" alt="" class="logo">
     <nav>
+        
+        {% if user.is_authenticated %}
         <button class='close-nav' nav><i class='fa fa-bars'></i></button>
+        
         <ul ul>
             <li><a href="/">Home</a></li>
             <li><a href="{% url 'restaurant:categories' %}">Category</a></li>
             <li><a href="{% url 'restaurant:about' %}">About</a></li>
             <li><a href="{% url 'restaurant:dashboard' %}">Dashboard</a></li>
         </ul>
+        {% else %}
+        <span class="already_user">
+            Already have an account? <a href="{% url 'authentication:login' %}"> Login</a>
+        </span>
+        {% endif %}
+            
     </nav>
     <div class="nav-socials">
         <ul>

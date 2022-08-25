@@ -12,8 +12,47 @@
                 <div class="img-2"></div>
                 <div class="img-3"></div>
             </div>
-            
+    </div>
+    <div class="service">
+        <h1>What we do?</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio sed cum maxime itaque atque inventore tempora dignissimos veniam blanditiis aut exercitationem, explicabo placeat dicta tenetur rerum excepturi ratione illo. Ut?</p>
+    </div>
+    <div class="register-div">
+        <h1>We have three types of Account...</h1>
+        <div class="account account1">
+            <h2>
+                Customer Account
+            </h2>
+            <p>
+                this is account for end customer,to order food without stress
+            </p>
+            <a href="{% url 'authentication:register' %}">Create now &rArr;</a>
         </div>
+
+        <div class="account account2">
+            <h2>
+                Administrator Account
+            </h2>
+            <p>
+                this account is for Restaurant Admin, you can manage your Restaurant with this account
+            </p>
+            <a href="/">Create now &rArr;</a>
+        </div>
+        <div class="account account3">
+            <h2>
+                Kitchen Attendant Account
+            </h2>
+            <p>
+                this account can only be created by <b>Administrator</b>
+            </p>
+        </div>
+        <p><b>Note</b> you can migrate from normal account to Administrator Account later</p>
+    </div>
+    <footer>
+        <p>
+            Snap Kitchen 2022
+        </p>
+    </footer>
 
 {% endblock main %}
     

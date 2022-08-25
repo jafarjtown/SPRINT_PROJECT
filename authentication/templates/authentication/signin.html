@@ -1,13 +1,16 @@
 {% extends 'authentication/base.html' %}
 {% load static %}
 
+{% block title %}
+      Sign Up
+    {% endblock title %}
 {% block main %}
 
 <div class="signin-wrapper signin" >
   <form action="" method='post'>
     {% csrf_token %}
     <div class="head">
-      <h2>Customer Sign Up <i class="fa fa-user-plus"></i> </h2>
+      <h2>Sign Up page <i class="fa fa-user-plus"></i> </h2>
     </div>
     <div class="body">
       <div class="left">
