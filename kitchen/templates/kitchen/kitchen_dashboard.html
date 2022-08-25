@@ -11,6 +11,8 @@ Kitchen | Dashboard
 
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
+<script src="{% static 'js/greeting.js' %}" defer></script>
+
 {% endblock script %}
 {% block header %}
     <header>
@@ -22,7 +24,7 @@ Kitchen | Dashboard
         <section class="view">
             <div class="account_info">
                 <p class="view-name">{{user.kitchen.name}}</p>
-                <p class="view-name">Hello {{user.get_full_name}}</p>
+                <p class="view-name"><span id="greeting_p"></span> {{user.get_full_name}}</p>
                 <small class="view-id">Kitchen Attendant</small>
             </div>
             
