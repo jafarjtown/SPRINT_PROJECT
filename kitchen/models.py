@@ -117,3 +117,6 @@ class Order(models.Model):
         return sum([items.quantity for items in self.items.all()])
     
   
+class OrderFeed(models.Model):
+    item = models.ForeignKey(Ordered, on_delete=models.CASCADE, related_name='kitchen_feed')
+    feed = models.TextField()

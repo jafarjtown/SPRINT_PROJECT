@@ -17,7 +17,8 @@ from . import models
 #TODO: News
 #TODO: Customer Orders
 
-
+@login_required
+@kitchen_only
 def StemChat(request):
     if request.method == 'POST':
         import datetime
@@ -34,7 +35,7 @@ def StemChat(request):
     messages = Message.objects.all()[:15]
     return render(request, 'kitchen/stemchat.html', {'msgs':messages})
 
-
+@login_required
 @kitchen_only
 def Orders(request):
     # ord = list()
@@ -57,6 +58,8 @@ def Orders(request):
     # .......
     return render(request, 'kitchen/orders.html', {'orders': orders, 'kitchen':kitchen})
 
+@login_required
+@kitchen_only
 def Delivered(request):
     orders = models.Ordered.objects.filter(status = 'D')
     return render(request, 'kitchen/delivered.html', {'orders':orders,"kitchen": models.Kitchen.objects.all()[0]})
@@ -64,7 +67,7 @@ def Delivered(request):
 def Print(request, id):
     order = models.Ordered.objects.get(id = id)
     return render(request, 'kitchen/components/print.html', {'order': order,"kitchen": models.Kitchen.objects.all()[0]})
-
+@login_required
 @kitchen_only
 def ActiveOrders(request):
     context = {
@@ -76,6 +79,7 @@ def ActiveOrders(request):
     return render(request, 'kitchen/kitchen_active_orders.html',context)
     # return render(request, 'kitchen/kitchen_active_orders.html',context)
 
+@login_required
 @kitchen_only
 def Dashboard(request):
     context = {
@@ -85,6 +89,7 @@ def Dashboard(request):
     }
     return render(request, 'kitchen/kitchen_dashboard.html', context)
 
+@login_required
 @kitchen_only
 def CustomerOrders(request):
     context = {
@@ -93,6 +98,7 @@ def CustomerOrders(request):
     }
     return render(request, 'kitchen_customer_view.html', context)
 
+@login_required
 @kitchen_only
 def Add_food(request):
     if request.POST:
@@ -109,6 +115,7 @@ def Add_food(request):
     }
     return render(request, 'kitchen/add_food.html', context)
 
+@login_required
 @kitchen_only
 def Manage_Food(request):
     foods = models.Food.objects.all()
@@ -138,11 +145,18 @@ def OrderConfirm(request, order_id):
 
 @kitchen_only
 def OrderDecline(request, order_id):
-    order = models.Ordered.objects.get(id=order_id)
-    order.status = 'R'
-    order.save()
-    messages.info(request,'Order Status Changed to Rejected')
-    return redirect('kitchen:orders')
+    
+    if request.method == 'POST':
+        order = models.Ordered.objects.get(id=order_id)
+        order.status = 'R'
+        order.save()
+        reason = models.OrderFeed()
+        reason.feed = request.POST.get('reason')
+        reason.item = order
+        reason.save()
+        messages.info(request,'Order Status Changed to Rejected')
+        return redirect('kitchen:orders')
+    return render(request, 'kitchen/decline-order.html')
 
 @kitchen_only
 def NotAvailable(request):
