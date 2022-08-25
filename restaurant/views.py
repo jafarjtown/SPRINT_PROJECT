@@ -55,7 +55,8 @@ def OrderFood(request, id):
         food = Food.objects.get(id=id)
         today = datetime.date.today()
         order_list = Order.objects.get_or_create(
-            ordered_date=today, customer=request.user)
+            # ordered_date=today, 
+            customer=request.user)
         ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=request.POST.get(
             'quantity'), category=food.category, delivery_point=request.POST.get('delivery_point'), phone_no=request.POST.get('phone_no'))
         order_list[0].items.add(ordered)
