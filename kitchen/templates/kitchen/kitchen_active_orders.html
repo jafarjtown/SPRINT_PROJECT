@@ -22,14 +22,13 @@ Kitchen | Active Orders
     <div class="order-item">
         <img src="{{order.image}}" />
         <div>
-            <p>Customer Name: <b>{{order.customer.get_full_name}}</b></p>
-            <p>Delivery address: <address>{{order.delivery_point}}</address></p>
+            <p><b>{{order.customer.get_full_name}}</b></p>
+            <p>Delivery address: <address>{{order.order.delivery_point}}</address></p>
         </div>
         <div>
-            <p>Category: <b>{{order.category.name}}</b></p>
             <p>Name: <b>{{order.name}}</b></p>
             <p>Phone Number: <b>
-                <a href="tel:{{order.phone_no}}">{{order.phone_no}}</a>
+                <a href="tel:{{order.phone_no}}">{{order.order.phone_no}}</a>
             </b></p>
         </div>
         <div>
@@ -40,17 +39,13 @@ Kitchen | Active Orders
         </div>
         <div>
             {% if order.status  == 'P' or order.status == 'R' %}
-            <a href="{% url 'kitchen:decline-order' order.id %}">Declined</a>
-            <a href="{% url 'kitchen:confirm-order' order.id %}">Confirm</a>
+            <P><a href="{% url 'kitchen:decline-order' order.id %}">Declined</a>
+            <a href="{% url 'kitchen:confirm-order' order.id %}">Confirm</a></P>
+            
     {% endif %}
     <a class="print" href="{% url 'kitchen:print' order.id %}">print</a>
-    <p>Status:</p>
-  <b>
-        {{order.get_status_display}}
-        
-
-    </b>
-            </b>
+    <p>payment: <b>{{order.order.get_status_display}}</b></p>
+    <p>payment method: <b>{{order.order.get_payment_type_display}}</b></p>
         </div>
     </div>
 

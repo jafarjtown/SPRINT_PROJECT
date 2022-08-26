@@ -3,12 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
-from administrator.views import Category
 from decorators import is_logged_in, kitchen_only
 from administrator.models import Message
 # from administrator.views import Category
 from . import models
-import kitchen
 
 # Create your views here.
 
@@ -41,7 +39,6 @@ def StemChat(request):
 def Orders(request):
     # ord = list()
     kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
-    kitchen = models.Kitchen.objects.all()[0]
     # try:
         # orders = request.user.attendants.get(username=)
     # .....
@@ -59,13 +56,14 @@ def Orders(request):
     #     for o in order.items.all():
     #         ord.append(o)
     # .......
-    return render(request, 'kitchen/orders.html', {'orders': orders, 'kitchen':kitchen})
+    return render(request, 'kitchen/orders.html', {'orders': orders, 'kitchen':kitchen_instance})
 
 @login_required
 @kitchen_only
 def Delivered(request):
-    orders = models.Ordered.objects.filter(status = 'D')
-    return render(request, 'kitchen/delivered.html', {'orders':orders,"kitchen": models.Kitchen.objects.all()[0]})
+    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
+    orders = models.Ordered.objects.select_related().filter(kitchen=kitchen_instance, status = 'D')
+    return render(request, 'kitchen/delivered.html', {'orders':orders,"kitchen": kitchen_instance})
 
 def Print(request, id):
     order = models.Ordered.objects.get(id = id)
@@ -75,8 +73,7 @@ def Print(request, id):
 def ActiveOrders(request):
     kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
     context = {
-        "object": models.Order.objects.filter(is_delivered=False),
-        "kitchen": models.Kitchen.objects.all()[0]
+        "kitchen": kitchen_instance
     }
     # why can't we just get Pending orders to be our Active Orders 
     context['object'] = models.Ordered.objects.select_related().filter(kitchen=kitchen_instance, status = 'P')
@@ -90,7 +87,7 @@ def Dashboard(request):
     context = {
         "orders": models.Ordered.objects.select_related().filter(kitchen=kitchen_instance),
         "user": request.user,
-        "kitchen": models.Kitchen.objects.all()[0]
+        "kitchen": kitchen_instance
     }
     return render(request, 'kitchen/kitchen_dashboard.html', context)
 
@@ -106,6 +103,7 @@ def CustomerOrders(request):
 @login_required
 @kitchen_only
 def Add_food(request):
+    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
     if request.POST:
         food = models.Food()
         food.name = request.POST.get('name')
@@ -114,31 +112,30 @@ def Add_food(request):
         food.image = request.FILES.get('image')
         food.category = models.Category.objects.get(name = request.POST.get('category'))
         food.save()
+        kitchen_instance.foods.add(food)
     context = {
         "categories": models.Category.objects.all(),
-        "kitchen": models.Kitchen.objects.all()[0]
+        "kitchen": kitchen_instance
     }
     return render(request, 'kitchen/add_food.html', context)
 
 @login_required
 @kitchen_only
 def Manage_Food(request):
-    foods = models.Kitchen.objects.select_related().filter(attendants__username=request.user.username)[0].foods.all()
-    kitchen = models.Kitchen.objects.all()[0]
-
+    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST.get('name')
         price = request.POST.get('price')
         quantity = request.POST.get('quantity')
         food = request.POST.get('food')
-        f = models.Food.objects.get(id = food[0])
-        f.quantity = quantity
+        f = kitchen_instance.foods.get(id = food)
+        f.quantity = int(quantity)
         f.name = name
         f.price = price
         f.save()
-        print(f)
-    return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen})
+    foods = kitchen_instance.foods.all()
+        
+    return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen_instance})
 
 @kitchen_only
 def OrderConfirm(request, order_id):
@@ -165,20 +162,18 @@ def OrderDecline(request, order_id):
 
 @kitchen_only
 def NotAvailable(request):
-    foods = models.Kitchen.objects.select_related().filter(attendants__username=request.user.username)[0].foods.filter(quantity__lte=1)
     kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
-    # kitchen = models.Kitchen.objects.all()[0]
-
+    
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST.get('name')
         price = request.POST.get('price')
         quantity = request.POST.get('quantity')
         food = request.POST.get('food')
-        f = models.Food.objects.get(id = food[0])
-        f.quantity = quantity
+        f = kitchen_instance.foods.get(id = food)
+        f.quantity = int(quantity)
         f.name = name
         f.price = price
         f.save()
-        print(f)
+    foods = kitchen_instance.foods.filter(quantity__lte=1)
+    # kitchen = models.Kitchen.objects.all()[0]
     return render(request, 'kitchen/not-available.html', {'foods': foods, 'kitchen':kitchen_instance})

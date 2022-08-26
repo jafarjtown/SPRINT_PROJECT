@@ -27,13 +27,13 @@ Kitchen | Orders
         <img src="{{order.image}}" />
         <div>
             <p>Customer Name: <b>{{order.customer.get_full_name}}</b></p>
-            <p>Delivery address: <address>{{order.delivery_point}}</address></p>
+            <p>Delivery address: <address>{{order.order.delivery_point}}</address></p>
         </div>
         <div>
             <p>Category: <b>{{order.category.name}}</b></p>
             <p>Name: <b>{{order.name}}</b></p>
             <p>Phone Number: <b>
-                <a href="tel:{{order.phone_no}}">{{order.phone_no}}</a>
+                <a href="tel:{{order.phone_no}}">{{order.order.phone_no}}</a>
             </b></p>
         </div>
         <div>

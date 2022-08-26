@@ -426,11 +426,11 @@ margin-top: 10px;
 }
 .account{
     padding: 20px;
-    border: 2px solid orange;
-    border-radius: 5px;
+    border: 2px solid #ffa5002b;
+    /* border-radius: 5px; */
     display: flex;
     flex-direction: column;
-    background-color: antiquewhite;
+    background-color: #fff0dc45;
 }
 .account > a{align-self: flex-end;background-color: blue;color: white;padding: 10px;text-decoration: none;border-radius: 5px;margin-top: 10px;}
 .account1{
@@ -457,6 +457,11 @@ margin-top: 10px;
     color: white;
     border-radius: 5px;
     padding: 10px;
+    text-align: center;
+}
+.already_user >a:last-child{
+    background-color: black;
+    
 }
 @media screen and (max-width: 445px){
     .register-div{

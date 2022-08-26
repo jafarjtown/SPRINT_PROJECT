@@ -107,10 +107,10 @@ def AddToCart(request, id):
         food = Food.objects.get(id=id)
         order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
         ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=request.POST.get(
-            'quantity'), category=food.category)
+            'quantity'), category=food.category, kitchen = food.kitchen_offered)
         order_list.items.add(ordered)
-        order_list.save()
         food.quantity = F('quantity') - int(request.POST.get('quantity'))
+        order_list.save()
         food.save()
         return redirect('restaurant:categories')
 

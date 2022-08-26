@@ -174,7 +174,7 @@ def KitchenView(request):
 def AssignKitchenAttendant(request):
 
     if request.method == 'POST':
-        kitchen = Kitchen.objects.select_related().filter(restaurant_kitchen=request.user.restaurant_admin)
+        kitchen,_ = Kitchen.objects.select_related().get_or_create(restaurant_kitchen=request.user.restaurant_admin)
         try:
             u = request.POST.get('username')
             dob = request.POST.get('date of birth')
@@ -187,10 +187,9 @@ def AssignKitchenAttendant(request):
             ty = request.POST.get('account_type')
             p1 = request.POST.get('password')
             attendant = User.objects.create_user(username=u, first_name=f, last_name=l, email=e,
-                                                 account_id=id, account_type=ty, date_of_birth=dob, phone_no=ph, password=p1)
+                                                 account_id=id, account_type=ty, date_of_birth=dob, phone_no=ph, password=p1,is_kitchen = True)
             kitchen.attendants.add(attendant)
             kitchen.save()
-            attendant.is_kitchen = True
             attendant.save()
             # return redirect(kitchen.get_absolute_url())
         except Exception as e:

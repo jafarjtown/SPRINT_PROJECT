@@ -34,7 +34,7 @@ class User(AbstractUser):
     def orders(self):
         all_orders = list()
         
-        for order in self.cart_order.filter(status = 'W'):
+        for order in self.cart_order.filter(status = 'C'):
             all_orders.extend(order.items.all())
         return all_orders
     

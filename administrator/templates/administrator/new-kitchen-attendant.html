@@ -21,10 +21,10 @@
             'address address'
             'null link'
             ;
-            background-color: rgb(5, 54, 5);
+            background-color: white;
             gap: 10px;
             padding: 10px;
-            color: white;
+            color: black;
         }
         form > div{
             display: flex;
@@ -32,16 +32,23 @@
             width: 100%;
             
         }
-        form input, form textarea{
+        .gender > select{
+            cursor: pointer;
+        }
+        form input, form textarea,.gender > select{
             width: 100%;
             padding: 10px;
             height: 100%;
+            
         }
         .fullname{
             grid-area: fullname;
         }
         .phone{
             grid-area: phone;
+        }
+        .gender{
+            grid-area: gender;
         }
         .email{
             grid-area: email;
@@ -73,6 +80,7 @@
         }
         form button{
             grid-area: link;
+            background-color: royalblue !important;
 
         }
 
@@ -95,45 +103,43 @@
                     {% csrf_token %}
                     <div class="fullname">
                         Full Name
-                        <input type="text" name="full name">
+                        <input type="text" name="full name" required>
                     </div>
                     <div class="dob">
                         Date of birth
-                        <input type="date" name="date_of_birth">
+                        <input type="date" name="date_of_birth" required>
                     </div>
                     <div class="username">
                         Username
-                        <input type="text" name="username">
+                        <input type="text" name="username" required>
                     </div>
                     <div class="phone">
                         Phone Number
-                        <input type="tel" name="phone number">
+                        <input type="tel" name="phone number" required>
                     </div>
                     <div class="account_type">
                         Account Status
-                        <input type="text" name="account_type">
+                        <input type="text" name="account_type" required>
                     </div>
                     <div class="gender">
                         Gender
-                        <input type="text" name="gender">
+                        <select name="gender" required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
                     </div>
                     <div class="account_id">
                         Account ID
-                        <input type="text" name="account_id">
+                        <input type="text" name="account_id" required>
                     </div>
                     <div class="email">
                         Email
-                        <input type="email" name="email">
+                        <input type="email" name="email" required>
                     </div>
                     <div class="password">
                         Password
-                        <input type="text" name="password">
+                        <input type="text" name="password" required>
                     </div>
-                    <div class="address">
-                        Address
-                        <textarea name="address" ></textarea>
-                    </div>
-                   
                     <button type="submit">Create</button>
                 </form>
             </div>

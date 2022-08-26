@@ -28,7 +28,7 @@ class Food(models.Model):
     quantity = models.IntegerField()
     image = models.ImageField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='foods')
-    kitchen_offered = models.ForeignKey('Kitchen', on_delete=models.CASCADE, null=True, blank=True, related_name='foods')
+    kitchen_offered = models.ForeignKey('Kitchen', on_delete=models.CASCADE, null=True, related_name='foods')
     
     def __str__(self) -> str:
         return self.name
@@ -74,7 +74,7 @@ class Ordered(models.Model):
     quantity = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(choices=STATUS, default='P', max_length=1)
-    kitchen = models.ForeignKey('Kitchen', on_delete=models.CASCADE, blank=True, null=True)
+    kitchen = models.ForeignKey('Kitchen', on_delete=models.CASCADE, null=True)
     time = models.TimeField(auto_now_add=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, blank=True, null=True, related_name='items')
     
