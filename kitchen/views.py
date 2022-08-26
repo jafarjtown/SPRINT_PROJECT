@@ -166,7 +166,8 @@ def OrderDecline(request, order_id):
 @kitchen_only
 def NotAvailable(request):
     foods = models.Kitchen.objects.select_related().filter(attendants__username=request.user.username)[0].foods.filter(quantity__lte=1)
-    kitchen = models.Kitchen.objects.all()[0]
+    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
+    # kitchen = models.Kitchen.objects.all()[0]
 
     if request.method == 'POST':
         print(request.POST)
@@ -180,4 +181,4 @@ def NotAvailable(request):
         f.price = price
         f.save()
         print(f)
-    return render(request, 'kitchen/not-available.html', {'foods': foods, 'kitchen':kitchen})
+    return render(request, 'kitchen/not-available.html', {'foods': foods, 'kitchen':kitchen_instance})

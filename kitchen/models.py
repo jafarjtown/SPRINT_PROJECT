@@ -37,7 +37,7 @@ class Kitchen(models.Model):
     
     @property
     def foods_not_available(self):
-        return len(Food.objects.filter(quantity__lte = 1))
+        return self.foods.filter(quantity__lte = 1, kitchen_offered=self).count()
     
     
     def get_absolute_url(self):
@@ -46,7 +46,11 @@ class Kitchen(models.Model):
     
     @property
     def available_foods(self):
-        return self.foods.filter(quantity__gte = 1)
+        return self.foods.filter(quantity__gte = 1, kitchen_offered=self)
+    
+    @property
+    def not_available_foods(self):
+        return self.foods.filter(quantity__lte = 1, kitchen_offered=self)
     
     @property
     def waiting_order(self):
