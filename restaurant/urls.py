@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from .views import About, AddToCart, AllFoods, CancelOrder, Cart, Category, CategoryList, Dashboard, Home, Order_feed, OrderFood, OrderHistory, OrderPending, OrderStatus, PostHome, Profile, UpdateProfile
+from .views import About, AddToCart, AllFoods, CancelOrder, Cart, Category, CategoryList, Dashboard, Home, Order_feed, OrderFood, OrderHistory, OrderPending, OrderStatus, PaymentSuccess, PostHome, Profile, UpdateProfile
 
 app_name = 'restaurant'
 
@@ -22,5 +22,6 @@ urlpatterns = [
     path('dashboard/order-pending/', OrderPending, name='order-pending'),
     path('dashboard/order-food/<int:id>/', OrderFood, name='order-food'),
     path('dashboard/order-food/add-to-cart/<int:id>/', AddToCart, name='add-to-cart'),
+    path('dashboard/order-food/payment/<int:order_id>/', PaymentSuccess, name='payment-success'),
     path('dashboard/order-cancel/<int:order_id>/', CancelOrder, name='cancel-order'),
 ]

@@ -73,7 +73,6 @@ class Ordered(models.Model):
     kitchen = models.ForeignKey('Kitchen', on_delete=models.CASCADE, blank=True, null=True)
     time = models.TimeField(auto_now_add=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, blank=True, null=True, related_name='items')
-    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
     
     def __str__(self) -> str:
         return f'To be send to - ( {self.order.delivery_point} )'
@@ -100,14 +99,21 @@ class Order(models.Model):
         ('N', 'Not specify'),
         ('O', 'Pay online')
     )
+    PAYMENT_STATUS = (
+        ('W', 'Waiting for order'),
+        ('N', 'Not completed'),
+        ('C', 'Completed')
+    )
     customer = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True, related_name='cart_order')
     # for date only
     ordered_date = models.DateField(auto_now_add=True)
     is_delivered = models.BooleanField(default=True)
     payment_type = models.CharField(choices=PAYMENT_TYPE, default='N',max_length=1)
-    status = models.CharField(choices=STATUS, default='P', max_length=1)
+    status = models.CharField(choices=PAYMENT_STATUS, default='N', max_length=1)
     delivery_point = models.TextField()
     phone_no = models.CharField(max_length=15)
+    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
+    
     
     # def __str__(self):
     #     return self.ordered_date

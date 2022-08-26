@@ -26,6 +26,7 @@ class User(AbstractUser):
     profile_picture = models.ImageField(upload_to='avatar-pic')
     pass
 
+
     @property
     def is_admin(self):
         return self.is_superuser
@@ -33,7 +34,7 @@ class User(AbstractUser):
     def orders(self):
         all_orders = list()
         
-        for order in self.order_set.all():
+        for order in self.cart_order.filter(status = 'W'):
             all_orders.extend(order.items.all())
         return all_orders
     

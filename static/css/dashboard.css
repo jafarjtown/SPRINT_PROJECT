@@ -291,6 +291,7 @@ section.view{
     width: 100%;
     background-color: white;
     padding: 10px;
+    margin-bottom: 20px;
 }
 .order-item-wrapper > h2{
     margin: 10px;

@@ -29,6 +29,9 @@ urlpatterns = [
     path('password_reset_done/', PasswordResetDoneView.as_view(template_name='authentication/sent_password.html'), name='password_reset_done'),
     path('password_reset_confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='authentication/change_password.html'), name='password_reset_confirm'),
     path('password_reset_complate/', PasswordResetCompleteView.as_view(template_name='authentication/password_reset_complete.html'), name='password_reset_complete'),
+    
+    
+    # path("paystack", include(('paystack.urls', 'paystack'),namespace='paystack'))
 ]
 
 if settings.DEBUG:

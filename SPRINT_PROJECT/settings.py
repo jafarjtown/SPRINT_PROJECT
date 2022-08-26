@@ -41,6 +41,9 @@ INSTALLED_APPS = [
 
     'django.contrib.sites',
     
+    # "paystack.frameworks.django",
+    # "django_paystack",
+    
     # our apps
     'restaurant',
     'kitchen',
@@ -56,6 +59,9 @@ INSTALLED_APPS = [
 
     # 'core',
 ]
+
+PAYSTACK_PUBLIC_KEY = 'pk_test_3f117b6d04d315b87cbf3602b95d7d19505e2f76'
+PAYSTACK_SECRET_KEY = 'sk_test_9a7704fb228df57c3bdfebe98d8d6d0a10b9a821'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

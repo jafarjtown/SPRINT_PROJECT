@@ -1,6 +1,7 @@
 # from re import M
-import imp
+
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages import add_message, constants
 from django.db.models import F
@@ -8,7 +9,7 @@ from django.db.models import F
 from administrator.models import Blog, RestaurantService
 from administrator.views import Foods
 from decorators import customer_only
-from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ordered
+from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ordered, Payment
 # Create your views here.
 
 
@@ -35,24 +36,41 @@ def Category(request):
     return render(request, 'restaurant/categories.html', context)
 
 def Cart(request):
-    customer_order = Order.objects.filter(customer=request.user).first()
+    customer_order = Order.objects.filter(customer=request.user).last()
     context = {'customer_order': customer_order}
-    if request.GET.get('food'):
-        food = request.GET.get('food')
-        rest = request.GET.get('restaurant')
-        cat = request.GET.get('category')
-        search = None
-        result = Food.objects.filter(name__icontains = food)
-        if rest != 'all':
-            result = result
-        if cat != 'all':
-            result = result.filter(category__name = cat)
-        context['foods'] = result
-        context['search'] = True
-        context['result_count'] = len(result)
+    if request.method == 'POST':
+        customer_order.delivery_point = request.POST.get('delivery_point') 
+        customer_order.phone_no = request.POST.get('phone_number')
+        customer_order.payment_type = request.POST.get('payment_type')
+        customer_order.save()
     return render(request, 'restaurant/cart.html', context)
 
 
+def PaymentSuccess(request, order_id):
+    if request.method == 'POST':
+        import json
+        if request.body:
+            data = json.loads(request.body)
+        else:
+            data = request.POST
+        ref = data['ref']  
+        delivery_point = data['delivery_point']  
+        phone_no = data['phone_no']  
+        customer_order = Order.objects.get(id = order_id)
+        customer_order.status = 'C'
+        customer_order.payment_type = 'O'
+        customer_order.delivery_point = delivery_point
+        customer_order.phone_no = phone_no
+        payment = Payment()
+        payment.ref_id = ref
+        payment.user = request.user
+        payment.amount = customer_order.total
+        payment.is_payed = True
+        payment.save()
+        customer_order.payment = payment
+        customer_order.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 def AllFoods(request):
     foods = Food.objects.filter(quantity__gte=1)
@@ -85,6 +103,7 @@ def About(request):
 @customer_only
 def AddToCart(request, id):
     if request.method == 'POST':
+        print(request.path)
         food = Food.objects.get(id=id)
         order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
         ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=request.POST.get(
@@ -98,12 +117,12 @@ def AddToCart(request, id):
 @login_required
 @customer_only
 def OrderFood(request, id):
+
     if request.method == 'POST':
         order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
         order_list.delivery_point = request.POST.get('delivery_point'), 
         order_list.phone_no = request.POST.get('phone_no')
         order_list.save()
-        
         return redirect('restaurant:categories')
 
 

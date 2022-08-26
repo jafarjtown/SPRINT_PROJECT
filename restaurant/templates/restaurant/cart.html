@@ -10,6 +10,8 @@
 {% endblock styles %}
 
 {% block script %}
+
+<script src="https://js.paystack.co/v1/inline.js"></script> 
 <script src="{% static 'js/dashboard.js' %}" defer></script>
 <script src="{% static 'js/greeting.js' %}" defer></script>
 <script src="{% static 'js/online-order.js' %}" defer></script>
@@ -44,29 +46,41 @@
         
 
     {% endfor %}
+    <p><b>Total fee</b> N{{customer_order.total}}</p>
+    
+    {% if customer_order.payment.is_payed %}
+        <p>Payment Successfully</p>
+    {% else %}
     <form action="" method="post">
         {% csrf_token %}
         <p>Fill the form to proceed your order</p>
-        <input type="tel" name="phone_number" placeholder="phone number to call">
-        <textarea name="delivery+point" placeholder="Address to deliver items"></textarea>
+        <input type="tel" name="phone_number" placeholder="phone number to call" value="{{customer_order.phone_no}}">
+        <textarea name="delivery_point" value="{{customer_order.delivery_point}}" placeholder="Address to deliver items"></textarea>
         <p>Select Payment method</p>
-        <select name="method">
+        <select name="payment_type" value="{{customer_order.payment_type}}">
             <option value="N">Not specify</option>
             <option value="D">on delivery</option>
             <option value="O">online payment</option>
         </select>
-        <div class="online">
-            <p>Enter card details below <br>
-                <b>Note</b> your card details is secure</p>
-            <input type="text" placeholder="CV" maxlength="3" name="cv">
-            <input type="number" placeholder="EXPIRATION DATE" maxlength="5" name="card_expiration_date">
-            <input type="number" placeholder="CARD NUMBER"  name="card_number">
-            <input type="text" placeholder="CARD NAME" name="card_name">
 
+        <div class="online">
+            <input type="hidden" id="amount" value="{{customer_order.total}}">
+            <input type="hidden" id="email-address" value="{{user.email}}">
+            <input type="hidden" id="payment-success-url" value="{% url 'restaurant:payment-success' customer_order.id %}">
+            <button id="paystack">pay with paystack</button>
         </div>
+        
+        {% if customer_order.payment_type != 'D' %}
         <button>Proceed</button>
+            {% else %}
+            <p>payment on delivery</p>
+        {% endif %}
+            
 
     </form>
+    {% endif %}
+        
+    
     </div>
     
         </section>
