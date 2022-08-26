@@ -357,6 +357,7 @@ margin-top: 10px;
 }
 .category-search{
     /* width: 500px; */
+    flex-wrap: wrap;
     padding: 10px;
     margin: 0 5%;
     margin-top: 10px;
@@ -367,7 +368,7 @@ margin-top: 10px;
     gap: 10px;
 }
 .category-search select{
-    width: 200px;
+    /* width: 200px; */
     padding: 10px;
     border: 1px solid lightgray;
     outline: none;
