@@ -4,8 +4,11 @@ header{
     justify-content: space-between;
     padding: 5px 10px;
     color: rgb(53, 52, 52);
-    /* background-color: var(--background-color); */
-
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    border-bottom: 1px solid lightgray;
 }
 header nav ul{
     list-style: none;

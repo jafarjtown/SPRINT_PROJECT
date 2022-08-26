@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Kitchen | Delivered
+{% endblock title %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'kitchen/components/aside.html' %}
+
+<form method="post" class="declined">
+    {% csrf_token %}
+    <h2>Enter Reason for Declined</h2>
+    <textarea name="reason" id="" cols="30" rows="10" required></textarea>
+    <button type="submit">Declined</button>
+</form>
+
+{% endblock main %}

@@ -5,10 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import add_message, constants
 from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
-from administrator.models import Blog
+from administrator.models import Blog, RestaurantService
 from administrator.views import Foods
 from decorators import customer_only
-from kitchen.models import Category as Cat, Food, Kitchen, Order, Ordered
+from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ordered
 # Create your views here.
 
 
@@ -19,6 +19,19 @@ def Home(request):
 def Category(request):
     categories = Cat.objects.all()
     context = {'categories': categories}
+    if request.GET.get('food'):
+        food = request.GET.get('food')
+        rest = request.GET.get('restaurant')
+        cat = request.GET.get('category')
+        search = None
+        result = Food.objects.filter(name__icontains = food)
+        if rest != 'all':
+            result = result
+        if cat != 'all':
+            result = result.filter(category__name = cat)
+        context['foods'] = result
+        context['search'] = True
+        context['result_count'] = len(result)
     return render(request, 'restaurant/categories.html', context)
 
 
@@ -98,12 +111,18 @@ def OrderPending(request):
     orders = request.user.waiting_orders
     return render(request, 'restaurant/order-pending.html', {'orders':orders})
 
+@login_required
+@customer_only
+def Order_feed(request, feed_id):
+    feed = OrderFeed.objects.get(id = feed_id)
+    return render(request, 'restaurant/feed.html', {'feed':feed})
+
 
 @login_required
 def Profile(request):
     return render(request, 'restaurant/profile.html')
 
-
+@login_required
 def CancelOrder(request, order_id):
     ordered = Ordered.objects.get(id=order_id)
     order = Food.objects.get(name=ordered.name)

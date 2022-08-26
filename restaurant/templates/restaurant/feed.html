@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block title %}
+{{user.get_full_name}} Dashboard
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
+<style>
+    section{
+        padding: 10px;
+        font-size: large;
+    }
+</style>
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+<script src="{% static 'js/greeting.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+        
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'restaurant/components/aside.html' %}
+        <section>
+            <h2>Reason why {{feed.item.name}} is Declined</h2>
+            <p>
+                {{feed.feed}}
+            </p>
+        </section>
+
+{% endblock main %}
