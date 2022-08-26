@@ -167,7 +167,7 @@ def KitchenView(request):
 def AssignKitchenAttendant(request):
 
     if request.method == 'POST':
-        kitchen = kitchen = Kitchen.objects.first()
+        kitchen = Kitchen.objects.select_related().filter(restaurant_kitchen=request.user.restaurant_admin)
         try:
             u = request.POST.get('username')
             dob = request.POST.get('date of birth')

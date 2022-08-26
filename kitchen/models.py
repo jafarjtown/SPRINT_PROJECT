@@ -118,7 +118,6 @@ class Order(models.Model):
     def quantity(self):
         return sum([items.quantity for items in self.items.all()])
     
-<<<<<<< HEAD
 class Payment(models.Model):
     ref_id = models.CharField(max_length=50)
     user = models.ForeignKey('authentication.User',
@@ -130,9 +129,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.username
-=======
   
 class OrderFeed(models.Model):
     item = models.ForeignKey(Ordered, on_delete=models.CASCADE, related_name='kitchen_feed')
     feed = models.TextField()
->>>>>>> a6bfecb72d54bd8f712cbb59cfa24f9bcb3e3aca
