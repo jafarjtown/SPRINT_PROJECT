@@ -17,7 +17,10 @@ from kitchen.models import Food, Kitchen, Ordered, Category
 
 @administrator_only
 def Dashboard(request):
-    return render(request, 'administrator/dashboard.html',{'restaurant': RestaurantService.objects.first()})
+    admin = RestaurantService.objects.get(admin=request.user)
+    kitchen_instance = Kitchen.objects.select_related().filter(restaurant_kitchen=admin)[0]
+
+    return render(request, 'administrator/dashboard.html',{'restaurant': kitchen_instance})
 @administrator_only
 def StemChat(request):
     if request.method == 'POST':
@@ -81,7 +84,7 @@ def UpdateBlog(request, blog_id):
 
 @administrator_only
 def NotAvailable(request):
-    foods = RestaurantService.objects.first().not_available_foods
+    foods = RestaurantService.objects.get(admin=request.user).not_available_foods
     return render(request, 'administrator/not-available.html', {'foods': foods})
 
 
@@ -89,9 +92,10 @@ def NotAvailable(request):
 def Orders(request):
 
     orders = []
-    restaurant = RestaurantService.objects.first()
-    orders.extend(restaurant.orders)
-    return render(request, 'administrator/orders.html', {'orders': orders})
+    foods = RestaurantService.objects.get(admin=request.user).orders
+    print(foods, 'restaurant.select_related()')
+    # orders.extend(restaurant.orders)
+    return render(request, 'administrator/orders.html', {'orders': foods})
 
 
 @administrator_only
@@ -119,8 +123,11 @@ def PrintOrderSummary(request, date):
 
 @administrator_only
 def Foods(request):
+    admin = RestaurantService.objects.get(admin=request.user)
+    kitchen_instance = Kitchen.objects.select_related().filter(restaurant_kitchen=admin)[0]
 
-    foods = Food.objects.filter(quantity__gt=0)
+    foods = kitchen_instance.available_foods
+    print(foods, kitchen_instance)
     return render(request, 'administrator/foods.html', {'foods': foods})
 
 

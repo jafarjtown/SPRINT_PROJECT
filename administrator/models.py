@@ -28,14 +28,14 @@ class RestaurantService(models.Model):
     
     @property
     def not_available_foods(self):
-        kitchen = self.kitchen
-        return kitchen.foods.filter(quantity__lt=1)
+        kitchen = self.kitchen.not_available_foods
+        return kitchen
     
     @property
     def foods_not_available(self):
-        kt = self.kitchen
+        kt = self.kitchen.foods_not_available
         not_available = kt.foods_not_available
-        return not_available
+        return kt
     @property
     def foods(self):
         kt = self.kitchen
@@ -43,13 +43,16 @@ class RestaurantService(models.Model):
     
     @property
     def orders(self):
-        kt = self.kitchen
-        return Ordered.objects.all()
+        kt = self.kitchen.ordered_set
+        if kt==None:
+            return kt
+        else: 
+            return []
     
     @property
     def orders_sum(self):
         obj = {}
-        for o in Ordered.objects.filter():
+        for o in Ordered.objects.filter(kitchen=self.kitchen):
             if obj.get(str(o.order.ordered_date)) == None:
                 obj[str(o.order.ordered_date)] = {'items': [], 'date': o.order.ordered_date, 'total': 0}
             obj[str(o.order.ordered_date)]['items'].append(o)
