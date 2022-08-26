@@ -45,7 +45,7 @@ class User(AbstractUser):
     def recents_orders(self):
         all_orders = list()
         
-        for order in self.order_set.all():
+        for order in self.cart_order.all():
             all_orders.extend(order.items.filter(status = 'P'))
         return all_orders
     
