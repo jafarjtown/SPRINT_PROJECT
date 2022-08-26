@@ -235,9 +235,62 @@ section.view{
 .unconfirm{
     background-color: rgb(223, 29, 29);
 }
+.order-item-wrapper.form form{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 10px auto;
+    gap: 10px;
+}
+.order-item-wrapper.form form textarea{
+    height: 200px;
+}
+.order-item-wrapper.form form button{
+    background-color: royalblue;
+    color: white;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+}
+.order-item-wrapper .online{
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'p p'
+    'cv ed'
+    'nm nm'
+    'n n'
+    ;
+    gap: 10px;
+}.online.grid{
+    display: grid;
+}
+.online > p{
+    grid-area: p;
+}
+.online > [name='card_cv']{
+    grid-area: cv;
+}
+.online > [name='card_expiration_date']{
+    grid-area: ed;
+}
+.online > [name='card_number']{
+    grid-area: nm;
+}
+.online > [name='card_name']{
+    grid-area: n;
+}
+.order-item-wrapper.form form input,.order-item-wrapper.form form textarea,.order-item-wrapper.form form button, .order-item-wrapper.form form select{
+    padding: 10px;
+    resize: none;
+    border: 1px solid lightgray;
+    outline: none;
+}
 .order-item-wrapper,
 .order-item-wrapper-his{
     width: 100%;
+    background-color: white;
+    padding: 10px;
 }
 .order-item-wrapper > h2{
     margin: 10px;
@@ -245,12 +298,12 @@ section.view{
 .order-item,
 .order-item-his{
     display: flex;
-    width: 1000px;
+    width: 100%;
     height: fit-content;
     background-color: white;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid lightgray;
     margin-top: 5px;
 }
 .order-item-his{
@@ -261,6 +314,7 @@ section.view{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 30%;
 }
 .order-item > p{
     width: 20%;
@@ -321,6 +375,19 @@ section.view{
     .shortcuts{
         flex-direction: column;
         gap: 10px;
+    }
+    .order-item-wrapper.form form{
+        width: 100%;
+    }
+    .order-item-wrapper .online{
+        grid-template-columns:1fr;
+        grid-template-areas: 
+        'p'
+        'cv' 
+        'ed'
+        'nm'
+        'n'
+        ;
     }
     
 }

@@ -355,7 +355,15 @@ margin-top: 10px;
 .order-wrap .order-greet p:first-child{
     font-size: large;
 }
-.category-search{
+.proced_to_order a{
+    background-color: royalblue;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+    margin: 2px 5px;
+}
+.category-search,.proced_to_order{
     /* width: 500px; */
     flex-wrap: wrap;
     padding: 10px;
@@ -388,6 +396,7 @@ margin-top: 10px;
     border: 1px solid lightgray;
     outline: none;
 }
+
 .service,.register-div{
     padding: 10px;
     background-color: white;

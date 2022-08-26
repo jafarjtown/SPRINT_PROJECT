@@ -2,6 +2,14 @@
 {% load static %}
 {% block title %} Categories {% endblock title %}
 {% block main %}
+{% if user.carts %}
+    <div class="proced_to_order">
+        <p>
+            You have added {{user.carts.items.all|length}} items to cart <a href="{% url 'restaurant:cart' %}">click to proceed</a> payment
+        </p>
+    </div>
+{% endif %}
+    
 <div class="categories-wrapper">
     <form method="get" class="category-search">
         <select name="restaurant">
@@ -19,7 +27,6 @@
     
     {% if search %}
     <h2>Search Result: {{result_count}} </h2>
-    
     <div class="categories">
         <div class="cat-list">
             {% for food in foods %}

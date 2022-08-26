@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block title %}
+{{user.get_full_name}} Dashboard
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+<script src="{% static 'js/greeting.js' %}" defer></script>
+<script src="{% static 'js/online-order.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+        
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'restaurant/components/aside.html' %}
+        <section class="view">
+            
+    <div class="order-item-wrapper form" >
+        <h1>Items</h1>
+        {% for order in customer_order.items.all %}
+        <div class="order-item">
+            <img src="{{order.image}}" />
+            <div>
+                <p>Category: <b>{{order.category.name}}</b></p>
+                <p>Name: <b>{{order.name}}</b></p>
+            </div>
+            <div>
+                <p>Quantity: <b>{{order.quantity}}</b></p>
+                <p>Time: <b>{{order.time}}</b></p>
+                <p>Date: <b>{{order.date}}</b></p>
+                <p>Total: <b>{{order.total_price}}</b></p>
+            </div>
+            
+        </div>
+        
+
+    {% endfor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <p>Fill the form to proceed your order</p>
+        <input type="tel" name="phone_number" placeholder="phone number to call">
+        <textarea name="delivery+point" placeholder="Address to deliver items"></textarea>
+        <p>Select Payment method</p>
+        <select name="method">
+            <option value="N">Not specify</option>
+            <option value="D">on delivery</option>
+            <option value="O">online payment</option>
+        </select>
+        <div class="online">
+            <p>Enter card details below <br>
+                <b>Note</b> your card details is secure</p>
+            <input type="text" placeholder="CV" maxlength="3" name="cv">
+            <input type="number" placeholder="EXPIRATION DATE" maxlength="5" name="card_expiration_date">
+            <input type="number" placeholder="CARD NUMBER"  name="card_number">
+            <input type="text" placeholder="CARD NAME" name="card_name">
+
+        </div>
+        <button>Proceed</button>
+
+    </form>
+    </div>
+    
+        </section>
+
+{% endblock main %}
