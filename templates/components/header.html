@@ -1,7 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static './css/header.css' %}">
 <header>
-    <img src="{% static './img/logo_pic 1.jpg' %}" alt="" class="logo">
+    <img src="{% static './img/logo.jpg' %}" alt="" class="logo">
     <nav>
         
         {% if user.is_authenticated %}
@@ -12,6 +12,7 @@
             <li><a href="{% url 'restaurant:categories' %}">Category</a></li>
             <li><a href="{% url 'restaurant:about' %}">About</a></li>
             <li><a href="{% url 'restaurant:dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'restaurant:cart' %}">Cart</a></li>
         </ul>
         {% else %}
         <span class="already_user">

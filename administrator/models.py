@@ -7,7 +7,7 @@ import datetime
 class Message(models.Model):
     sender = models.CharField(max_length=25)
     text = models.TextField()
-    timestamp = models.DateTimeField(default=datetime.datetime.now())
+    timestamp = models.DateTimeField(auto_now_add=True)
     attached_file = models.ImageField(upload_to='message/files/')
 
 class Blog(models.Model):

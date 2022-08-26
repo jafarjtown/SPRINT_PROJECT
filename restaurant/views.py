@@ -34,6 +34,25 @@ def Category(request):
         context['result_count'] = len(result)
     return render(request, 'restaurant/categories.html', context)
 
+def Cart(request):
+    customer_order = Order.objects.filter(customer=request.user).first()
+    context = {'customer_order': customer_order}
+    if request.GET.get('food'):
+        food = request.GET.get('food')
+        rest = request.GET.get('restaurant')
+        cat = request.GET.get('category')
+        search = None
+        result = Food.objects.filter(name__icontains = food)
+        if rest != 'all':
+            result = result
+        if cat != 'all':
+            result = result.filter(category__name = cat)
+        context['foods'] = result
+        context['search'] = True
+        context['result_count'] = len(result)
+    return render(request, 'restaurant/cart.html', context)
+
+
 
 def AllFoods(request):
     foods = Food.objects.filter(quantity__gte=1)
@@ -64,19 +83,27 @@ def About(request):
 
 @login_required
 @customer_only
-def OrderFood(request, id):
+def AddToCart(request, id):
     if request.method == 'POST':
-        import datetime
         food = Food.objects.get(id=id)
-        today = datetime.date.today()
-        order_list = Order.objects.get_or_create(
-            ordered_date=today, customer=request.user)
+        order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
         ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=request.POST.get(
-            'quantity'), category=food.category, delivery_point=request.POST.get('delivery_point'), phone_no=request.POST.get('phone_no'))
-        order_list[0].items.add(ordered)
-        order_list[0].save()
+            'quantity'), category=food.category)
+        order_list.items.add(ordered)
+        order_list.save()
         food.quantity = F('quantity') - int(request.POST.get('quantity'))
         food.save()
+        return redirect('restaurant:categories')
+
+@login_required
+@customer_only
+def OrderFood(request, id):
+    if request.method == 'POST':
+        order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
+        order_list.delivery_point = request.POST.get('delivery_point'), 
+        order_list.phone_no = request.POST.get('phone_no')
+        order_list.save()
+        
         return redirect('restaurant:categories')
 
 

@@ -29,7 +29,7 @@
     <div class="cat-item-modal-wrp">
         <div class="cat-item-modal">
             <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
-            <form action="{% url 'restaurant:order-food' food.id %}" method="post">
+            <form action="{% url 'restaurant:add-to-cart' food.id %}" method="post">
                 {% csrf_token %}
            <div class="cat-item-modal-top">
             <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
@@ -53,7 +53,7 @@
             Delivery Point
             <textarea name="delivery_point" id="delivery_point" cols="30" rows="10"></textarea>
         </label>
-        <button type="submit" class="cat-item-modal-btn">Order</button> 
+        <button type="submit" class="cat-item-modal-btn">Add to cart</button> 
     </form>
         </div>
         

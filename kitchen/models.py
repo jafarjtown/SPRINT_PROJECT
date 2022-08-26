@@ -70,13 +70,13 @@ class Ordered(models.Model):
     quantity = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(choices=STATUS, default='P', max_length=1)
-    delivery_point = models.TextField()
-    phone_no = models.CharField(max_length=15)
+    kitchen = models.ForeignKey('Kitchen', on_delete=models.CASCADE, blank=True, null=True)
     time = models.TimeField(auto_now_add=True)
     order = models.ForeignKey('Order', on_delete=models.CASCADE, blank=True, null=True, related_name='items')
+    payment = models.ForeignKey('Payment', on_delete=models.SET_NULL, blank=True, null=True)
     
     def __str__(self) -> str:
-        return f'{self.order.ordered_date} - ( {self.delivery_point} )'
+        return f'To be send to - ( {self.order.delivery_point} )'
     @property
     def get_kitchen_await_orders(self):
         orders = self.objects.filter(kitchen=self.kitchen,delivered=False)
@@ -95,13 +95,22 @@ class Ordered(models.Model):
         return self.order.ordered_date
 
 class Order(models.Model):
-    customer = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True)
+    PAYMENT_TYPE = (
+        ('D', 'Pay on delivery'),
+        ('N', 'Not specify'),
+        ('O', 'Pay online')
+    )
+    customer = models.ForeignKey('authentication.User', on_delete=models.SET_NULL, null=True, related_name='cart_order')
     # for date only
-    ordered_date = models.DateField()
+    ordered_date = models.DateField(auto_now_add=True)
     is_delivered = models.BooleanField(default=True)
-
-    def __str__(self) -> str:
-        return self.ordered_date
+    payment_type = models.CharField(choices=PAYMENT_TYPE, default='N',max_length=1)
+    status = models.CharField(choices=STATUS, default='P', max_length=1)
+    delivery_point = models.TextField()
+    phone_no = models.CharField(max_length=15)
+    
+    # def __str__(self):
+    #     return self.ordered_date
     
     @property
     def get_kitchen_await_orders(self):
@@ -116,6 +125,17 @@ class Order(models.Model):
     def quantity(self):
         return sum([items.quantity for items in self.items.all()])
     
+class Payment(models.Model):
+    ref_id = models.CharField(max_length=50)
+    user = models.ForeignKey('authentication.User',
+                             on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    authorization = models.CharField(max_length=60, null=True)
+    is_payed = models.BooleanField(default='False')
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username
   
 class OrderFeed(models.Model):
     item = models.ForeignKey(Ordered, on_delete=models.CASCADE, related_name='kitchen_feed')

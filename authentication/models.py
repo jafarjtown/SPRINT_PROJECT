@@ -38,6 +38,10 @@ class User(AbstractUser):
         return all_orders
     
     @property
+    def carts(self):
+        return self.cart_order.filter(payment_type = 'N').last()
+    
+    @property
     def recents_orders(self):
         all_orders = list()
         
@@ -52,4 +56,6 @@ class User(AbstractUser):
         for order in self.order_set.all():
             all_orders.extend(order.items.filter(models.Q(status = 'P')|models.Q(status = 'R')))
         return all_orders
-        # return self.order_set.filter(status = 'P')
+
+
+        
