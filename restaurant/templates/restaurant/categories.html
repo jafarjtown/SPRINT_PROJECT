@@ -3,14 +3,86 @@
 {% block title %} Categories {% endblock title %}
 {% block main %}
 <div class="categories-wrapper">
-    {% for category in categories %}
+    <form method="get" class="category-search">
+        <select name="restaurant">
+            <option value="all">Restaurant</option>
+        </select>
+        <select name="category">
+            <option value="all">Category</option>
+            {% for category in categories %}
+            <option value="{{category.name}}">{{category.name}}</option>
+        {% endfor %}
+        </select>
+        <input type="search" placeholder="Search food" name="food" required>
+        <button>Search</button>
+    </form>
+    
+    {% if search %}
+    <h2>Search Result: {{result_count}} </h2>
+    
+    <div class="categories">
+        <div class="cat-list">
+            {% for food in foods %}
+            
+            <div class="cat-item">
+                <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
+                <h3>{{food.name}}</h3>
+                <div class="cat-item-info">
+                    <div class="cat-item-price">N{{food.price}}</div>
+                    <button data-open-order>Order</button>
+                </div>
+            
+                <div class="cat-item-modal-wrp">
+                    <div class="cat-item-modal">
+                        <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
+                        <form action="{% url 'restaurant:order-food' food.id %}" method="post">
+                            {% csrf_token %}
+                       <div class="cat-item-modal-top">
+                        <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
+                        <div class="cat-item-modal-sets">
+                                <label for="price">
+                                    Price
+                                    <input type="text" value="N{{food.price}}" name='price' id="price" disabled>
+                                </label>
+                                <label for="quantity">
+                                    Quantity
+                                    <input type="number" value="1" id="quantity" name='quantity' min='1' max='{{food.quantity}}'>
+                                </label>
+                                <label for="phone">
+                                    Phone no.
+                                    <input type="tel" name='phone_no' placeholder="070xxxxxx" id="phone">
+                                </label>
+                        </div>
+                    </div>
+                    <h4>Tuwo</h4>
+                    <label for="delivery_point" class="textarea-label">
+                        Delivery Point
+                        <textarea name="delivery_point" id="delivery_point" cols="30" rows="10"></textarea>
+                    </label>
+                    <button type="submit" class="cat-item-modal-btn">Order</button> 
+                </form>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+    {% empty %}
+        <p>Sorry, no result is return</p>
+    {% endfor %}
+    </div>
+    {% endif %}
+        
+    <h2>All Categories</h2>
+    <div class="categories">
+            {% for category in categories %}
     <div class="category">
         <h3>{{category.name}}</h3>
         <img src="{{category.cover}}" alt="{{category.name}}">
         <a href="{% url 'restaurant:category-list' category.name %}">view</a>
     </div>
     {% endfor %}
-   
-    
+    </div>
+
 </div>
 {% endblock main %}

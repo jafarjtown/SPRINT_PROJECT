@@ -6,10 +6,12 @@ body{
     margin: 0;
     --background-color: lightgray;
     background-image: url('../img/bg2.webp');
-     font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
 }
 main{
     width: 100%;
+    min-height: 100%;
     position: relative;
 }
 footer{
@@ -19,13 +21,20 @@ footer{
     color: white;
 }
 .welcome{
-    position: relative;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    margin-top: 10px;
+    
+position: relative;
+    
+overflow: hidden;
+    
+height: 100vh;
+    
+display: flex;
+    
+flex-direction: column;
+    
+background-color: white;
+    
+margin-top: 10px;
 }
 .welcome .greet{
     margin:50px 20px;
@@ -91,23 +100,31 @@ footer{
 }
 .categories-wrapper{
     display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: white;
+}
+.categories-wrapper > h2{
+    margin: 10px 20px;
+}
+.categories{
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
+   
 }
 .category{
     width: 300px;
     height: 200px;
     background-color: rgb(125, 221, 125);
-    border-radius: 20px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
     padding: 10px 0;
     margin: 10px;
-
 }
 .category img{
     width: 100%;
@@ -185,6 +202,10 @@ footer{
     width: 100%;
     flex-direction: column;
     align-items: center;
+    position: unset;
+    height: 100%;
+    background-color: white;
+    margin-top: 10px;
 }
 .cat-list{
     width: 100%;
@@ -199,12 +220,13 @@ footer{
     height: 300px;
     background-color: rgb(104, 153, 47);
     color: white;
-    border-radius: 10px;
+    border: 1px solid #68992f;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
 }
 .cat-item-img{
-    border-radius: 10px;
+    /* border-radius: 10px; */
     width: 100%;
     height: 76%;
     background-color: white;
@@ -212,7 +234,7 @@ footer{
 }
 .cat-item h3{
     align-self: center;
-    margin: 0%;
+    margin: 2px;
 }
 .cat-item-info{
     display: flex;
@@ -241,15 +263,17 @@ footer{
 }
 .cat-item-modal-wrp{
     position: absolute;
-    top: 0;
+    top: -60px;
     left: 0;
     width: 100%;
-    height: 100vh;
+    /* height: 100vh !important; */
     background-color: rgba(80, 80, 80, 0.582);
     display:
     none;
     align-items: center;
     justify-content: center;
+    z-index: 88;
+    overflow: scroll;
 }
 .cat-item-modal{
     margin: 20px;
@@ -330,6 +354,38 @@ footer{
 }
 .order-wrap .order-greet p:first-child{
     font-size: large;
+}
+.category-search{
+    /* width: 500px; */
+    padding: 10px;
+    margin: 0 5%;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    gap: 10px;
+}
+.category-search select{
+    width: 200px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    outline: none;
+    cursor: pointer;
+}
+.category-search button{
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+.category-search input{
+    padding: 10px;
+    flex: 2;
+    border: 1px solid lightgray;
+    outline: none;
 }
 .service,.register-div{
     padding: 10px;

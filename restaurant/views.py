@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import add_message, constants
 from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
-from administrator.models import Blog
+from administrator.models import Blog, RestaurantService
 from administrator.views import Foods
 from decorators import customer_only
 from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ordered
@@ -19,6 +19,19 @@ def Home(request):
 def Category(request):
     categories = Cat.objects.all()
     context = {'categories': categories}
+    if request.GET.get('food'):
+        food = request.GET.get('food')
+        rest = request.GET.get('restaurant')
+        cat = request.GET.get('category')
+        search = None
+        result = Food.objects.filter(name__icontains = food)
+        if rest != 'all':
+            result = result
+        if cat != 'all':
+            result = result.filter(category__name = cat)
+        context['foods'] = result
+        context['search'] = True
+        context['result_count'] = len(result)
     return render(request, 'restaurant/categories.html', context)
 
 
