@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from .views import About, AddToCart, AllFoods, CancelOrder, Cart, Category, CategoryList, Dashboard, Home, Order_feed, OrderFood, OrderHistory, OrderPending, OrderStatus, PaymentSuccess, PostHome, Profile, UpdateProfile
+from .views import About, AddToCart, AllFoods, CancelOrder, Cart, Category, CategoryList, CustomerAttendantChat, CustomerChat, Dashboard, Home, Order_feed, OrderFood, OrderHistory, OrderPending, OrderStatus, PaymentSuccess, PostHome, Profile, UpdateProfile
 
 app_name = 'restaurant'
 
@@ -15,6 +15,8 @@ urlpatterns = [
     path('dashboard/', Dashboard, name='dashboard'),
     path('dashboard/profile/', Profile, name='profile'),
     path('dashboard/cart/', Cart, name='cart'),
+    path('dashboard/chats/', CustomerChat, name='chats'),
+    path('dashboard/chats/<int:attendant_id>/', CustomerAttendantChat, name='chat'),
     path('dashboard/order-feed/<int:feed_id>/', Order_feed, name='feed'),
     path('dashboard/profile/update/', UpdateProfile, name='update_profile'),
     path('dashboard/order-status/', OrderStatus, name='order-status'),

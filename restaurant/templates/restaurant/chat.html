@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
+<link rel="stylesheet" href="{% static 'css/chats.css' %}">  
+
+{% endblock styles %}
+{% block title %} Customer | Chat{% endblock title %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    
+{% endblock header %}
+{% block main %}
+{% include 'restaurant/components/aside.html' %}
+        <section class="view">
+            <div>
+
+                <h2>{{chat.attendant.get_full_name}} inbox</h2>
+            </div>
+            <hr>
+
+            {% include 'administrator/components/chat.html' with messages=chat.messages.all %}
+          
+        </section>
+
+{% endblock main %}
+
+

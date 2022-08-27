@@ -1,0 +1,61 @@
+<div class="chat-view">
+
+    <div class="chat-header">
+        
+    </div>
+    <div class="chat-body">
+        
+        {% for message in messages %}
+        <div class="message">
+            <b>{{message.sender}}</b>
+            
+            {% if message.text %}
+            <p>{{message.text}}</p>
+                
+            {% endif %}
+                
+            
+            {% if message.attached_file %}
+                <p>
+                    <img src="{{message.attached_file.url}}" alt="Img" loading='lazy'> 
+                </p>
+            {% endif %}
+                
+            <span>{{message.timestamp}}</span>
+        </div>
+        {% endfor %}
+        <div id="to-view"></div>
+            
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <img src="" alt="" id="image">
+        <input type="file" id="file" name="file" hidden>
+        <div>
+            <button type="button" id="add-file">Add File</button>
+            <textarea name="text" id="" cols="30" rows="10"></textarea>
+            <button type="submit">Send</button>
+        </div>
+        
+    </form>
+    <script>
+
+        const inputFile = document.querySelector('#file')
+        
+    
+        document.querySelector('#add-file').addEventListener('click', ()=> inputFile.click())
+    
+        inputFile.addEventListener('change', (e)=> {
+            
+            document.querySelector('#image').src = URL.createObjectURL(e.target.files[0])
+            document.querySelector('#image').style.display = 'block'
+        })
+    
+        function scrollToView(){
+            document.querySelector('#to-view').scrollIntoView()
+        }
+        scrollToView()
+    
+    </script>
+</div>
+    

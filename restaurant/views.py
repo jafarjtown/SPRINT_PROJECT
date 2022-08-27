@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages import add_message, constants
 from django.db.models import F
 # from SPRINT_PROJECT.kitchen.models import Food
-from administrator.models import Blog, RestaurantService
+from authentication.models import User
+from .models import CustomerChat as Chat
+from administrator.models import Blog, Message, RestaurantService
 from administrator.views import Foods
 from decorators import customer_only
 from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ordered, Payment
@@ -135,6 +137,33 @@ def Dashboard(request):
     foods = Food.objects.all()
     recents = user.recents_orders
     return render(request, 'restaurant/dashboard.html', {'posts': posts, 'recents': recents, 'foods':foods})
+
+@login_required
+@customer_only
+def CustomerChat(request):
+    attendants = User.objects.filter(is_kitchen = True)
+    recent_chats = Chat.objects.filter(customer=request.user)
+    return render(request, 'restaurant/chats.html', {'attendants':attendants,'recent_chats':recent_chats})
+
+@login_required
+@customer_only
+def CustomerAttendantChat(request, attendant_id):
+    attendant = User.objects.get(id = attendant_id)
+    user = request.user
+    chat,_ = Chat.objects.get_or_create(customer=user, attendant=attendant)
+    if request.method == 'POST':
+        user = request.user.username
+        text = request.POST.get('text')
+        message  = Message()
+        message.sender = user
+        message.text = text
+        if request.FILES.get('file') != None:
+            message.attached_file = request.FILES.get('file')
+        message.save()
+        chat.messages.add(message)
+        chat.save()
+        return redirect('restaurant:chat', attendant.id)
+    return render(request, 'restaurant/chat.html', {'chat':chat})
 
 
 @login_required

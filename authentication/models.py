@@ -54,7 +54,7 @@ class User(AbstractUser):
     def waiting_orders(self):
         all_orders = list()
         
-        for order in self.order_set.all():
+        for order in self.cart_order.all():
             all_orders.extend(order.items.filter(models.Q(status = 'P')|models.Q(status = 'R')))
         return all_orders
 

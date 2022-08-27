@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+    
+{% block title %}
+{{user.get_full_name}} Chats
+{% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
+<link rel="stylesheet" href="{% static 'css/chats.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/dashboard.js' %}" defer></script>
+{% endblock script %}
+{% block header %}
+    
+{% endblock header %}
+  
+{% block main %}
+{% include 'restaurant/components/aside.html' %}
+        <section class="view">
+
+            <div class="attendants">
+                <h2>Recent Chats</h2>
+            {% for chat in recent_chats %}
+                <div class="attendant">
+                    <img src=""/>
+                    <b>{{chat.attendant.get_full_name}}</b>
+                    <a href="{% url 'restaurant:chat' chat.attendant.id %}">continue chat</a>
+                </div>
+            {% empty %}
+                <b>No chat</b>
+            {% endfor %}
+            <hr />
+            <div class="attendants">
+                <h2>Kitchen Attendants</h2>
+                {% for attendant in attendants %}
+                <div class="attendant">
+                    <img src=""/>
+                    <b>{{attendant.get_full_name}}</b>
+                    <a href="{% url 'restaurant:chat' attendant.id %}">start chat</a>
+                </div>
+            {% endfor %}
+            </div>
+                    
+    
+        </section>
+
+{% endblock main %}
