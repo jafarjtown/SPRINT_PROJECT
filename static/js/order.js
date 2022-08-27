@@ -21,3 +21,32 @@ orderBtns.forEach(btn => {
     })
     
 })
+
+async function AddToCart(url,q){
+    const loading_modal = document.querySelector('.loading-modal')
+    loading_modal.querySelector('p').innerText = 'Adding item to cart... please wait'
+    loading_modal.style.display = 'flex'
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
+            'content-type': 'application/json'
+        },
+        body:JSON.stringify({
+            quantity: q
+        })
+    })
+    const data = await response.json()
+    console.log(data)
+    if(data.success == true){
+        loading_modal.querySelector('p').innerText = 'successfully'
+        setTimeout(()=>{
+            loading_modal.style.display = 'none'
+        },1500)
+    }else{
+        loading_modal.querySelector('p').innerText = 'Error occured... try again'
+        setTimeout(()=>{
+            loading_modal.style.display = 'none'
+        },1500)
+    }
+}

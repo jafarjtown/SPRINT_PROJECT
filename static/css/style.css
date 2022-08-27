@@ -98,46 +98,7 @@ margin-top: 10px;
     left: 100vh; 
     z-index: 1;
 }
-.categories-wrapper{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    background-color: white;
-}
-.categories-wrapper > h2{
-    margin: 10px 20px;
-}
-.categories{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-   
-}
-.category{
-    width: 300px;
-    height: 200px;
-    background-color: rgb(125, 221, 125);
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    padding: 10px 0;
-    margin: 10px;
-}
-.category img{
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-}
-.category a{
-    text-decoration: none;
-    color: white;
-    font-weight: 600;
-    font-size: large;
-    cursor: pointer;
-}
+
 .order-wrap{
     width: 100%;
     height: fit-content;
@@ -215,101 +176,7 @@ margin-top: 10px;
     gap: 15px;
     flex-wrap: wrap;
 }
-.cat-item{
-    width: 300px;
-    height: 300px;
-    background-color: rgb(104, 153, 47);
-    color: white;
-    border: 1px solid #68992f;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-}
-.cat-item-img{
-    /* border-radius: 10px; */
-    width: 100%;
-    height: 76%;
-    background-color: white;
-    object-fit: contain;
-}
-.cat-item h3{
-    align-self: center;
-    margin: 2px;
-}
-.cat-item-info{
-    display: flex;
-    flex: 1;
-    width: 100%;
-    justify-content: space-between;
-    padding: 5px 20px;
-}
 
-.cat-item-price,.cat-item-info button{
-    font-size: larger;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-}
-.cat-item-info button{
-    text-decoration: none;
-    color: rgb(104, 153, 47);
-    background-color: white;
-    padding: 5px 20px;
-    border-radius: 5px;
-
-}
-.cat-item-modal-wrp{
-    position: absolute;
-    top: -60px;
-    left: 0;
-    width: 100%;
-    /* height: 100vh !important; */
-    background-color: rgba(80, 80, 80, 0.582);
-    display:
-    none;
-    align-items: center;
-    justify-content: center;
-    z-index: 88;
-    overflow: scroll;
-}
-.cat-item-modal{
-    margin: 20px;
-    /* width: 400px; */
-    height: fit-content;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-}
-.cat-item-modal-top{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-.cat-item-modal-img{
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
-}
-.cat-item-modal-sets{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    color: black;
-    justify-content: center;
-    margin: 10px;
-}
-.cat-item-modal form{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 4px;
-    
-}
 .textarea-label{
     width: 100%;
     display: flex;
@@ -318,85 +185,11 @@ margin-top: 10px;
     padding: 10px;
     font-weight: 600;
 }
-.cat-item-modal-close{
-    padding: 5px;
-    font-weight: 600;
-    font-size: large;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-}
-.textarea-label textarea{
-    resize: none;
-    padding: 10px;
-}
-.cat-item-modal-btn{
-    background-color: rgb(104, 153, 47);
-    color: white;
-    font-weight: 600;
-    align-self: flex-end;
-    padding: 10px 20px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    border: none;
-    cursor: pointer;
-}
-.cat-item-modal-sets label{
-    display: flex;
-    flex-direction: column;
-}
-.cat-item-modal-sets input{
-    width: 140px;
-    padding: 7px;
-    font-weight: 650;
-    font-size: medium;
-    margin: 4px 0;
-}
 .order-wrap .order-greet p:first-child{
     font-size: large;
 }
-.proced_to_order a{
-    background-color: royalblue;
-    padding: 10px;
-    text-decoration: none;
-    border-radius: 5px;
-    color: white;
-    margin: 2px 5px;
-    display: inline-block;
-}
-.category-search,.proced_to_order{
-    /* width: 500px; */
-    flex-wrap: wrap;
-    padding: 10px;
-    margin: 0 5%;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    gap: 10px;
-}
-.category-search select{
-    /* width: 200px; */
-    padding: 10px;
-    border: 1px solid lightgray;
-    outline: none;
-    cursor: pointer;
-}
-.category-search button{
-    padding: 10px;
-    background-color: blue;
-    color: white;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-}
-.category-search input{
-    padding: 10px;
-    flex: 2;
-    border: 1px solid lightgray;
-    outline: none;
-}
+
+
 
 .service,.register-div{
     padding: 10px;

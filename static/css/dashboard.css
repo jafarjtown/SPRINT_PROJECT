@@ -17,6 +17,7 @@ main{
     width: 100%;
     flex: 1;
     display: flex;
+    /* flex-direction: column; */
 }
 header{
     display: flex;
@@ -30,30 +31,97 @@ header button{
     border: none;
     font-size: larger;
 }
-aside{
-    display: none;
-    flex-direction: column;
-    border-right: 1px solid;
-    width: fit-content;
-    height: 100%;
-}
-aside.show{
+footer{
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    background-color: rgb(245 245 245);
+    color: black;
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+aside{
+    position: fixed;
+    left: 10px;
+    height: fit-content;
+    top: 70px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 99;
+    border: 1px solid lightgray;
+}
+aside > button{
+    /* margin-bottom: 10px; */
+    border-radius: 100%;
+    border: none;
+    height: 50px;
+    width: 50px;
+    background-color: #ed6625;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+aside.hide_nav ul{
+    display: none;
+}
+aside hr{
+    width: 100%;
+}
+aside ul button{
+    font-size: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 2px;
 }
 aside ul{
+    /* display: none; */
     list-style: none;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
 }
-aside a{
-    text-decoration: none;
-    color:  var(--primary-color);
-    font-weight: 600;
-    font-size: 1em;
+aside li{
     display: flex;
-    gap: 5px;
+    justify-content: flex-start;
+    width: 100%;
+}
+aside ul a{
+    font-size: 41px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+aside ul i{
+    color: #add43a;
+    margin: 0 5px;
+    width: 40px;
+}
+aside span{
+    display: none;
+    font-size: 15px;
+    margin: 5px;
+    color: black;
+    font-weight: bold;
+}
+aside.show_span span{
+    display: inline-block;
+}
+.favourite-foods{
+    width: 100%;
+    padding: 10px;
+    max-height: 500px;
+    overflow-y: scroll;
+    border: 1px solid lightgray;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
 }
 section.view{
     padding: 10px;
@@ -62,6 +130,9 @@ section.view{
     display: flex;
     flex-direction: column;
     padding: 5px 20px;
+    background-color: white;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 .view-name{
     font-weight: 600;
@@ -79,12 +150,12 @@ section.view{
 }
 .shortcut{
     padding: 7vh;
-    border-radius: 10px;
+    border-radius: 5px;
     color: rgb(0, 0, 0);
     font-weight: 600;
     text-align: center;
     cursor: pointer;
-    box-shadow: 5px 6px 7px 0px #00000059;
+    box-shadow: 0px 1px 4px 0px #00000059;
     background-color: rgb(245, 245, 245);
 }
 .shortcut a{
@@ -115,9 +186,9 @@ section.view{
 .update{
     width: 49%;
     height: 200px;
-    border: 1px solid;
+    border: 1px solid lightgray;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
     min-height: 50vh;
     background-color: rgb(245, 245, 245);
     overflow-y: scroll;
@@ -214,13 +285,13 @@ section.view{
 
 /* update */
 .account_info{
-    background-color: #5faf5fc4;
+    /* background-color: #5faf5fc4; */
     color: white;
     width: fit-content;
     padding: 10px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     font-size: 25px;
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
 }
 .confirm, .unconfirm{
     height: 20px;
@@ -333,9 +404,11 @@ section.view{
 }
 @media screen and (max-width: 445px) {
     aside a{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        /* display: flex; */
+        width: 100%;
+        font-size: 35px !important;
+        /* flex-direction: column; */
+        /* align-items: center !important; */
     }
     .order-item{
         font-size: 10px;

@@ -16,12 +16,7 @@
 <script src="{% static 'js/greeting.js' %}" defer></script>
 <script src="{% static 'js/online-order.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-        
-    </header>
-{% endblock header %}
+
 {% block main %}
 {% include 'restaurant/components/aside.html' %}
         <section class="view">

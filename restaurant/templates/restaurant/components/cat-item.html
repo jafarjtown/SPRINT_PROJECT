@@ -1,0 +1,35 @@
+
+<div class="cat-item">
+    <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
+    <h3>{{food.name}}</h3>
+    <div class="cat-item-info">
+        <div class="cat-item-price">N{{food.price}}</div>
+        <button data-open-order>Order</button>
+    </div>
+
+    <div class="cat-item-modal-wrp">
+        <div class="cat-item-modal">
+            <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
+            <form method="post">
+                {% csrf_token %}
+           <div class="cat-item-modal-top">
+            <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
+            <div class="cat-item-modal-sets">
+                    <label for="price">
+                        Price
+                        <input type="text" value="N{{food.price}}" name='price' id="price" disabled>
+                    </label>
+                    <label for="quantity">
+                        Quantity
+                        <input q{{food.id}} type="number" value="1" id="quantity" name='quantity' min='1' max='{{food.quantity}}'>
+                    </label>
+                    <p>{{food.name}}</p>
+            </div>
+        </div>
+        <input url{{food.id}} hidden type="text" value="{% url 'restaurant:add-to-cart' food.id %}">
+        <button type="button" class="cat-item-modal-btn" onclick="AddToCart(document.querySelector('[url{{food.id}}]').value, document.querySelector('[q{{food.id}}]').value)">Add to cart</button> 
+    </form>
+        </div>
+        
+    </div>
+</div>

@@ -1,11 +1,24 @@
 {% load static %}
 
-<aside data-aside>
+<aside data-aside class="hide_nav">
+    <button menu-toggler><i class="fa fa-bars"></i></button>
     <ul>
-        <li><a href="{% url 'restaurant:dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
-        <li><a href="{% url 'restaurant:profile' %}"><i class="fa fa-user"></i> Account</a> </li>
-        <li><a href="{% url 'restaurant:categories' %}"><i class="fa fa-bowl-food"></i> Categories</a> </li>
-        <li><a href="{% url 'restaurant:welcome' %}"><i class="fa fa-home"></i> Home</a> </li>
-        <li><a href="{% url 'authentication:logout' %}"><i class="fa fa-sign-out"></i> Logout</a></li>
+        <li><button menu-toggler2>expand</li>
+            <hr>
+        <li><a href="{% url 'restaurant:dashboard' %}"><i class="fa-solid fa-gauge-high"></i> 
+
+            <span>Dashboard</span></a></li>
+            <hr>
+        <li><a href="{% url 'restaurant:profile' %}"><i class="fa fa-user"></i> <span>Account</span></a> </li>
+        <hr>
+        <li><a href="{% url 'restaurant:profile' %}"><i class="fa fa-comment"></i> <span>Chat</span></a> </li>
+        <hr>
+        <li><a href="{% url 'restaurant:categories' %}"><i class="fa fa-bowl-food"></i> <span>Categories</span></a> </li>
+        <hr>
+        <li><a href="{% url 'restaurant:welcome' %}"><i class="fa fa-home"></i> <span>Home</span></a> </li>
+        <hr>
+        <li><a href="{% url 'restaurant:cart' %}"><i class="fa fa-cart-shopping"></i> <span>Cart</span></a></li>
+        <hr>
+        <li><a href="{% url 'authentication:logout' %}"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
     </ul>
 </aside>

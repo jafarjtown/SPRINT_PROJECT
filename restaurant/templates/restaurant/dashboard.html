@@ -6,19 +6,14 @@
 {% endblock title %}
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">  
-
+<link rel="stylesheet" href="{% static 'css/cat-item.css' %}">
 {% endblock styles %}
 
 {% block script %}
 <script src="{% static 'js/dashboard.js' %}" defer></script>
 <script src="{% static 'js/greeting.js' %}" defer></script>
+<script src="{% static 'js/order.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-        
-    </header>
-{% endblock header %}
 {% block main %}
 {% include 'restaurant/components/aside.html' %}
         <section class="view">
@@ -48,6 +43,11 @@
                     </a>
 
                 </div>
+            </div>
+            <div class="favourite-foods">
+                {% for food in foods %}
+                    {% include 'restaurant/components/cat-item.html' with food=food %}
+                {% endfor %}
             </div>
             <div class="updates">
                 <div class="update">
@@ -88,6 +88,8 @@
                         
                 </div>
             </div>
+{% include 'restaurant/components/footer.html' %}
+
         </section>
 
 {% endblock main %}

@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %} Categories {% endblock title %}
+{% block style %}  
+<link rel="stylesheet" href="{% static 'css/cat-item.css' %}">
+<link rel="stylesheet" href="{% static 'css/category.css' %}">
+{% endblock style %}
+{% block script %}
+<script src="{% static 'js/order.js' %}" defer></script>
+{% endblock script %}
 {% block main %}
+<section class="view">
 {% if user.carts %}
     <div class="proced_to_order">
         <p>
@@ -31,48 +39,7 @@
         <div class="cat-list">
             {% for food in foods %}
             
-            <div class="cat-item">
-                <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
-                <h3>{{food.name}}</h3>
-                <div class="cat-item-info">
-                    <div class="cat-item-price">N{{food.price}}</div>
-                    <button data-open-order>Order</button>
-                </div>
-            
-                <div class="cat-item-modal-wrp">
-                    <div class="cat-item-modal">
-                        <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
-                        <form action="{% url 'restaurant:order-food' food.id %}" method="post">
-                            {% csrf_token %}
-                       <div class="cat-item-modal-top">
-                        <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
-                        <div class="cat-item-modal-sets">
-                                <label for="price">
-                                    Price
-                                    <input type="text" value="N{{food.price}}" name='price' id="price" disabled>
-                                </label>
-                                <label for="quantity">
-                                    Quantity
-                                    <input type="number" value="1" id="quantity" name='quantity' min='1' max='{{food.quantity}}'>
-                                </label>
-                                <label for="phone">
-                                    Phone no.
-                                    <input type="tel" name='phone_no' placeholder="070xxxxxx" id="phone">
-                                </label>
-                        </div>
-                    </div>
-                    <h4>Tuwo</h4>
-                    <label for="delivery_point" class="textarea-label">
-                        Delivery Point
-                        <textarea name="delivery_point" id="delivery_point" cols="30" rows="10"></textarea>
-                    </label>
-                    <button type="submit" class="cat-item-modal-btn">Order</button> 
-                </form>
-                    </div>
-                    
-                </div>
-            </div>
-            
+            {% include 'restaurant/components/cat-item.html' with food=food %}
             
     {% empty %}
         <p>Sorry, no result is return</p>
@@ -92,4 +59,5 @@
     </div>
 
 </div>
+</section>
 {% endblock main %}

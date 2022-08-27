@@ -1,5 +1,6 @@
 # from re import M
 
+import json
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -103,16 +104,16 @@ def About(request):
 @customer_only
 def AddToCart(request, id):
     if request.method == 'POST':
-        print(request.path)
+        data = json.loads(request.body)
         food = Food.objects.get(id=id)
         order_list,_ = Order.objects.get_or_create(customer=request.user, payment_type='N')
-        ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=request.POST.get(
+        ordered = Ordered.objects.create(name=food.name, image=food.image.url, price=food.price, quantity=data.get(
             'quantity'), category=food.category, kitchen = food.kitchen_offered)
         order_list.items.add(ordered)
-        food.quantity = F('quantity') - int(request.POST.get('quantity'))
+        food.quantity = F('quantity') - int(data.get('quantity'))
         order_list.save()
         food.save()
-        return redirect('restaurant:categories')
+        return JsonResponse({'success': True})
 
 @login_required
 @customer_only
@@ -131,8 +132,9 @@ def OrderFood(request, id):
 def Dashboard(request):
     user = request.user
     posts = Blog.objects.all()
+    foods = Food.objects.all()
     recents = user.recents_orders
-    return render(request, 'restaurant/dashboard.html', {'posts': posts, 'recents': recents})
+    return render(request, 'restaurant/dashboard.html', {'posts': posts, 'recents': recents, 'foods':foods})
 
 
 @login_required

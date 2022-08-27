@@ -12,16 +12,11 @@
             <li><a href="{% url 'restaurant:categories' %}">Category</a></li>
             <li><a href="{% url 'restaurant:about' %}">About</a></li>
             <li><a href="{% url 'restaurant:dashboard' %}">Dashboard</a></li>
-            
-            {% if user.carts %}
-                
-            <li><a href="{% url 'restaurant:cart' %}">Cart</a></li>
-            {% endif %}
                 
         </ul>
         {% else %}
         <span class="already_user">
-            Already have an account? <a href="{% url 'authentication:login' %}"> Sign In</a> | <a href="{% url 'authentication:register' %}"> Sign Up</a>
+            Have an account? <a href="{% url 'authentication:login' %}"> Sign In</a> | <a href="{% url 'authentication:register' %}"> Sign Up</a>
         </span> 
         {% endif %}
             
