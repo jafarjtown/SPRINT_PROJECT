@@ -57,7 +57,18 @@
   
        
     <main>
-
+        
+        {% block custom_header %}
+        <div class="header">
+            <b>
+                <font style="color: rgb(255, 154, 2);">Food</font><font style="color: rgb(153, 253, 123);">ify</font>
+            </b>
+            
+        </div>
+            
+        {% endblock custom_header %}
+            
+            
         {% block main %}{% endblock main %}
 
     </main>

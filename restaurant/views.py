@@ -147,7 +147,7 @@ def OrderStatus(request):
 @customer_only
 def OrderHistory(request):
     context = {}
-    all_orders = request.user.order_set.all()
+    all_orders = request.user.orders()
     context['orders'] = all_orders
     return render(request, 'restaurant/order-history.html', context)
 

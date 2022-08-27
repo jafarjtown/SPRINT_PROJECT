@@ -22,7 +22,8 @@ main{
 header{
     display: flex;
     padding: 10px;
-    border-bottom: 1px solid;
+    height: 68px;
+    /* border-bottom: 1px solid; */
 }
 header button{
     cursor: pointer;
@@ -45,7 +46,7 @@ aside{
     position: fixed;
     left: 10px;
     height: fit-content;
-    top: 70px;
+    top: 10px;
     background-color: white;
     padding: 10px;
     border-radius: 5px;
@@ -91,9 +92,11 @@ aside li{
     width: 100%;
 }
 aside ul a{
+    width: 100%;
     font-size: 41px;
     display: flex;
     align-items: center;
+    /* justify-content: center; */
     text-decoration: none;
 }
 aside ul i{
@@ -145,8 +148,10 @@ section.view{
 .shortcuts{
     display: flex;
     margin-top: 20px;
+    flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
+    gap: 20px;
 }
 .shortcut{
     padding: 7vh;
@@ -222,7 +227,7 @@ section.view{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(245, 245, 245);
+    /* background-color: rgb(245, 245, 245); */
     height: 100%;
     border-radius: 10px;
     padding: 10px;
@@ -402,7 +407,38 @@ section.view{
     width: 20%;
     
 }
+
+.header{
+    height: 90px;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    display: none;
+    border-bottom: 1px solid lightgray;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 35px;
+    z-index: 88;
+}
 @media screen and (max-width: 445px) {
+    .header{
+        display: flex;
+    }
+    main{
+        flex-direction: column;
+    }
+    aside{
+        top: 28px;
+        border: none;
+        padding: 0;
+    }
+    aside ul{
+        border: 1px solid lightgray;
+        padding: 10px;
+        border-top: 0;
+    }
     aside a{
         /* display: flex; */
         width: 100%;
