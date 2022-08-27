@@ -19,7 +19,7 @@
 {% include 'restaurant/components/aside.html' %}
         <section class="view">
             <div class="status">
-                    
+                        <h1>History of all orders</h1>
                             {% for order in orders %}
                                 <div class="order-item-wrapper-his">
                                     <h2>{{order.ordered_date}}</h2>
@@ -34,14 +34,13 @@
                                         <div class="order-item-his">
                                             <span>{{item.name}}</span>
                                             <span>{{item.category.name}}</span>
-                                            
                                             <span>{{item.quantity}}</span>
                                             <span>N{{item.total_price}}</span>  
                                         </div>
                                     {% endfor %}
                                     <div class="order-item-his">
-                                        <span></span>
-                                        <span></span>
+                                        <span>Payment ref</span>
+                                        <span>{{order.payment.ref_id}}</span>
                                         <span></span>
                                         <span>Total</span>
                                         <span>N{{order.total}}</span>  
