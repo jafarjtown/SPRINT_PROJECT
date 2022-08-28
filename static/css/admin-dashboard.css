@@ -53,6 +53,9 @@ aside{
     flex-direction: column;
     height: 100%;
 }
+.view i{
+    font-size: 30px;
+}
 .info{
     display: flex;
     flex-direction: column;
@@ -87,6 +90,10 @@ nav a{
     color: black;
     font-weight: bold;
     font-size: larger;
+}
+nav i{
+    font-size: 30px;
+    font-weight: 600;
 }
 nav .last{
     position: absolute;
