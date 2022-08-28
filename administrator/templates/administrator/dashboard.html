@@ -17,21 +17,21 @@
     <div class="view">
         <section class="t_re">
             <div class="box">
-                <h2>Today sell <a href="/"><i class="fa fa-link"></i></a></h2>
+                <h2>Today sell <i class="bi bi-cart2"></i></h2>
                 <div class="sell-count">
                     <h1>{{today_sell|length}}</h1>
                     <p>sold</p>
                 </div>
             </div>
             <div class="box">
-                <h2>This week sell</h2>
+                <h2>This week sell <i class="bi bi-cart4"></i></h2>
                 <div class="sell-count">
                     <h1>{{this_week_sell|length}}</h1>
                     <p>sold</p>
                 </div>
             </div>
             <div class="box">
-                <h2>Total sell</h2>
+                <h2>Total sell <i class="bi bi-minecart-loaded"></i></h2>
                 <div class="sell-count">
                     <h1>{{total_sell|length}}</h1>
                     <p>sold</p>
@@ -40,7 +40,7 @@
         </section>
         <section class="activities">
             <div class="box">
-                <h2>Customers</h2>
+                <h2>Customers <i class="bi bi-people"></i></h2>
                 <div class="customers">
                     <table>
                         <thead>
@@ -71,7 +71,7 @@
                 
             </div>
             <div class="box">
-                <h2>Activities</h2>
+                <h2>Activities <i class="bi bi-activity"></i></h2>
                 <div class="atcivities_wrapper">
                     <div class="activity">
                         
@@ -87,7 +87,7 @@
         </section>
         <section class="large">
             <div class="box">
-                <h2>Recent orders</h2>
+                <h2>Recent orders <i class="bi bi-cart"></i></h2>
                 <div class="orders_wrapper">
                     
                     {% for order in last_few_recents %}

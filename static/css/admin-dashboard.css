@@ -224,7 +224,7 @@ td{
 .order-item-wrapper .access button{
     padding: 10px;
     background-color: orangered;
-    width: 100px;
+    width: fit-content;
     margin-bottom: 5px;
     font-weight: 600;
     border-radius: 5px;

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="StemCoder Eatery, a place to order food online within Ahmadu Bello University Zaria, all variaety of food is available">
     <meta name="keywords" content="restaurant, online food, order food, Ahmadu Bello Univeristy, Zaria food, StemCoder Eatery">
-    
+    <link rel="icon" href="{% static 'img/logo.jpg' %}" type = "image/x-icon">
     
     {% block styles %}
     <link rel="stylesheet" href="{% static './css/style.css' %}">  
@@ -21,6 +21,7 @@
     rel="stylesheet"
     type="text/css"
   />
+  <script src="https://unpkg.com/feather-icons"></script>
   <title>
     Foodify | 
     {% block title %}
@@ -36,26 +37,7 @@
     </div>
     {% block header %}
         {% include 'components/header.html' %}
-    {% endblock header %}
-    
-    {% if messages %}
-    
-    {% for message in messages %}
-        
-    <P style="
-    padding: 10px;
-    text-align: center;
-    font-weight: 600;
-    background: white;
-">
-        {{message}}
-    </P>
-    {% endfor %}
-        
-    {% endif %}
-        
-  
-       
+    {% endblock header %}   
     <main>
         
         {% block custom_header %}
@@ -73,6 +55,14 @@
 
     </main>
     {% block script %}{% endblock script %}
-  
+    <script>
+        {% if messages %}
+        {% for message in messages %}
+            alert('{{message}}')
+        {% endfor %} 
+        {% endif %}
+        feather.replace()
+        
+    </script>
 </body>
 </html>

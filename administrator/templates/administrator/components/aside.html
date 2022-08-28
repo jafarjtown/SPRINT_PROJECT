@@ -7,17 +7,17 @@
             <a href="{% url 'administrator:profile' %}">Administrator-{{user.get_full_name}}</a></b>
     </div>
     <ul>
-        <li><a href="{% url 'administrator:dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
-        <li><a href="{% url 'administrator:category' %}"><i class="fa fa-bowl-food"></i> Category</a></li>
-        <li><a href="{% url 'administrator:orders' %}"><i class="fa-solid fa-user-gear"></i> All Sells</a></li>
-        <li><a href="{% url 'administrator:foodify-chat' %}"><i class="fa-solid fa-comment"></i> foodify public</a></li>
-        <li><a href="{% url 'administrator:staff-chat' %}"><i class="fa-solid fa-comment"></i>  Staff chat </a></li>
-        <li><a href="{% url 'administrator:kitchen' %}"><i class="fa-solid fa-kitchen-set"></i>  Kitchen</a></li>
+        <li><a href="{% url 'administrator:dashboard' %}"><i class="bi bi-ui-radios-grid"></i> Dashboard</a></li>
+        <li><a href="{% url 'administrator:category' %}"><i class="bi bi-collection"></i> Category</a></li>
+        <li><a href="{% url 'administrator:orders' %}"><i class="bi bi-cart-check"></i> All Sells</a></li>
+        <li><a href="{% url 'administrator:foodify-chat' %}"><i class="bi bi-chat-right-text"></i> foodify public</a></li>
+        <li><a href="{% url 'administrator:staff-chat' %}"><i class="bi bi-chat-right-quote"></i>  Staff chat </a></li>
+        <li><a href="{% url 'administrator:kitchen' %}"><i class="bi bi-people"></i>  Kitchen</a></li>
         <div class="last">
             <hr>
             <br>
-            <!-- <li><a href="{% url 'administrator:posts' %}"><i class="fa-solid fa-gear"></i> Setting</a></li> -->
-            <li><a href="{% url 'authentication:logout' %}"><i class="fa fa-sign-out"></i> Log Out</a></li>
+            <li><a href="{% url 'administrator:posts' %}"><i class="bi bi-gear"></i> Setting</a></li>
+            <li><a href="{% url 'authentication:logout' %}"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
 
         </div>
 
