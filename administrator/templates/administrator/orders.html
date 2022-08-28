@@ -1,57 +1,91 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-
-{% endblock styles %}
 {% block title %} Administrator | Orders{% endblock title %}
 
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
+
+{% block aside %}
+    
 {% include 'administrator/components/aside.html' %}
+{% endblock aside %}
+    
+{% block main %}
 
-
+<div class="view">
+    
     <div class="order-item-wrapper">
         <h1>All Orders</h1>
-{% for order in orders %}
-        <div class="order-item">
-            <img src="{{order.image}}" />
-            <div>
-                <p>Customer Name: <b>{{order.order.customer.get_full_name}}</b></p>
-                <p>Delivery address: <address>{{order.delivery_point}}</address></p>
-            </div>
-            <div>
-                <p>Category: <b>{{order.category.name}}</b></p>
-                <p>Name: <b>{{order.name}}</b></p>
-                <p>Phone Number: <b>
-                    <a href="tel:{{order.phone_no}}">{{order.phone_no}}</a>
-                </b></p>
-            </div>
-            <div>
-                <p>Quantity: <b>{{order.quantity}}</b></p>
-                <p>Time: <b>{{order.time}}</b></p>
-                <p>Date: <b>{{order.date}}</b></p>
-                <p>Total: <b>{{order.total_price}}</b></p>
-            </div>
-            <div>
-                
-                <b>Status : {{order.get_status_display}}</b>
-                <a class="print" href="{% url 'kitchen:print' order.id %}">print</a>
-            </div>
+        <div class="access">
+            <button onclick="printSelected('tb')">print</button>
+            <button onclick="printSelected('tb')">export pdf</button>
         </div>
-
-    {% endfor %}
+        <table id="tb">
+            <thead>
+                <tr>
+                    <td>SN</td>
+                    <td>Customer</td>
+                    <td>Phone number</td>
+                    <td>Item name</td>
+                    <td>Category</td>
+                    <td>Qty</td>
+                    <td>Date/Time</td>
+                    <td>Delivery address</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for order in orders %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{order.customer.get_full_name}}</td>
+                        <td>
+                        {% if order.order.phone_no %}
+                            {{order.order.phone_no}}
+                        {% else %}
+                            {{order.customer.phone_no}}
+                        {% endif %}
+                            </td>
+                        <td>{{order.name}}</td>
+                        <td>{{order.category.name}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.date}}-{{order.time}}</td>
+                        <td>{{order.delivery_point}}</td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
     </div>
     
         
+</div>
+<script>
+    function printSelected(id){
+        alert('not workin right now...later work')
+        return
+        const printable = document.getElementById(id).innerHTML;
+        const originlContent = document.body.innerHTML;
+        //document.body.innerHTML = printable;
+        let o = window.open('','processPrint')
+        o.document.open()
+        o.document.write(`<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <link rel="stylesheet" href="/static/css/admin-dashboard.css">  
+                    </head>
+                    <body>
+                    ${printable}
+                    </body>
+                    </html>
+        `)
+        o.document.close()
+        o.print()
+        //window.print()
+        //document.body.innerHTML = originlContent;
+    }
+</script>
 
 
 {% endblock main %}

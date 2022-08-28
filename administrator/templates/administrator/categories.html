@@ -1,45 +1,48 @@
-{% extends 'base.html' %}
-{% load static %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
 
-{% endblock styles %}
+
+{% extends 'admin-layout.html' %}
+{% load static %}
+{% block title %} Administrator | Dashboard{% endblock title %}
+
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
+<script src="{% static 'js/greeting.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block title %} Administrator | Categories{% endblock title %}
 
-{% block main %}
+{% block aside %}
+    
 {% include 'administrator/components/aside.html' %}
-        <section class="view">
-            <div class="shortcuts">
-                {% for category in categories %}
-                 <div class="shortcut kit" style="
-                 background-image: url({{category.cover}});
-             ">
-                    <a href="{{kitchen.get_absolute_url}}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    {{category.name}}
-                    </a>
-                </div>
-                {% endfor %}
+{% endblock aside %}
+    
+{% block main %}
 
-                <div class="shortcut kit" style="
-                 background-color: white;
-             ">
-                    <a href="{% url 'administrator:new-cat' %}">
-                        <i class="fa-solid fa-kitchen-set"></i>
-                    Add Category
-                    </a>
-                </div>
-               
+    <div class="view">
+        <p>All list of categories you can use...</p>
+        <p>you can add one by clicking on <a href="{% url 'administrator:new-cat' %}">
+            <i class="fa-solid fa-kitchen-set"></i>
+        Add Category
+        </a></p>
+        <div class="categories">
+            {% for category in categories %}
+            <div class="category" style="
+            background-image: url({{category.cover}});
+        ">
+                <a href="{{kitchen.get_absolute_url}}">
+                    <i class="fa-solid fa-kitchen-set"></i>
+                {{category.name}}
+                </a>
             </div>
-        </section>
+            {% endfor %}
 
+            <div class="category" style="
+            background-color: white;
+        ">
+                <a href="{% url 'administrator:new-cat' %}">
+                    <i class="fa-solid fa-kitchen-set"></i>
+                Add Category
+                </a>
+            </div>
+        
+        </div>
+    </div>
 {% endblock main %}

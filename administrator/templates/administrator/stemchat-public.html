@@ -4,7 +4,7 @@
 {% block style %}  
 <link rel="stylesheet" href="{% static 'css/chats.css' %}">  
 {% endblock style %}
-{% block title %} Administrator | Only staff Chat{% endblock title %}
+{% block title %} Administrator | Public  Chat {% endblock title %}
 
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
@@ -17,9 +17,9 @@
     
 {% block main %}
         <section class="view">
-
             
-            {% include 'administrator/components/chat.html' with messages=msgs %}
+            
+            {% include 'administrator/components/chat.html' with messages=msgs  %}
                 
           
         </section>

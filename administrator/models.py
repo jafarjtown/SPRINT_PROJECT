@@ -4,6 +4,10 @@ from kitchen.models import Ordered
 import datetime
 # Create your models here.
 
+class Activity(models.Model):
+    datetimestamp = models.DateTimeField(auto_now_add=True)
+    message = models.CharField(max_length=300)
+
 class Message(models.Model):
     sender = models.CharField(max_length=25)
     text = models.TextField()
@@ -25,6 +29,9 @@ class RestaurantService(models.Model):
     address = models.TextField()
     name = models.CharField(max_length=25)
     phone_no = models.CharField(max_length=15)
+    activities = models.ManyToManyField(Activity, blank=True)
+    foodify_chat = models.ManyToManyField(Message, blank=True, related_name='restaurant')
+    staff_chat = models.ManyToManyField(Message, blank=True)
     
     @property
     def not_available_foods(self):
@@ -43,7 +50,7 @@ class RestaurantService(models.Model):
     
     @property
     def orders(self):
-        kt = self.kitchen.ordered_set
+        kt = self.kitchen.orders
         if kt==None:
             return kt
         else: 

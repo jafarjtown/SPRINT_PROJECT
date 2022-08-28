@@ -1,79 +1,107 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-
-{% endblock styles %}
 {% block title %} Administrator | Dashboard{% endblock title %}
 
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
 <script src="{% static 'js/greeting.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
+
+{% block aside %}
+    
 {% include 'administrator/components/aside.html' %}
-        <section class="view">
-            <div class="account_info">
-                <p class="view-name"><span id="greeting_p"></span> {{user.get_full_name}}</p>
-                <small class="view-id">Admin</small>
+{% endblock aside %}
+    
+{% block main %}
+
+    <div class="view">
+        <section class="t_re">
+            <div class="box">
+                <h2>Today sell <a href="/"><i class="fa fa-link"></i></a></h2>
+                <div class="sell-count">
+                    <h1>{{today_sell|length}}</h1>
+                    <p>sold</p>
+                </div>
             </div>
-            
-            <div class="shortcuts">
-                <div class="shortcut">
-                    <a href="{% url 'administrator:orders' %}">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        Orders
-                    
-                    </a>
+            <div class="box">
+                <h2>This week sell</h2>
+                <div class="sell-count">
+                    <h1>{{this_week_sell|length}}</h1>
+                    <p>sold</p>
                 </div>
-                <div class="shortcut">
-                    <a href="{% url 'administrator:orders-summary' %}">
-                        <i class="fa fa-table-list"></i>
-                    Orders Summary
-                    </a>
+            </div>
+            <div class="box">
+                <h2>Total sell</h2>
+                <div class="sell-count">
+                    <h1>{{total_sell|length}}</h1>
+                    <p>sold</p>
                 </div>
-                <div class="shortcut">
-                    <a href="{% url 'administrator:chat' %}">
-                        <i class="fa fa-comment"></i>
-                    Stem Chat
-                    </a>
-
+            </div>
+        </section>
+        <section class="activities">
+            <div class="box">
+                <h2>Customers</h2>
+                <div class="customers">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>SN</td>
+                                <td>Name</td>
+                                <td>Email</td>
+                                <td>Phon no.</td>
+                                <td>Gender</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        {% for customer in customers %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{customer.get_full_name}}</td>
+                                <td>{{customer.email}}</td>
+                                <td>{{customer.phone_no}}</td>
+                                <td>{{customer.get_gender_display}}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                                
+                        </tbody>
+                    </table>
                 </div>
-                <div class="shortcut short">
-                    <a href="{% url 'administrator:foods' %}">
+                
+            </div>
+            <div class="box">
+                <h2>Activities</h2>
+                <div class="atcivities_wrapper">
+                    <div class="activity">
                         
-                    Foods
-                    </a>
-                </div>
-                <div class="shortcut short">
-                    <a href="{% url 'administrator:not-available' %}">
-                       
-                    Not Available
-                    </a>
-                    <b>{{restaurant.foods_not_available}}</b>
-
-                </div>
-                <div class="shortcut short">
-                    <a admin-kt>
-                       
-                    Kitchen
-                    </a>
-                    <div class="admin-sets-list" admin-kt-view>
-                        <ul>
-                            <li><a href="{% url 'administrator:kitchen' %}">Kitchen Staffs</a></li>
-                            <li><a href="{% url 'administrator:add-attendant' %}">Add staffs</a></li>
-                        </ul>
+                        {% for activity in activities %}
+                        <a href="/">{{activity.datetimestamp}} - {{activity.message}}</a>
+                        {% empty %}
+                        <h1>No Activities</h1>
+                        {% endfor %}
+                            
                     </div>
                 </div>
             </div>
-                
-          
         </section>
+        <section class="large">
+            <div class="box">
+                <h2>Recent orders</h2>
+                <div class="orders_wrapper">
+                    
+                    {% for order in last_few_recents %}
+                        <a href="/" class="order">
+                            {{order.order.ordered_date}} {{order.time}} - <b>{{order.order.customer}}</b> order {{order.name}} from {{order.kitchen_attendant}} - {{order.get_status_display}}
+                        </a>
+                        {% empty %}
+                        <h1>No orders</h1>
+                        {% endfor %}
+                        
+                </div>
+            </div>
+        </section>
+
+    </div>
 
 {% endblock main %}

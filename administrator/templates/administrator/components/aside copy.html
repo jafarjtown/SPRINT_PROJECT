@@ -1,0 +1,43 @@
+{% load static %}
+
+<aside class="aside" data-aside>
+    
+    <button class="close-aside">close</button>
+        <i class="fa fa-user-circle"></i>
+        <span>
+            <a href="{% url 'administrator:profile' %}">Profile</a>
+        </span>
+    <ul>
+        <li><a href="{% url 'administrator:dashboard' %}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li><a href="{% url 'administrator:category' %}"><i class="fa fa-bowl-food"></i> Category</a></li>
+        <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-user-gear"></i> Customers</a></li>
+        <li><a href="{% url 'administrator:posts' %}"><i class="fa-solid fa-user-gear"></i> Admin</a></li>
+        <li><a href="{% url 'administrator:posts' %}"><i class="fa-solid fa-file-lines"></i> Post</a>
+            <ul>
+                <li>
+                    <a href="{% url 'administrator:posts' %}">recent post</a>
+                </li>
+                <li>
+                    <a href="{% url 'administrator:config-post' %}">new post</a>
+                </li>
+            </ul>
+        </li>
+        <li><a href="{% url 'administrator:student-customers' %}"><i class="fa-solid fa-smile"></i> Add Customer</a></li>
+        <li class="admin-sets-li">
+            <button class="admin-sets" admin-sets>Admin settings</button>
+            <div class="admin-sets-list" admin-sets-view>
+                <ul>
+                    <li><a href="/">Edit Profile Picture</a></li>
+                    <li><a href="{% url 'administrator:change-password' %}">Change Password</a></li>
+                    <li><a href="{% url 'authentication:logout' %}">Log Out</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <script>
+        function closeAside(){
+            document.querySelector('aside').classList.toggle('show')
+        }
+        document.querySelector('.close-aside').addEventListener('click', closeAside)
+    </script>
+</aside>

@@ -37,32 +37,40 @@
 }
 
 .chat-view{
-    max-width: 500px;
-    height: 87vh;
-    border: 1px solid;
-    margin: 0 20%;
+    max-width: 100%;
+    /* height: 100%; */
+    flex: 3;
+    background-color: white;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    align-items: center;
+    /* background-color: white; */
+    /* flex: 1; */
+    position: relative;
 }
 .chat-body{
+    width: 400px;
     flex: 2;
     display: flex;
     flex-direction: column;
     gap: 5px;
     padding: 5px 10px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    background-color: white;
 }
 .chat-view form{
+    position: sticky;
+    bottom: 0;
     width: 100%;
     height: fit-content;
     border-top: 1px solid;
     padding: 5px 10px;
+    background-color: white;
 }
 .chat-view form div{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 3px;
     width: 100%;
 }
 .chat-view form button{
@@ -71,12 +79,12 @@
     font-weight: 600;
 }
 .chat-view form textarea{
-    height: 100px;
-    min-height: 50px;
+    height: 50px;
+    /* min-height: 50px; */
     flex: 2;
     border: 1px solid;
     outline: none;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     padding: 10px;
     resize: none;
 }
@@ -85,6 +93,11 @@
    width: 100%;
    object-fit: contain;
    display: none;
+}
+.chat-body .message.me{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 .chat-body .message p img{
     width: 100%;
@@ -105,6 +118,9 @@
 
 @media screen and (max-width: 445px) {
     .attendant{
+        width: 100%;
+    }
+    .chat-body{
         width: 100%;
     }
     .chat-view{

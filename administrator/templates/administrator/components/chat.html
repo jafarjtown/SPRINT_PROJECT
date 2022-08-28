@@ -6,8 +6,15 @@
     <div class="chat-body">
         
         {% for message in messages %}
-        <div class="message">
+        
+        {% if message.sender == user.username %}
+        <div class="message me">
+            {% else %}
+            <div class="message">
             <b>{{message.sender}}</b>
+        {% endif %}
+            
+        
             
             {% if message.text %}
             <p>{{message.text}}</p>

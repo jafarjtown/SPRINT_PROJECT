@@ -1,72 +1,126 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-
-{% endblock styles %}
+{% block title %} Administrator | Orders{% endblock title %}
 
 {% block script %}
 <script src="{% static 'js/admin.js' %}" defer></script>
 {% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block title %} Administrator | Kitchen{% endblock title %}
+
+{% block aside %}
+    
+{% include 'administrator/components/aside.html' %}
+{% endblock aside %}
+    
+
+
+{% block modal %}
+    <form method="post" action="{% url 'administrator:add-attendant' %}" class="new-attendant">
+        {% csrf_token %}
+        <h2>new attendant form <button onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></h2>
+        <label for="f" full_name>
+            Full name
+            <input type="text" name="full_name" pattern="\w+(?:[\W]+\w+)+" required>
+        </label>
+        <label for="g" gender>
+            Gender
+            <select name="gender" id="g" required>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+        </label>
+        <label for="dob" date_of_birth>
+            Date of birth
+            <input type="date" name="date_of_birth" required>
+        </label>
+        <label for="f" phone_no>
+            Phone number
+            <input type="tel" name="phone_no" required>
+        </label>
+        <label for="f" email>
+            Email
+            <input type="email" name="email" required>
+        </label>
+        <label for="f" password>
+            Password
+            <input type="text" name="password" required>
+        </label>
+        <p>Username will be generated automatically.</p>
+        <button id="submitbtn">save</button>
+        
+    </form>
+{% endblock modal %}
+    
+
 
 {% block main %}
-{% include 'administrator/components/aside.html' %}
-        <section class="view kit">
 
-            <h1>Kitchen</h1>
-            <p>Attendants</p>
-            <ol>
-
-                {% for attendant in kitchen.attendants.all %}
-                <li>{{attendant.get_full_name}}</li>
+<div class="view">
+    
+    <div class="order-item-wrapper">
+        <h1>All Attendants</h1>
+        <div class="access">
+            <button onclick="printSelected('tb')">print</button>
+            <button onclick="printSelected('tb')">export pdf</button>
+            <button style="background-color: green;width: fit-content;" onclick="openModal()">Add attendant</button>
+        </div>
+        <table id="tb">
+            <thead>
+                <tr>
+                    <td>SN</td>
+                    <td>Username</td>
+                    <td>Full name</td>
+                    <td>Gender</td>
+                    <td>Date of birth</td>
+                    <td>Email</td>
+                    <td>Phone number</td>
+                </tr>
+            </thead>
+            <tbody>
                 
+                {% for attendant in attendants %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{attendant.username}}</td>
+                        <td>{{attendant.get_full_name}}</td>
+                        <td>{{attendant.get_gender_display}}</td>
+                        <td>{{attendant.date_of_birth}}</td>
+                        <td><a href="mailto:{{attendant.email}}">{{attendant.email}}</a></td>
+                        <td><a href="tel:{{attendant.phone_no}}">{{attendant.phone_no}}</a></td>
+                    </tr>
                 {% endfor %}
-            </ol>
-            <div class="shortcuts">
-                    <div class="shortcut info">
-                        <a href="{% url 'administrator:kitchen-orders' %}">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            Orders
-                        
-                        </a>
-                    </div>
-                    <div class="shortcut his">
-                        <a href="{% url 'administrator:kitchen-orders-summary' %}">
-                            <i class="fa fa-table-list"></i>
-                        Orders Summary
-                        </a>
-                    </div>
-                    <div class="shortcut pen">
-                        <a href="{% url 'restaurant:order-pending' %}">
-                            <i class="fa fa-timeline"></i>
-                        Check pending Order 
-                        </a>
+                    
+            </tbody>
+        </table>
+    </div>
     
-                    </div>
-                    <div class="shortcut pen">
-                        <a href="{% url 'administrator:foods' %}">
-                            <i class="fa-solid fa-utensils"></i>
-                        Foods
-                        </a>
-                    </div>
-                    <div class="shortcut pen">
-                        <a href="{% url 'administrator:not-available' %}">
-                            <i class="fa fa-timeline"></i>
-                        Not Available
-                        </a>
-    
-                    </div>
-                   
-                    </div>
-                
+        
+</div>
+<script>
 
-        </section>
+    function printSelected(id){
+        alert('not workin right now...later work')
+        return
+        const printable = document.getElementById(id).innerHTML;
+        const originlContent = document.body.innerHTML;
+        //document.body.innerHTML = printable;
+        let o = window.open('','processPrint')
+        o.document.open()
+        o.document.write(`<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <link rel="stylesheet" href="/static/css/admin-dashboard.css">  
+                    </head>
+                    <body>
+                    ${printable}
+                    </body>
+                    </html>
+        `)
+        o.document.close()
+        o.print()
+        //window.print()
+        //document.body.innerHTML = originlContent;
+    }
+</script>
+
 
 {% endblock main %}

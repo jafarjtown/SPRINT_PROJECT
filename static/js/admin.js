@@ -15,3 +15,9 @@ document.querySelector('[admin-kt]').addEventListener('click', ()=>{
     document.querySelector('[admin-kt-view]').classList.toggle('show')
 })
 
+function openModal(){
+    document.querySelector('#modal').style.display = 'flex'
+}
+function closeModal(){
+    document.querySelector('#modal').style.display = 'none'
+}

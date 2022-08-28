@@ -1,0 +1,996 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+    margin: 0;
+}
+:root{
+    --background-color: #0f0e0e;
+    --text-colo: #eeeeee;
+    --border-color: rgb(35, 35, 131);
+    --secton-color: #121212;
+}
+body{
+    margin: 0;
+    background-color: var(--background-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+}
+main{
+    width: 100%;
+    flex: 1;
+    display: flex;
+    height: 80vh;
+}
+
+aside{
+    flex-direction: column;
+    width: 200px;
+    border-right: 1px solid;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    overflow-y: scroll;
+}
+aside > i{
+    font-size: 80px;
+}
+aside ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    width: 100%;
+    flex: 1;
+}
+aside > ul a, aside > ul i{
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    
+}
+aside > ul a{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 5px;
+}
+aside li ul{
+    padding-left: 30px;
+}
+aside li ul a{
+    font-size: 15px;
+    color: black;
+}
+aside > ul i{
+    font-size: 5vh;
+}
+.admin-sets-li{
+    position: relative;
+}
+.admin-sets{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: none;
+    
+}
+.admin-sets-list li{
+    list-style: disc;
+}
+.admin-sets-list{
+    position: absolute;
+    top: -20px;
+    right: -90px;
+    background-color: white;
+    /* padding: 6px; */
+    /* width: fit-content; */
+    height: fit-content;
+    border-radius: 10px;
+    display: none;
+    z-index: 100;
+}
+
+section.view{
+    padding: 10px;
+    margin: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 5px 20px;
+    height: 100%;
+    overflow: scroll;
+}
+.view.kit{
+    margin: 0%;
+    padding: 10px 25%;
+    width: 100%;
+}
+.view.kit h1{
+    font-size: xxx-large;
+}
+.view.kit img{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    margin-top: 10px;
+}
+.view-name{
+    font-weight: 600;
+    font-size: larger;
+    color: black;
+}
+.view-id{
+    color: rgb(0, 0, 0);
+}
+.shortcuts{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 20px;
+    justify-content: space-around;
+    width: 100%;
+}
+.shortcut{
+    padding: 7vh;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 5px 6px 7px 0px #00000059;
+    background-color: rgb(245, 245, 245);
+    margin: 10px;
+    position: relative;
+}
+.shortcut .admin-sets-list{
+    bottom: -50px;
+    right: 0;
+    top: initial;
+    padding: 5px;
+}
+.shortcut > .admin-sets-list a{
+    font-size: 15px !important;
+    text-transform: lowercase;
+    color: #000;
+
+}
+.shortcut .admin-sets-list ul{
+    /* padding: 8px; */
+    padding-left: 26px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.shortcut > .admin-sets-list li{
+    text-align: left !important;
+}
+.shortcut > b{
+    position: relative;
+    padding: 10px;
+    background-color: rgb(78, 158, 96);
+    color: white;
+    font-weight: 600;
+    top: -10px;
+    right: 10px;
+    border-radius: 10px;
+}
+.shortcut a{
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--primary-color);
+}
+.shortcut i{
+    font-size: 50px;
+    margin-bottom: 5px;
+}
+.show{
+    display: flex;
+}
+.hide{
+    display: none;
+}
+.view.kit .shortcuts{
+    width: fit-content;
+    align-self: center;
+}
+.view.kit .shortcut{
+    width: 200px;
+}
+.shortcut.kit{
+    padding: 0;
+}
+.shortcut.short{
+    height: fit-content;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.shortcut.short a{
+    padding: 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 600;
+    flex: 1;
+    /* text-align: center; */
+}
+.shortcut.kit a{
+    padding: 3em;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.575);
+    color: white;
+}
+/* .shortcut.info{
+    background-color: lightblue;
+}
+.shortcut.his{
+    background-color: lightyellow;
+}
+.shortcut.pen{
+    background-color: rgb(240, 152, 152);
+} */
+.updates{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    /* height: 100px; */
+}
+.update{
+    width: 49%;
+    height: 200px;
+    border: 1px solid;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 50vh;
+    background-color: rgb(245, 245, 245);
+    overflow-y: scroll;
+}
+.update table,.update tr, .update td,.status table, .status tr, .status td{
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: .9em;
+    
+}
+
+.update thead, .status thead{
+    background-color: white;
+    font-weight: 600;
+    position: sticky;
+    top: -10px;
+}
+.update table, .status table{
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+}
+.update td, .status td{
+    height: 5.5vh;
+    text-align: left;
+    font-size: medium;
+}
+.status{
+    align-self: center;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(245, 245, 245);
+    height: 100%;
+    border-radius: 10px;
+    padding: 10px;
+}
+.status table{
+    width: 100%;
+}
+.status-confirm{
+    padding: 3px 10px;
+    margin: 5px;
+    font-weight: 520;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+
+}
+.profile-admin{
+    background-color: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        'fullname fullname'
+        'username date'
+        'phone gender'
+        'email email'
+        'null link';
+    gap: 10px;
+    margin: auto;
+    border: 1px solid;
+    width: 60%;
+    height: 400px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.profile-admin div{
+    background-color: white;
+    padding: 10px;
+    height: fit-content;
+    text-align: center;
+    border-radius: 5px;
+}
+.profile-admin .full_name{
+    grid-area: fullname;
+}
+.profile-admin .username{
+    grid-area: username;
+}
+.profile-admin .dateofbirth{
+    grid-area: date;
+}
+.profile-admin .phone{
+    grid-area: phone;
+}
+.profile-admin .gender{
+    grid-area: gender;
+}
+.profile-admin .email{
+    grid-area: email;
+}
+
+.profile-admin a{
+    grid-area: link;
+    margin-right: 10px;
+    text-align: center;
+    width: 200px;
+    background-color: #064606;
+    color: white;
+    padding: 10px;
+    justify-self: end;
+    height: fit-content;
+    text-decoration: none;
+    border-radius: 5px;
+}
+/* update */
+.account_info{
+    background-color: #5faf5fc4;
+    color: white;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 25px;
+    border: 2px solid gray;
+}
+.confirm, .unconfirm{
+    height: 20px;
+    width: 90%;
+    padding: 5px 40%;
+    background-color: black;
+    color: white;
+}
+.confirm{
+    background-color: var(--primary-color);
+}
+.unconfirm{
+    background-color: rgb(223, 29, 29);
+}
+.order-item-wrapper, .order-summary{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    gap: 10px;
+    padding: 10px;
+}
+.order-summary{
+    background-color: white;
+}
+.order-sum{
+    width: 800px;
+    padding: 10px;
+    border-bottom: 1px solid;
+    justify-content: space-evenly;
+    display: flex;
+}
+.order-item-wrapper > h2{
+    margin: 10px;
+}
+.order-item{
+    display: flex;
+    width: 1000px;
+    height: fit-content;
+    background-color: white;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid;
+}
+.order-item >  div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.order-item > p{
+    width: 20%;
+}
+.order-item img{
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid;
+}
+.order-item span{
+    font-weight: 600;
+    width: 20%;
+    
+}
+
+.customer-wrapper{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+}
+.customer{
+    width: 235px;
+    height: 300px;
+    border: 1px solid;
+    background-color: #429f87;
+}
+.customer img{
+    height: 220px;
+    width: 100%;
+    object-fit: contain;
+}
+.customer p{
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+    background-color: hwb(138deg 20% 44%);
+    color: black;
+    margin: 4px 0;
+    font-weight: 600;
+}
+.profile{
+    width: 800px;
+    height: fit-content;
+    padding: 20px;
+    margin: auto;
+    
+}
+.profile form{
+    width: fit-content;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'img img'
+    'fullname fullname'
+    'username dob'
+    'phone gender'
+    'email email'
+    'k btn'
+    ;
+}
+.profile input{
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    outline: none;
+}
+.profile input[disabled]{
+    background-color: rgb(209, 209, 209);
+    cursor: not-allowed;
+    /* color: white; */
+}
+.profile [full_name]{
+    grid-area: fullname;
+}
+.profile [email]{
+    grid-area: email;
+}
+.profile [username]{
+    grid-area: username;
+}
+.profile [dob]{
+    grid-area: dob;
+}
+.profile [phone]{
+    grid-area: phone;
+}
+.profile button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.profile form img{
+    grid-area: img;
+    height: 150px;
+    border: 1px solid;
+}
+.restaurant, .kitchen{
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.restaurant form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'name phone'
+    'address address'
+    ;
+    gap: 10px;
+}
+.restaurant form input, .restaurant form textarea, .kitchen form input, .kitchen form textarea{
+    padding: 10px;
+    border: 1px solid;
+    outline: none;
+}
+.restaurant form button, .kitchen form button{
+    padding: 7px;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.restaurant form [nname], .kitchen form [nname]{
+    grid-area: name;
+}
+.restaurant form [address],.kitchen form [address]{
+    grid-area: address;
+    grid-area: address;
+    height: 100px;
+}
+.restaurant form [phone],.kitchen form [phone]{
+    grid-area: phone;
+}
+.restaurant p{
+    color: white;
+    font-weight: 600;
+}
+.food-add{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.food-add form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'img img'
+    'file file'
+    'name price'
+    'category quantity'
+    'btn btn'
+    ;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 10px;
+}
+.food-add input{
+    padding: 10px;
+    outline: none;
+}
+.food-add [name='name']{
+    grid-area: name;
+}
+.food-add [name='quantity']{
+    grid-area: quantity;
+}
+.food-add img{
+    grid-area: img;
+    height: 200px;
+    width: 100%;
+    border: 1px solid;
+    object-fit: contain;
+}
+.food-add [name='image']{
+    grid-area: file;
+}
+.food-add select{
+    grid-area: category;
+    width: 100%;
+}
+.food-add button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: rgb(9, 92, 9);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+.food-add [name='price']{
+    grid-area: price;
+}
+
+.cat-list{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.cat-item{
+    width: 300px;
+    height: 300px;
+    background-color: rgb(104, 153, 47);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-img{
+    border-radius: 10px;
+    width: 100%;
+    height: 76%;
+    background-color: white;
+    object-fit: contain;
+}
+.cat-item h3{
+    align-self: center;
+    margin: 0%;
+}
+.cat-item-info{
+    display: flex;
+    flex: 1;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+.cat-item-price,.cat-item-info button{
+    font-size: larger;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+.cat-item-info button{
+    text-decoration: none;
+    color: rgb(104, 153, 47);
+    background-color: white;
+    padding: 5px 20px;
+    border-radius: 5px;
+
+}
+.cat-item-modal-wrp{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(80, 80, 80, 0.582);
+    display:
+    none;
+    align-items: center;
+    justify-content: center;
+}
+.cat-item-modal{
+    margin: 20px;
+    /* width: 400px; */
+    height: fit-content;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-modal-top{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.cat-item-modal-img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+.cat-item-modal-sets{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    justify-content: center;
+    margin: 10px;
+}
+.cat-item-modal form{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 4px;
+}
+.textarea-label{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    padding: 10px;
+    font-weight: 600;
+}
+.cat-item-modal-close{
+    padding: 5px;
+    font-weight: 600;
+    font-size: large;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+.textarea-label textarea{
+    resize: none;
+    padding: 10px;
+}
+.cat-item-modal-btn{
+    background-color: rgb(104, 153, 47);
+    color: white;
+    font-weight: 600;
+    align-self: flex-end;
+    padding: 10px 20px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+}
+.cat-item-modal-sets label{
+    display: flex;
+    flex-direction: column;
+}
+.cat-item-modal-sets input{
+    width: 140px;
+    padding: 7px;
+    font-weight: 650;
+    font-size: medium;
+    margin: 4px 0;
+}
+.close-aside{
+    display: none;
+}
+@media screen and (max-width: 445px) {
+    .close-aside{
+        display: block;
+    }
+    .food-add{
+        display: block;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .food-add form{
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'img'
+            'file'
+            'name'
+            'price'
+            'category'
+            'quantity'
+            'btn';
+        margin: 0 10px;
+    }
+    .cat-item-modal-top{
+        display: block;
+    }
+    .new-cat{
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            'img'
+            'file'
+            'name'
+            'btn' !important;
+        width: 90% !important;
+    }
+    .profile-admin{
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        'fullname'
+        'username' 
+        'date'
+        'phone' 
+        'gender'
+        'email'
+        'link';
+        width: 100%;
+    }
+    aside{
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #064606;
+        z-index: 99;
+        overflow-y: scroll;
+    }
+    .close-aside{
+        width: 100%;
+        padding: 5px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    section.view{
+        width: 100%;
+        padding: 5px;
+    }
+    .view.kit{
+        padding: 5px;
+    }
+    .view.kit .shortcut{
+        width: 100%;
+        margin: 0;
+    }
+    .view.kit .shortcuts{
+        width: 100%;
+    }
+    .account_info{
+        width: 100%;
+    }
+    .status{
+        width: 95%;
+    }
+    .profile, .updates{
+        margin-top: 10px;
+       flex-direction: column;
+       gap: 10px;
+    }
+.update{
+    width: 100%;
+
+}
+    .profile .value,.profile-bottom .value{
+        width: 100%;
+    }
+    .order-summary{
+        width: fit-content;
+    }
+    .order-item-wrapper{
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .order-item{
+        width: 100% !important;
+        flex-direction: column;
+    }
+    .order-item img{
+        width: 100%;
+    }
+    .shortcuts{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .kitchen  form{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+        'name''phone''image'
+        'address'
+        ;
+        gap: 10px;
+    }
+    .restaurant form{
+        grid-template-columns: 100%;
+        grid-template-areas: 
+        'name''phone'
+        'address'
+        ;
+        gap: 10px;
+    }
+
+    .restaurant form{
+        width: 100%;
+    }
+    .restaurant form input{
+        width: 100%;
+    }
+    .chat-view{
+        width: 100%;
+        margin: 0% !important;
+    }
+    
+}
+.print{
+    padding: 10px;
+    background-color: rgb(79, 79, 255);
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+}
+.new-cat{
+    display: grid;
+    align-self: center;
+    margin: auto;
+    /* width: fit-content; */
+    padding: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        'img img'
+        'file name'
+        'btn btn';
+    gap: 10px;
+    background-color: white;
+}
+.new-cat img{
+    grid-area: img;
+    height: 200px;
+    width: 100%;
+    object-fit: contain;
+    border: 1px solid;
+}
+
+.new-cat input{
+    padding: 10px;
+    height: fit-content;
+    width: 200px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+}
+.new-cat button{
+    grid-area: btn;
+    padding: 10px;
+    background-color: #064606;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.new-cat [name='file']{
+    grid-area: file;
+}
+.new-cat [name='name']{
+    grid-area: name;
+    border: 1px solid;
+}
+
+.declined{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+}
+.declined textarea{
+    resize: none;
+    outline: none;
+    border: 1px solid;
+    padding: 10px;
+}
+.declined button{
+    padding: 10px;
+    background-color: red;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

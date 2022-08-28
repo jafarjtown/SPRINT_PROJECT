@@ -56,6 +56,8 @@ class Kitchen(models.Model):
     def waiting_order(self):
         return self.ordered.filter(delivered = False)
     
+
+    
     @property
     def orders_sum(self):
         obj = {}
