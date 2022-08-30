@@ -13,6 +13,8 @@
     {% block styles %}
     <link rel="stylesheet" href="{% static './css/admin-dashboard.css' %}">  
     {% endblock styles %}
+    <link rel="stylesheet" href="" id="theme-css">  
+
     {% block style %}
     
     {% endblock style %}
@@ -49,7 +51,31 @@
     </main>
     {% block script %}{% endblock script %}
     <script>
-        feather.replace()
+        function changeTheme(){
+            let theme = localStorage.getItem('theme');
+            if(theme == undefined){
+                theme = 'dark'
+            }
+            else{
+                theme = theme == 'dark' ? 'light' : 'dark'
+            }
+            setTheme(theme)
+            localStorage.setItem('theme', theme)
+        }
+        
+        function setTheme(theme){
+            if(theme){
+                document.getElementById('theme-css').href = `{% static 'css/${theme}.css' %}`
+                return
+            }
+            document.getElementById('theme-css').href = `{% static 'css/light.css' %}`
+        }
+        setTheme(localStorage.getItem('theme'))
+        {% if messages %}
+        {% for message in messages %}
+            alert('{{message}}')
+        {% endfor %} 
+        {% endif %}
       </script>
 </body>
 </html>

@@ -1,36 +1,57 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+{% block title %} Administrator | Profle{% endblock title %}
 
-{% endblock styles %}
-{% block title %} Administrator | Edit Profile{% endblock title %}
 
-{% block script %}
-<script src="{% static 'js/admin.js' %}" defer></script>
-{% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
+{% block aside %}
 {% include 'administrator/components/aside.html' %}
-       
-            <div class="profile">
-                <form action="/" method="post">
-                    {% csrf_token %}
-                    <img src="" alt="">
-                    <input full_name type="text" value="{{user.get_full_name}}">
-                    <input gender type="text" value="{{user.gender}}" placeholder="gender" disabled>
-                    <input dob type="text" value="{{user.date_of_birth}}" disabled>
-                    <input email type="email" value="{{user.email}}">
-                    <input phone type="tel" value="{{user.phone_no}}">
-                    <input username type="text" value="{{user.username}}" disabled>
-                    <button type="submit">update</button>
-                </form>
+{% endblock aside %}
+    
+{% block main %}
+        <section class="view">
+            <div class="admin-profile">
+                        
+            <h1>{{restaurant.name}}</h1>
+            <form method='post' enctype="multipart/form-data" class="profile-body">
+                {% csrf_token %}
+                <img src="" alt="" imgdisplay>
+                <p name>Name <input type="text" value="{{user.get_full_name}}" name="full_name"></p>
+                <p email>Email <input type="email" name="email" value="{{user.email}}"></p>
+                <p pn>Phone Number <input type="text" name="phone_no" value="{{user.phone_no}}"></p>
+                <p gn>Gender {% if user.gender == '' %}
+                    <select name="gender">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                    {% else %}
+                    {{user.gender}}
+                {% endif %}</p>
+                <p at>Attendants {{restaurant.kitchen.attendants.count}}</p>
+                <input type="file" fileinput name="profile-pic" hidden>
+                <button type="button" selectimg>select profile Image</button>
+                <button type="submit">save account</button>
+            </form>
             </div>
-        
+      </section>
+  {% endblock main %}
 
-{% endblock main %}
+
+  
+  {% block script %}
+
+<script src="{% static 'js/admin.js' %}" defer></script>
+
+    <script>
+
+
+        const fileInp = document.querySelector('[fileinput]')
+        const btn = document.querySelector('[selectimg]')
+        btn.addEventListener('click', ()=> fileInp.click())
+        fileInp.addEventListener('change', ()=>{
+            document.querySelector('[imgdisplay]').src = URL.createObjectURL(fileInp.files[0])
+        })
+
+    </script>
+
+  {% endblock script %}
+    

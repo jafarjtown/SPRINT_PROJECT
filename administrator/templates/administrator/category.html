@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
     
 {% block styles %}
@@ -10,8 +10,9 @@
 {% block script %}
 <script>
 
-
+    
     const inputFile = document.querySelector('#file')
+    document.querySelector('#image').addEventListener('click',()=> inputFile.click())
     
     inputFile.addEventListener('change', (e)=> {
         
@@ -25,13 +26,12 @@
     
 {% block title %} Administrator | Category{% endblock title %}
 
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
+{% block aside %}
+    
 {% include 'administrator/components/aside.html' %}
+{% endblock aside %}
+    
+{% block main %}
         <section class="view">
             <form method="post" class="new-cat" enctype="multipart/form-data">
                 {% csrf_token %}

@@ -16,7 +16,7 @@
 {% block modal %}
     <form method="post" action="{% url 'administrator:add-attendant' %}" class="new-attendant">
         {% csrf_token %}
-        <h2>new attendant form <button onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button></h2>
+        <h2>new attendant form <button onclick="closeModal()"><i class="bi bi-x-lg"></i></button></h2>
         <label for="f" full_name>
             Full name
             <input type="text" name="full_name" pattern="\w+(?:[\W]+\w+)+" required>
@@ -73,19 +73,32 @@
                     <td>Date of birth</td>
                     <td>Email</td>
                     <td>Phone number</td>
+                    <td colspan='2'>Actions</td>
                 </tr>
             </thead>
             <tbody>
                 
                 {% for attendant in attendants %}
-                    <tr>
+                    <tr id="tr{{attendant.id}}">
                         <td>{{forloop.counter}}</td>
                         <td>{{attendant.username}}</td>
                         <td>{{attendant.get_full_name}}</td>
                         <td>{{attendant.get_gender_display}}</td>
                         <td>{{attendant.date_of_birth}}</td>
-                        <td><a href="mailto:{{attendant.email}}">{{attendant.email}}</a></td>
-                        <td><a href="tel:{{attendant.phone_no}}">{{attendant.phone_no}}</a></td>
+                        <td><a href="mailto:{{attendant.email}}">{{attendant.email|truncatechars:'20'}}</a></td>
+                        <td><a href="tel:{{attendant.phone_no}}">{{attendant.phone_no|truncatechars:'10'}}</a></td>
+                        <input type="text" hidden value="{% url 'administrator:suspend-attendant' attendant.id %}" id="suspend{{attendant.id}}">
+                        <input type="text" hidden value="{% url 'administrator:delete-attendant' attendant.id %}" id="delete{{attendant.id}}">
+                        <td class="table-actions">
+                           
+                           {% if attendant.is_active %}
+                           <button id="tr{{attendant.id}}-susbtn" onclick="suspendAttendant(document.querySelector('#suspend{{attendant.id}}').value,'{{attendant.id}}')">Suspend</button>
+                           {% else %}
+                           <button id="tr{{attendant.id}}-susbtn" onclick="suspendAttendant(document.querySelector('#suspend{{attendant.id}}').value,'{{attendant.id}}')">Unuspend</button>
+                           {% endif %}
+                            
+                        </td>
+                        <td class="table-actions"><button onclick="deleteAttendant(document.querySelector('#delete{{attendant.id}}').value,'{{attendant.id}}')">Delete</button></td>
                     </tr>
                 {% endfor %}
                     
@@ -97,6 +110,37 @@
 </div>
 <script>
 
+    async function suspendAttendant(url,id){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'suspending Attendant...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url)
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            document.querySelector(`#tr${id}-susbtn`).innerText = document.querySelector(`#tr${id}-susbtn`).innerText == 'Suspend' ? 'Unsuspend' : 'Suspend'
+
+         }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
+    async function deleteAttendant(url,id){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'Removing Attendant...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url)
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            document.querySelector(`#tr${id}`).remove()
+        }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
     function printSelected(id){
         alert('not workin right now...later work')
         return

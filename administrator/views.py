@@ -2,9 +2,10 @@ from datetime import date
 from django.shortcuts import redirect, render
 from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 
 from administrator.forms import BlogForm
-from administrator.models import Blog, Message, RestaurantService
+from administrator.models import Activity, Blog, Message, RestaurantService
 from authentication.models import User
 from decorators import administrator_only, is_logged_in
 from django.contrib.messages import add_message, constants
@@ -17,9 +18,11 @@ from kitchen.models import Food, Kitchen, Ordered, Category
 
 def generate_username_with_prefix(admin):
     # name
+    
     name = ''.join(list(admin.name))
     if len(name) > 5:
         name = name[:6].lower() + str(admin.kitchen.attendants.count() + 1)
+    admin.activities.add(Activity.objects.create(message=f'new Username is generated -> {name}.'))
     return name
 
 def initiate_admin_kitchen(request):
@@ -50,7 +53,7 @@ def Dashboard(request):
     today_sell = this_week_sell.filter(order__ordered_date__day = (date.today().day))
     customers = get_customers(total_sell)
     last_few_recents = total_sell.order_by('order__ordered_date')[:10]
-    activities = admin.activities.all()
+    activities = admin.activities.all().order_by('-datetimestamp')
     context = {
         'restaurant': kitchen_instance, 
         'customers':customers, 
@@ -105,7 +108,19 @@ def StaffChat(request):
 
 @administrator_only
 def UpdateProfile(request):
-    return render(request, 'administrator/profile.html')
+    user = request.user
+    admin,_ = initiate_admin_kitchen(request)
+    if request.method == 'POST':
+        if request.FILES.get('profile-pic'):
+            user.profile_picture = request.FILES.get('profile-pic')
+        user.first_name, user.last_name = request.POST.get('full_name').split(' ' or ',')
+        user.phone_no = request.POST.get('phone_no')
+        if request.POST.get('gender'):
+            user.gender = request.POST.get('gender')
+        
+        user.save()
+        return redirect('administrator:profile')
+    return render(request, 'administrator/profile.html',{'restaurant':admin})
 
 @administrator_only
 def Orders(request):
@@ -120,7 +135,8 @@ def Orders(request):
 
 @administrator_only
 def Profile(request):
-    return render(request, 'administrator/profile-view.html')
+    admin,_ = initiate_admin_kitchen(request)
+    return render(request, 'administrator/profile-view.html', {'restaurant':admin})
 
 
 @administrator_only
@@ -235,6 +251,36 @@ def KitchenView(request):
     attendants = kitchen.attendants.all()
     return render(request, 'administrator/kitchen.html', {'kitchen': kitchen, 'attendants':attendants})
 
+@administrator_only
+def SuspendAttendant(request, attendant_id):
+    try:
+        admin,kitchen = initiate_admin_kitchen(request)
+        attendant = kitchen.attendants.get(id = attendant_id)
+        if attendant.is_active:
+            attendant.is_active = False
+            act = Activity.objects.create(message=f'you Suspend {attendant.get_full_name()}.') 
+        else:
+            attendant.is_active = True
+            act = Activity.objects.create(message=f'you Unsuspend {attendant.get_full_name()}.')
+        admin.activities.add(act)
+        attendant.save()
+        return JsonResponse({'success': True})
+        
+    except:
+        return JsonResponse({'success': False})
+
+@administrator_only
+def DeleteAttendant(request, attendant_id):
+    try:
+        admin,kitchen = initiate_admin_kitchen(request)
+        attendant = kitchen.attendants.get(id = attendant_id)
+        attendant.delete()
+        act = Activity.objects.create(message=f'you remove {attendant.get_full_name} from your kitchen.')
+        admin.activities.add(act)
+        return JsonResponse({'success': True})
+            
+    except:
+        return JsonResponse({'success': False})
 
 @administrator_only
 def AssignKitchenAttendant(request):
@@ -264,6 +310,7 @@ def AssignKitchenAttendant(request):
             kitchen.attendants.add(attendant)
             kitchen.save()
             attendant.save()
+            admin.activities.add(Activity.objects.create(message=f'You add a new Attendant -> {u} to your kitchen'))
             return redirect('administrator:kitchen')
         except Exception as e:
             print(e)

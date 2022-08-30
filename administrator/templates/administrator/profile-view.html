@@ -1,34 +1,40 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
 {% block title %} Administrator | Profle{% endblock title %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
 
-{% endblock styles %}
-
-{% block script %}
-<script src="{% static 'js/admin.js' %}" defer></script>
-{% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-        
-    </header>
-{% endblock header %}
-{% block main %}
+{% block aside %}
 {% include 'administrator/components/aside.html' %}
+{% endblock aside %}
+    
+{% block main %}
         <section class="view">
-       
-          <div class="profile-admin">
-          <div class="full_name">{{user.get_full_name}}</div>
-          <div class="username">{{user.username}}</div>
-          <div class="dateofbirth">{{user.date_of_birth}}</div>
-          <div class="phone">{{user.phone_no}}</div>
-          <div class="gender">{{user.gender}}</div>
-          <div class="email">{{user.email}}</div>
-          <a href="{% url 'administrator:update-profile' %}" class="profile-update-btn">update Profile</a>
-          </div>
-        
+            <div class="admin-profile">
+                        
+            <h1>{{restaurant.name}}</h1>
+            <div class="profile-body">
+                <img 
+                src="{{user.profile_picture.url}}"
+                
+                      alt="">
+                <p name>Name {{user.get_full_name}}</p>
+                <p email>Email {{user.email}}</p>
+                <p pn>Phone Number {{user.phone_no}}</p>
+                <p gn>Gender 
+                    {{user.gender}}
+                    </p>
+                <p at>Attendants {{restaurant.kitchen.attendants.count}}</p>
+            </div>
+            <a href="{% url 'administrator:update-profile' %}">update profile</a>
+            </div>
       </section>
   {% endblock main %}
+
+
+  
+  {% block script %}
+
+<script src="{% static 'js/admin.js' %}" defer></script>
+
+
+  {% endblock script %}
+    
