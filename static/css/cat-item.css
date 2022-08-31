@@ -54,7 +54,7 @@
     background-color: rgba(80, 80, 80, 0.582);
     display:
     none;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     z-index: 889;
     /* overflow: scroll; */
