@@ -33,7 +33,7 @@ class Food(models.Model):
     def __str__(self) -> str:
         return self.name
 class Kitchen(models.Model):
-    attendants = models.ManyToManyField(User,blank=True)
+    attendants = models.ManyToManyField(User,blank=True, related_name='kitchen')
     
     @property
     def foods_not_available(self):

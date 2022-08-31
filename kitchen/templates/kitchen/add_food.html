@@ -1,26 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
 {% block title %}
 Kitchen |
 Add Food
 {% endblock title %}
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-{% endblock styles %}  
 
-
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
+{% block aside %}
 {% include 'kitchen/components/aside.html' %}
+{% endblock aside %}
+    
+{% block main %}
+<div class="view">
 <div class="food-add">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %} 
         <img src="" id="image" alt="">
-        <input type="file" name="image" id="file">
+        <input type="file" name="image" id="file" hidden>
         <input type="text" name="name" placeholder="name">
         <input type="number" name="price" placeholder="price">
         <input type="number" name="quantity" placeholder="quantity">
@@ -34,6 +29,8 @@ Add Food
         <button>Add</button>
     </form>
 </div>
+</div>
+
 {% endblock main  %}
 
 
@@ -42,7 +39,7 @@ Add Food
 
 
     const inputFile = document.querySelector('#file')
-    
+    document.querySelector('#image').addEventListener('click', ()=> inputFile.click())
     inputFile.addEventListener('change', (e)=> {
         
         document.querySelector('#image').src = URL.createObjectURL(e.target.files[0])

@@ -1,6 +1,7 @@
 *,*::after,*::before{
     box-sizing: border-box;
     margin: 0;
+    /* transition: all 50ms ease-in; */
 }
 
 body{
@@ -168,6 +169,14 @@ td{
     justify-content: center;
     font-size: 40px;
     flex: 1;
+}
+.sell-count > a{
+    text-decoration: none;
+    font-size: 20px;
+    background-color: var(--text-color);
+    color: var(--background-color);
+    padding: 5px 20px;
+    border-radius: 3px;
 }
 .activities .box{
     width: 49.5%;
@@ -455,4 +464,60 @@ td{
     grid-area: bt;
     font-weight: 700;
     cursor: pointer;
+}
+.food-add{
+    width: 400px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 10px;
+    
+}
+.food-add form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    'im im'
+    'n p'
+    'c q'
+    'b b';
+    gap: 10px;
+    width: 100%;
+}
+.food-add img{
+    width: 100%;
+    height: 300px;
+    border: 1px solid var(--border-color);
+    grid-area: im;
+    object-fit: contain;
+}
+.food-add [name="name"]{
+    grid-area: n;
+}
+.food-add [name="price"]{
+    grid-area: p;
+}
+.food-add [name="quantity"]{
+    grid-area: q;
+}
+.food-add [name="categogry"]{
+    grid-area: c;
+}
+.food-add button{
+    grid-area: b;
+    cursor: pointer;
+}
+.food-add input, .food-add select{
+    padding: 10px 5px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    /* display: inline-block; */
+    outline: none;
+}
+.food-add button{
+    display: block;
+    padding: 5px;
+    width: 100%;
 }

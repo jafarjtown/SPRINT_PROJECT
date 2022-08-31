@@ -1,10 +1,12 @@
 
+from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from decorators import is_logged_in, kitchen_only
 from administrator.models import Message
+from administrator.views import get_this_week_sells, get_total_sells
 # from administrator.views import Category
 from . import models
 
@@ -15,6 +17,17 @@ from . import models
 #TODO: Login
 #TODO: News
 #TODO: Customer Orders
+
+def initiate_restaurant_kitchen(request):
+    user = request.user
+    kitchen = user.kitchen.first()
+    restaurant = kitchen.restaurant_kitchen
+    return restaurant, kitchen
+
+def get_active_orders(kitchen):
+    all = kitchen.ordered_set.filter(status = 'P')
+    return all
+
 
 @login_required
 @kitchen_only
@@ -83,11 +96,16 @@ def ActiveOrders(request):
 @login_required
 @kitchen_only
 def Dashboard(request):
-    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
+    restaurant,kitchen = initiate_restaurant_kitchen(request)
+    total_sell = get_total_sells(restaurant)
+    this_week_sell = get_this_week_sells(total_sell)
+    today_sell = this_week_sell.filter(order__ordered_date__day = (date.today().day))
     context = {
-        "orders": models.Ordered.objects.select_related().filter(kitchen=kitchen_instance),
-        "user": request.user,
-        "kitchen": kitchen_instance
+        "active_orders": get_active_orders(kitchen).order_by('-order__ordered_date'),
+        "available_foods": len(kitchen.available_foods),
+        "not_available_foods": len(kitchen.not_available_foods),
+        "all_foods": len(kitchen.foods.all()),
+        "kitchen": kitchen
     }
     return render(request, 'kitchen/kitchen_dashboard.html', context)
 

@@ -58,5 +58,10 @@ class User(AbstractUser):
             all_orders.extend(order.items.filter(models.Q(status = 'P')|models.Q(status = 'R')))
         return all_orders
 
+    @property
+    def profile_pic(self):
+        if self.profile_picture:
+            return self.profile_picture.url
+        return None
 
         

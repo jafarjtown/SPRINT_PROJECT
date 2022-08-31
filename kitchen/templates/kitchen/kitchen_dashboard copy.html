@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Kitchen | Dashboard
+{% endblock title %}
+    
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+
+{% endblock styles %}
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+<script src="{% static 'js/greeting.js' %}" defer></script>
+
+{% endblock script %}
+{% block header %}
+    <header>
+        <button data-toggler><i class="fa fa-bars"></i></button>
+    </header>
+{% endblock header %}
+{% block main %}
+{% include 'kitchen/components/aside.html' %}
+        <section class="view">
+            <div class="account_info">
+                <p class="view-name">{{user.kitchen.name}}</p>
+                <p class="view-name"><span id="greeting_p"></span> {{user.get_full_name}}</p>
+                <small class="view-id">Kitchen Attendant</small>
+            </div>
+            
+            <div class="shortcuts">
+                <div class="shortcut info">
+                    <a href="{% url 'kitchen:active-orders' %}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Active Orders
+                    
+                    </a>
+                </div>
+                <div class="shortcut info">
+                    <a href="{% url 'kitchen:orders' %}">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        All Orders
+                    
+                    </a>
+                </div>
+                <div class="shortcut pen">
+                    <a href="{% url 'kitchen:manage-food' %}">
+                        <i class="fa-solid fa-bowl-food"></i>
+                        Foods
+                    </a>
+                </div>
+                <div class="shortcut pen">
+                    <a href="{% url 'kitchen:add-food' %}">
+                        <i class="fa-solid fa-utensils"></i>
+                    Add Foods
+                    </a>
+                </div>
+                <div class="shortcut pen">
+                    <a href="{% url 'kitchen:chat' %}">
+                        <i class="fa-solid fa-comment"></i>
+                    Stem Chat
+                    </a>
+                </div>
+               
+
+            </div>
+                
+          
+        </section>
+
+{% endblock main %}
