@@ -25,21 +25,21 @@
                 <h2>Recent Chats</h2>
             {% for chat in recent_chats %}
                 <div class="attendant">
-                    <img src=""/>
-                    <b>{{chat.attendant.get_full_name}}</b>
-                    <a href="{% url 'restaurant:chat' chat.attendant.id %}">continue chat</a>
+                    <img src="{{chat.restaurant.admin.profile_pic}}"/>
+                    <b>{{chat.restaurant.name}}</b>
+                    <a href="{% url 'restaurant:chat' chat.restaurant.id %}">continue chat</a>
                 </div>
             {% empty %}
                 <b>No chat</b>
             {% endfor %}
             <hr />
             <div class="attendants">
-                <h2>Kitchen Attendants</h2>
-                {% for attendant in attendants %}
+                <h2>All Restaurants</h2>
+                {% for restaurant in restaurants %}
                 <div class="attendant">
-                    <img src=""/>
-                    <b>{{attendant.get_full_name}}</b>
-                    <a href="{% url 'restaurant:chat' attendant.id %}">start chat</a>
+                    <img src="{{restaurant.admin.profile_pic}}"/>
+                    <b>{{restaurant.name}}</b>
+                    <a href="{% url 'restaurant:chat' restaurant.id %}">start chat</a>
                 </div>
             {% endfor %}
             </div>

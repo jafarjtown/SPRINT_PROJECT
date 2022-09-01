@@ -12,6 +12,16 @@
 {% endblock title %}
 {% block script %}
 <script src="{% static 'js/dashboard.js' %}" defer></script>
+<script>
+
+
+    const fileInp = document.querySelector('[fileinput]')
+    document.querySelector('[imgdisplay]').addEventListener('click', ()=> fileInp.click())
+    fileInp.addEventListener('change', ()=>{
+        document.querySelector('[imgdisplay]').src = URL.createObjectURL(fileInp.files[0])
+    })
+
+</script>
 {% endblock script %}
 {% block header %}
  
@@ -20,9 +30,10 @@
 {% include 'restaurant/components/aside.html' %}
        <section class="view">
              <div class="profile">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <img src="" alt="">
+                    <img src="{{user.profile_pic}}" imgdisplay alt="">
+                    <input type="file" name="profile_picture"fileinput hidden>
                     <input full_name type="text" name="full name" value="{{user.get_full_name}}" placeholder="Full name">
                     {% if user.date_of_birth %}
                         <input dob type="text" value="{{user.date_of_birth}}" disabled>
@@ -44,6 +55,7 @@
                     <button type="submit">update</button>
                 </form>
             </div>
+            <a href="{% url 'administrator:change-password' %}">change password</a>
        </section>
        
         

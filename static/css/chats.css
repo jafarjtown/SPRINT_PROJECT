@@ -38,8 +38,8 @@
 
 .chat-view{
     max-width: 100%;
-    /* height: 100%; */
-    flex: 3;
+    height: 500px;
+    /* flex: 3; */
     background-color: var(--background-color);
     display: flex;
     flex-direction: column;
@@ -47,6 +47,7 @@
     /* background-color: white; */
     /* flex: 1; */
     position: relative;
+    margin: auto;
 }
 .chat-body{
     width: 400px;
@@ -80,6 +81,7 @@
 }
 .chat-view form textarea{
     background-color: var(--background-color);
+    color: var(--text-color);
     height: 50px;
     /* min-height: 50px; */
     flex: 2;

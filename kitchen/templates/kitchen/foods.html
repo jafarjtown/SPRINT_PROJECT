@@ -1,92 +1,133 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
 {% block title %}
 Kitchen | Foods
 {% endblock title %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-
-{% endblock styles %}
+{% block aside %}
+    {% include 'kitchen/components/aside.html' %}
+{% endblock aside %}
 
 
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
 {% block main %}
-{% include 'kitchen/components/aside.html' %}
-        <section class="view">
-
-            <div class="cat-list-wrp">
-                <h1>{{category}}</h1>
-        
-                <div class="cat-list">
-        {% for food in foods %}
-        
-        <div class="cat-item">
-            <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
-            <h3>{{food.name}}</h3>
-            <div class="cat-item-info">
-                <div class="cat-item-price">N{{food.price}}</div>
-                <button data-open-order>Manage</button>
-            </div>
-        
-            <div class="cat-item-modal-wrp">
-                <div class="cat-item-modal">
-                    <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
-                    <form method="post">
-                        {% csrf_token %}
-                   <div class="cat-item-modal-top">
-                    <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
-                    <div class="cat-item-modal-sets">
-                            <label for="price">
-                                Price
-                                <input type="number" value="{{food.price}}" name='price' id="price">
-                            </label>
-                            <label for="quantity">
-                                Quantity
-                                <input type="number" value="{{food.quantity}}" id="quantity" name='quantity' min='0'>
-                            </label>
-                    </div>
-                </div>
-                <input type="number" name="food" value="{{food.id}}" hidden><input type="text" name="name" value="{{food.name}}">
-                <button type="submit" class="cat-item-modal-btn">Save</button> 
-            </form>
-                </div>
-                
-            </div>
+<div class="view">
+     
+    <div class="order-item-wrapper">
+        <h1>All active orders</h1>
+        <div class="access">
+            <button onclick="printSelected('tb')">print <i class="bi bi-printer"></i></button>
+            <button onclick="printSelected('tb')">export pdf <i class="bi bi-filetype-pdf"></i></button>
         </div>
-        
-        {% endfor %}
-                </div>
-        
-            </div>
-          
-        </section>
+        <table id="tb">
+            <thead>
+                <tr>
+                    <td>SN</td>
+                    <td>picture</td>
+                    <td>food name</td>
+                    <td>food category</td>
+                    <td>quantity</td>
+                    <td colspan="2">action</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for order in foods %}
+                    
+                    <tr id="tr{{order.id}}">
+                        <td>{{forloop.counter}}</td>
+                        <td><img class="food-img" src="{{order.image.url}}" alt=""></td>
+                        <td>{{order.name}}</td>
+                        <td>{{order.category.name}}</td>
+                        <td>{{order.quantity}}</td>
+                        <div class="food-manage-wr" id="food{{order.id}}">
+                        <div id="form{{order.id}}" class="form">
+                            {% csrf_token %}
+                            <div>
+                                <h1>Managing {{order.name}}</h1>
+                                <button onclick="closeFoodModal()"></button>
+                            </div>
+                            <input type="hidden" name="url" value="{% url 'kitchen:save-food' order.id %}">
+                            <input type="text" value="{{order.name}}" name="name" placeholder="name">
+                            <input type="text" value="{{order.quantity}}" name="quantity"placeholder="quantity">
+                            <input type="text" value="{{order.price}}" name="price" placeholder="price" >
+                            <button class="save">save</button>
+                        </div>
+                    </div>
+                        <td class="table-actions">
+                            <button id="tr{{order.id}}-confirm" onclick="ManageFood(document.querySelector('#food{{order.id}}'))">
+                                Manage
+                            </button>
+                        </td>
+                        <td class="table-actions">
+                            <button id="tr{{order.id}}-confirm" onclick="remove(document.querySelector('#form{{order.id}}'))">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                    
+                    {% empty %}
+                    <h1>No food</h1>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
 
 {% endblock main %}
 
 
 {% block script %}
-    
-
-
-    <script>
-        const orderBtns = document.querySelectorAll('[data-open-order]')
-orderBtns.forEach(btn => {
-    const catItem = btn.parentElement.parentElement
-    const modal = catItem.querySelector('.cat-item-modal-wrp')
-    btn.addEventListener('click', ()=> { 
-        const close = catItem.querySelector('.cat-item-modal-close')
-        modal.style.display = 'flex'
-        close.addEventListener('click', ()=> modal.style.display = 'none')
-
-    })
-    
-})
-    </script>
-   
 <script src="{% static 'js/admin.js' %}" defer></script>
+<script>
+    function remove(tag){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'removing food...'
+        loading.style.display = 'flex'
+        saveFood(tag, 'DELETE')
+    }
+    function ManageFood(tag){
+        btn = tag.querySelector('.save')
+
+        tag.style.display = 'block'
+        btn.addEventListener('click', ()=>{
+            let loading = document.querySelector('.loading-modal')
+            loading.querySelector('p').innerText = 'saving food...'
+            loading.style.display = 'flex'
+            saveFood(tag, 'POST')
+        })
+        
+    
+    }
+    async function saveFood(tag,method){
+        let name,price,quantity,btn,url;
+        url = tag.querySelector('[name="url"]').value
+        csrf = tag.querySelector('[name="csrfmiddlewaretoken"]').value
+        name = tag.querySelector('[name="name"]').value
+        price = tag.querySelector('[name="price"]').value
+        quantity = tag.querySelector('[name="quantity"]').value
+        let response = await fetch(url,{
+            body: JSON.stringify({name,price, quantity}),
+            method: method,
+            headers:{
+                'X-CSRFToken': csrf
+            }
+        })
+        let d = await response.json()
+        let loading = document.querySelector('.loading-modal')
+        if(d.success){
+            loading.querySelector('p').innerText = 'Successfully...'
+            location.reload()
+            
+        }else{
+            loading.querySelector('p').innerText = 'Error...'
+        }
+        setTimeout(()=> loading.style.display = 'none', 1500)
+    }
+    
+</script>
+
+
 {% endblock script %}
+    

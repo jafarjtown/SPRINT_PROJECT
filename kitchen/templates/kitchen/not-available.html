@@ -1,92 +1,156 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
 {% block title %}
-Kitchen | Foods Not Available
+Kitchen | Active Orders
 {% endblock title %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
-
-{% endblock styles %}
+{% block aside %}
+    {% include 'kitchen/components/aside.html' %}
+{% endblock aside %}
 
 
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
-{% include 'kitchen/components/aside.html' %}
-        <section class="view">
-
-            <div class="cat-list-wrp">
-                <h1>{{category}}</h1>
-        
-                <div class="cat-list">
-        {% for food in foods %}
-        
-        <div class="cat-item">
-            <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-img">
-            <h3>{{food.name}}</h3>
-            <div class="cat-item-info">
-                <div class="cat-item-price">N{{food.price}}</div>
-                <button data-open-order>Manage</button>
-            </div>
-        
-            <div class="cat-item-modal-wrp">
-                <div class="cat-item-modal">
-                    <button class="cat-item-modal-close"><i class="fa fa-close" data-close-order></i> close</button>
-                    <form method="post">
-                        {% csrf_token %}
-                   <div class="cat-item-modal-top">
-                    <img src="{{food.image.url}}" alt="{{food.name}}" class="cat-item-modal-img">
-                    <div class="cat-item-modal-sets">
-                            <label for="price">
-                                Price
-                                <input type="number" value="{{food.price}}" name='price' id="price">
-                            </label>
-                            <label for="quantity">
-                                Quantity
-                                <input type="number" value="{{food.quantity}}" id="quantity" name='quantity' min='0'>
-                            </label>
-                    </div>
-                </div>
-                <input type="number" name="food" value="{{food.id}}" hidden><input type="text" name="name" value="{{food.name}}">
-                <button type="submit" class="cat-item-modal-btn">Save</button> 
-            </form>
-                </div>
-                
-            </div>
+{% block modal %}
+    <div class="decline-form">
+        {% csrf_token %}
+        <div>
+            <h1>Reason for DECLINED</h1>
+            <button onclick="closeModal()">X</button>
         </div>
-        
-        {% endfor %}
-                </div>
-        
-            </div>
-          
-        </section>
+        <textarea placeholder="Reason for declined..." name="reason"></textarea>
+        <button onclick="decline(document.querySelector(`#decline${ID}`).value)">Decline</button>
+    </div>
+{% endblock modal %}
+    
+
+{% block main %}
+<div class="view">
+     
+    <div class="order-item-wrapper">
+        <h1>All active orders</h1>
+        <div class="access">
+            <button onclick="printSelected('tb')">print <i class="bi bi-printer"></i></button>
+            <button onclick="printSelected('tb')">export pdf <i class="bi bi-filetype-pdf"></i></button>
+        </div>
+        <table id="tb">
+            <thead>
+                <tr>
+                    <td>SN</td>
+                    <td>picture</td>
+                    <td>food name</td>
+                    <td>food category</td>
+                    <td>quantity</td>
+                    <td>action</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for order in foods %}
+                    <tr id="tr{{attendant.id}}">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{order.image.url}}</td>
+                        <td>{{order.name}}</td>
+                        <td>{{order.category.name}}</td>
+                        <td>{{order.quantity}}</td>
+                        <input type="text" hidden value="{
+                            url:{% url 'kitchen:manage' order.id %},
+                            quantity:{{order.quantity}}
+                            name:{{order.name}}}" id="manage{{order.id}}">
+                        <input type="text" hidden value="{% url 'kitchen:decline-order' order.id %}" id="remove{{order.id}}">
+                        <td class="table-actions">
+                            <button id="tr{{order.id}}-confirm" onclick="Mangae('{{order.id}}')">
+                                Manage
+                            </button>
+                        </td>
+                        <td class="table-actions">
+                            <button id="tr{{order.id}}-confirm" onclick="remove('{{order.id}}')">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+    
+
+</div>
 
 {% endblock main %}
 
 
 {% block script %}
-    
-
-
-    <script>
-        const orderBtns = document.querySelectorAll('[data-open-order]')
-orderBtns.forEach(btn => {
-    const catItem = btn.parentElement.parentElement
-    const modal = catItem.querySelector('.cat-item-modal-wrp')
-    btn.addEventListener('click', ()=> { 
-        const close = catItem.querySelector('.cat-item-modal-close')
-        modal.style.display = 'flex'
-        close.addEventListener('click', ()=> modal.style.display = 'none')
-
-    })
-    
-})
-    </script>
-   
 <script src="{% static 'js/admin.js' %}" defer></script>
+<script>
+    var ID = 0
+    async function confirm(url,id){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'confirming order...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url)
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            document.querySelector(`#tr${id}-confirm`).innerText = document.querySelector(`#tr${id}-confirm`).innerText == 'Confirm' ? 'Decline' : 'Confirm'
+         }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
+    async function decline(url){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'Declined Order...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                reason: document.querySelector('[name="reason"]').value
+            }),
+            headers:{
+                'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value
+            }
+        })
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            //document.querySelector(`#tr${id}-confirm`).innerText = document.querySelector(`#tr${id}-confirm`).innerText == 'Confirm' ? 'Decline' : 'Confirm'
+            //document.querySelector(`#tr${id}`).remove()
+            location.reload()
+        }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
+    function declineModal(id){
+        ID = id
+        openModal()
+    }
+    function printSelected(id){
+        alert('not workin right now...later work')
+        return
+        const printable = document.getElementById(id).innerHTML;
+        const originlContent = document.body.innerHTML;
+        //document.body.innerHTML = printable;
+        let o = window.open('','processPrint')
+        o.document.open()
+        o.document.write(`<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <link rel="stylesheet" href="/static/css/admin-dashboard.css">  
+                    </head>
+                    <body>
+                    ${printable}
+                    </body>
+                    </html>
+        `)
+        o.document.close()
+        o.print()
+        //window.print()
+        //document.body.innerHTML = originlContent;
+    }
+</script>
+
+
 {% endblock script %}
+    

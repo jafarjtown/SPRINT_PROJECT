@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block custom_header %}
+            
+{% endblock custom_header %}
 {% block main %}
     <div class="order-wrap">
         <div>
-            <img src="{% static 'img/logo_pic 2.jpg' %}" alt="">
+            <img src="{% static 'img/logo.jpg' %}" alt="">
             <div class="order-greet">
                 <h1>Welcome To Our Restuarant</h1>
             <h2>Amazing & Delicious</h2>
@@ -14,11 +17,11 @@
         <a href="{% url 'restaurant:all-foods' %}" class="order-btn">Order Now...</a>
         <div class="address">
             <ul>
-                <li><i class="fa fa-phone"></i> <a href="/"> +2340000099</a></li>
-                <li><i class="fab fa-twitter"></i> <a href="/"> @StemCoderKitchen</a></li>
-                <li><i class="fab fa-instagram"></i> <a href="/"> StemCoderKitchen</a></li>
-                <li><i class="fab fa-facebook"></i> <a href="/"> StemCoderKitchen</a></li>
-                <li><i class="fab fa-twitch"></i> <a href="/">StemCoderKitchen</a></li>
+                <li><i class="bi bi-phone"></i> <a href="/"> +2340000099</a></li>
+                <li><i class="bi bi-twitter"></i> <a href="/"> @StemCoderKitchen</a></li>
+                <li><i class="bi bi-instagram"></i> <a href="/"> StemCoderKitchen</a></li>
+                <li><i class="bi bi-facebook"></i> <a href="/"> StemCoderKitchen</a></li>
+                <li><i class="bi bi-twitch"></i> <a href="/">StemCoderKitchen</a></li>
             </ul>
             <ul>
                 <li>Location</li>

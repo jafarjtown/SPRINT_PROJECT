@@ -394,6 +394,7 @@ section.view{
     padding: 10px;
     border-bottom: 1px solid lightgray;
     margin-top: 5px;
+    gap: 10px;
 }
 .order-item-his{
     flex-direction: row;
@@ -409,7 +410,7 @@ section.view{
     width: 20%;
 }
 .order-item img{
-    width: 200px;
+    width: 100px;
     height: 100px;
     object-fit: cover;
     border: 1px solid;
@@ -435,6 +436,18 @@ section.view{
     z-index: 88;
 }
 @media screen and (max-width: 445px) {
+    .profile form{
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            'img'
+            'fullname'
+            'username'
+            'dob'
+            'phone'
+            'gender'
+            'email'
+            'btn' !important;
+    }
     .header{
         display: flex;
     }
@@ -521,7 +534,7 @@ section.view{
 
 
 .profile form{
-    width: 100%;
+    /* width: 100%; */
     display: grid;
     gap: 10px;
     grid-template-columns: 1fr 1fr;
@@ -534,7 +547,7 @@ section.view{
         'k btn';
 }
 .profile input{
-    padding: 10px 0;
+    padding: 10px;
     border: 1px solid;
     border-radius: 5px;
     outline: none;
@@ -546,6 +559,9 @@ section.view{
 }
 .profile [full_name]{
     grid-area: fullname;
+}
+.profile [gender]{
+    grid-area: gender;
 }
 .profile [email]{
     grid-area: email;
@@ -562,14 +578,16 @@ section.view{
 .profile button{
     grid-area: btn;
     padding: 10px;
-    background-color: var(--primary-color);
-    color: white;
+    background-color: #ed6625;
+    color: rgb(245 245 245);
     border: none;
     border-radius: 5px;
     font-weight: 600;
 }
 .profile form img{
+    width: 100%;
     grid-area: img;
     height: 150px;
     border: 1px solid;
+    object-fit: contain;
 }

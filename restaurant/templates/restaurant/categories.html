@@ -24,16 +24,21 @@
 <div class="categories-wrapper">
     <form method="get" class="category-search">
         <select name="restaurant">
-            <option value="all">Restaurant</option>
+            <option value="all">All Restaurants</option>
+            
+            {% for restaurant in restaurants %}
+                <option value="{{restaurant.name}}">{{restaurant.name}}</option>
+            {% endfor %}
+                
         </select>
         <select name="category">
-            <option value="all">Category</option>
+            <option value="all">All Categories</option>
             {% for category in categories %}
             <option value="{{category.name}}">{{category.name}}</option>
         {% endfor %}
         </select>
-        <input type="search" placeholder="Search food" name="food" required>
-        <button>Search</button>
+        <input type="search" placeholder="Search food" name="food" value="{{q}}" required>
+        <button> <i class="bi bi-search"></i> Search</button>
     </form>
     
     {% if search %}

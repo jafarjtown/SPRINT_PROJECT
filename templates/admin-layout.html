@@ -30,16 +30,7 @@
   
 </head>
 <body>
-    <div class="loading-modal">
-        <p>loading ...</p>
-    </div>
-    <div id="modal" class="modal">
-        
-        {% block modal %}
-            
-        {% endblock modal %}
-            
-    </div>
+
     <aside>
         {% block aside %}
             
@@ -77,5 +68,16 @@
         {% endfor %} 
         {% endif %}
       </script>
+
+      <div class="loading-modal">
+        <p>loading ...</p>
+    </div>
+    <div id="modal" class="modal">
+        
+        {% block modal %}
+            
+        {% endblock modal %}
+            
+    </div>
 </body>
 </html>

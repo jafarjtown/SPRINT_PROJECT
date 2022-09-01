@@ -123,7 +123,7 @@ margin-top: 10px;
     line-height: 42px;
 }
 .order-wrap img{
-    border-radius: 100%;
+    /* border-radius: 100%; */
     width: 150px;
     height: 150px;
     margin: 20px;
@@ -197,16 +197,11 @@ margin-top: 10px;
     font-weight: 500;
     font-size: medium;
     margin-top: 10px;
+    text-align: center;
 }
 .register-div{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-    'title title'
-    'account1 account2'
-    'account3 account3'
-    'n n'
-    ;
+    display: flex;
+    flex-direction: column;
     gap: 10px;
 }
 .register-div > p{
@@ -216,25 +211,6 @@ margin-top: 10px;
     grid-area: title;
     text-align: center;
     margin-bottom: 5px;
-}
-.account{
-    padding: 20px;
-    border: 2px solid #ffa5002b;
-    /* border-radius: 5px; */
-    display: flex;
-    flex-direction: column;
-    background-color: #fff0dc45;
-}
-.account > a{align-self: flex-end;background-color: blue;color: white;padding: 10px;text-decoration: none;border-radius: 5px;margin-top: 10px;}
-.account1{
-    grid-area: account1;
-    height: fit-content;
-}
-.account2{
-    grid-area: account2;
-}
-.account3{
-    grid-area: account3;
 }
 .already_user{
     display: flex;
@@ -256,7 +232,29 @@ margin-top: 10px;
     background-color: black;
     
 }
+.home-foods{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+    justify-content: center;
+}
+.home-foods img{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 3px solid orange;
+    border-radius: 5px;
+}
 @media screen and (max-width: 445px){
+    .home-foods img{
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border: 3px solid orange;
+        border-radius: 5px;
+    }
     .register-div{
         grid-template-columns: 1fr;
         grid-template-areas: 

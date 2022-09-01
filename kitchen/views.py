@@ -1,9 +1,12 @@
 
 from datetime import date
+import json
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q,F
 from decorators import is_logged_in, kitchen_only
 from administrator.models import Message
 from administrator.views import get_this_week_sells, get_total_sells
@@ -32,6 +35,7 @@ def get_active_orders(kitchen):
 @login_required
 @kitchen_only
 def StemChat(request):
+    restaurant, kitchen = initiate_restaurant_kitchen(request) 
     if request.method == 'POST':
         import datetime
         user = request.user.username
@@ -43,9 +47,30 @@ def StemChat(request):
         if request.FILES.get('file') != None:
             message.attached_file = request.FILES.get('file')
         message.save()
+        restaurant.staff_chat.add(message)
         return redirect('kitchen:chat')
-    messages = Message.objects.all()[:15]
+    messages = restaurant.staff_chat.all()
     return render(request, 'kitchen/stemchat.html', {'msgs':messages})
+
+def FoodifyChat(request):
+    restaurant, kitchen = initiate_restaurant_kitchen(request) 
+    if request.method == 'POST':
+        import datetime
+        user = request.user.username
+        text = request.POST.get('text')
+        message  = Message()
+        message.sender = user
+        message.text = text
+        message.timestamp = datetime.datetime.now()
+        if request.FILES.get('file') != None:
+            message.attached_file = request.FILES.get('file')
+        message.save()
+        restaurant.foodify_chat.add(message)
+        return redirect('kitchen:chat')
+    messages = restaurant.foodify_chat.all()
+    return render(request, 'kitchen/stemchat.html', {'msgs':messages})
+
+
 
 @login_required
 @kitchen_only
@@ -74,9 +99,10 @@ def Orders(request):
 @login_required
 @kitchen_only
 def Delivered(request):
-    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
-    orders = models.Ordered.objects.select_related().filter(kitchen=kitchen_instance, status = 'D')
-    return render(request, 'kitchen/delivered.html', {'orders':orders,"kitchen": kitchen_instance})
+    restaurant,kitchen = initiate_restaurant_kitchen(request)
+    delivered = models.Ordered.objects.select_related().filter(Q(status = 'D')|
+                                                               Q(status = 'P'),kitchen=kitchen)
+    return render(request, 'kitchen/delivered.html', {'delivered':delivered,"kitchen": kitchen})
 
 def Print(request, id):
     order = models.Ordered.objects.get(id = id)
@@ -97,9 +123,6 @@ def ActiveOrders(request):
 @kitchen_only
 def Dashboard(request):
     restaurant,kitchen = initiate_restaurant_kitchen(request)
-    total_sell = get_total_sells(restaurant)
-    this_week_sell = get_this_week_sells(total_sell)
-    today_sell = this_week_sell.filter(order__ordered_date__day = (date.today().day))
     context = {
         "active_orders": get_active_orders(kitchen).order_by('-order__ordered_date'),
         "available_foods": len(kitchen.available_foods),
@@ -121,7 +144,7 @@ def CustomerOrders(request):
 @login_required
 @kitchen_only
 def Add_food(request):
-    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
+    restaurant,kitchen = initiate_restaurant_kitchen(request)
     if request.POST:
         food = models.Food()
         food.name = request.POST.get('name')
@@ -130,53 +153,65 @@ def Add_food(request):
         food.image = request.FILES.get('image')
         food.category = models.Category.objects.get(name = request.POST.get('category'))
         food.save()
-        kitchen_instance.foods.add(food)
+        kitchen.foods.add(food)
+        
     context = {
         "categories": models.Category.objects.all(),
-        "kitchen": kitchen_instance
+        "kitchen": kitchen
     }
     return render(request, 'kitchen/add_food.html', context)
 
 @login_required
 @kitchen_only
 def Manage_Food(request):
-    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
+    restaurant,kitchen = initiate_restaurant_kitchen(request)
     if request.method == 'POST':
         name = request.POST.get('name')
         price = request.POST.get('price')
         quantity = request.POST.get('quantity')
         food = request.POST.get('food')
-        f = kitchen_instance.foods.get(id = food)
+        f = kitchen.foods.get(id = food)
         f.quantity = int(quantity)
         f.name = name
         f.price = price
         f.save()
-    foods = kitchen_instance.foods.all()
+    foods = kitchen.foods.all()
         
-    return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen_instance})
-
+    return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen})
+def SaveFood(request, food_id):
+    data = json.loads(request.body)
+    food = models.Food.objects.get(id = food_id)
+    if request.method == 'DELETE':
+        food.delete()
+        return JsonResponse({'success':True})
+    food.name = data.get('name')
+    food.price = data.get('price')
+    food.quantity = data.get('quantity')
+    food.save()
+    return JsonResponse({'success':True})
 @kitchen_only
 def OrderConfirm(request, order_id):
     order = models.Ordered.objects.get(id=order_id)
     order.status = 'D'
     order.save()
-    messages.info(request,'Order Status Changed to Delivered')
-    return redirect('kitchen:orders')
+    # messages.info(request,'Order Status Changed to Delivered')
+    return JsonResponse({'success': True})
 
 @kitchen_only
 def OrderDecline(request, order_id):
     
     if request.method == 'POST':
+        import json 
         order = models.Ordered.objects.get(id=order_id)
         order.status = 'R'
         order.save()
         reason = models.OrderFeed()
-        reason.feed = request.POST.get('reason')
+        reason.feed = json.loads(request.body).get('reason')
         reason.item = order
         reason.save()
-        messages.info(request,'Order Status Changed to Rejected')
-        return redirect('kitchen:orders')
-    return render(request, 'kitchen/decline-order.html')
+        # messages.info(request,'Order Status Changed to Rejected')
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
 
 @kitchen_only
 def NotAvailable(request):

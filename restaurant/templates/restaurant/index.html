@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block custom_header %}
             
 {% endblock custom_header %}
@@ -17,37 +17,24 @@
             </div>
     </div>
     <div class="service">
-        <h1>What we do?</h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio sed cum maxime itaque atque inventore tempora dignissimos veniam blanditiis aut exercitationem, explicabo placeat dicta tenetur rerum excepturi ratione illo. Ut?</p>
+        <h1>Who are we?</h1>
+        <p>An organisation in food production and food delivery services.</p>
+        <p>Aimed at serving students in the consumption sector, providing good food, fast and reliable delivery service and friendly staff.</p>
+        <p>Your best food plug</p>
     </div>
     <div class="register-div">
-        <h1>We have three types of Account...</h1>
-        <div class="account account1">
-            <h2>
-                Customer Account
-            </h2>
-            <p>
-                this is account for end customer,to order food without stress
-            </p>
-        </div>
-
-        <div class="account account2">
-            <h2>
-                Administrator Account
-            </h2>
-            <p>
-                this account is for Restaurant Admin, you can manage your Restaurant with this account
-            </p>
-        </div>
-        <div class="account account3">
-            <h2>
-                Kitchen Attendant Account
-            </h2>
-            <p>
-                this account can only be created by <b>Administrator</b>
-            </p>
-        </div>
-        <p><b>Note</b> you can migrate from normal account to Administrator Account later</p>
+        <h1>How it works?</h1>
+        <p>You ( customer ) order from any of our listed foods, it get to you ( customer ) within short time..</p>
+    </div>
+    <div class="home-foods">
+        <img src="{% static 'img/food1.jpg' %}" alt="">
+        <img src="{% static 'img/food2.jpg' %}" alt="">
+        <img src="{% static 'img/food3.jpg' %}" alt="">
+        <img src="{% static 'img/food4.jpg' %}" alt="">
+        <img src="{% static 'img/food5.jpg' %}" alt="">
+        <img src="{% static 'img/home-pic.jpg' %}" alt="">
+        <img src="{% static 'img/home-pic1.jpg' %}" alt="">
+        <img src="{% static 'img/logo.jpg' %}" alt="">
     </div>
     <footer>
         <p>

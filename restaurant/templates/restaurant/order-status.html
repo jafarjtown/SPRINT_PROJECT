@@ -24,7 +24,7 @@
     <div class="order-item-wrapper" >
         <h1>All Orders</h1>
         {% for order in user.orders %}
-        <div class="order-item" style='width: 60%'>
+        <div class="order-item">
             <img src="{{order.image}}" />
             <div>
                 <p>Category: <b>{{order.category.name}}</b></p>

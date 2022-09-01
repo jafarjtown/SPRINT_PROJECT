@@ -1,52 +1,162 @@
-{% extends 'base.html' %}
+{% extends 'admin-layout.html' %}
 {% load static %}
 {% block title %}
-Kitchen | Delivered
+Kitchen | Orders
 {% endblock title %}
-    
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">  
+{% block aside %}
+    {% include 'kitchen/components/aside.html' %}
+{% endblock aside %}
 
-{% endblock styles %}
 
-{% block script %}
-<script src="{% static 'js/admin.js' %}" defer></script>
-{% endblock script %}
-{% block header %}
-    <header>
-        <button data-toggler><i class="fa fa-bars"></i></button>
-    </header>
-{% endblock header %}
-{% block main %}
-{% include 'kitchen/components/aside.html' %}
-<div class="order-item-wrapper">
-    <h1>All Delivered foods</h1>
-{% for order in orders %}
-    <div class="order-item">
-        <img src="{{order.image}}" />
+{% block modal %}
+    <div class="decline-form">
+        {% csrf_token %}
         <div>
-            <p>Customer Name: <b>{{order.customer.get_full_name}}</b></p>
-            <p>Delivery address: <address>{{order.delivery_point}}</address></p>
+            <h1>Reason for DECLINED</h1>
+            <button onclick="closeModal()">X</button>
         </div>
-        <div>
-            <p>Category: <b>{{order.category.name}}</b></p>
-            <p>Name: <b>{{order.name}}</b></p>
-            <p>Phone Number: <b>
-                <a href="tel:{{order.phone_no}}">{{order.phone_no}}</a>
-            </b></p>
-        </div>
-        <div>
-            <p>Quantity: <b>{{order.quantity}}</b></p>
-            <p>Time: <b>{{order.time}}</b></p>
-            <p>Date: <b>{{order.date}}</b></p>
-            <p>Total: <b>{{order.total_price}}</b></p>
-        </div>
-        <div>
-            <b>{{order.get_status_display}}</b>
-        </div>
+        <textarea placeholder="Reason for declined..." name="reason"></textarea>
+        <button onclick="decline(document.querySelector(`#decline${ID}`).value)">Decline</button>
     </div>
+{% endblock modal %}
+    
 
-{% endfor %}
+{% block main %}
+<div class="view">
+     
+    <div class="order-item-wrapper">
+        <h1>All active orders</h1>
+        <div class="access">
+            <button onclick="printSelected('tb')">print <i class="bi bi-printer"></i></button>
+            <button onclick="printSelected('tb')">export pdf <i class="bi bi-filetype-pdf"></i></button>
+        </div>
+        <table id="tb">
+            <thead>
+                <tr>
+                    <td>SN</td>
+                    <td>Customer</td>
+                    <td>Email</td>
+                    <td>Phone number</td>
+                    <td>food name</td>
+                    <td>food category</td>
+                    <td>quantity</td>
+                    <td>date time</td>
+                    <td colspan="2">address</td>
+                    <td>action</td>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for order in delivered %}
+                    <tr id="tr{{attendant.id}}">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{order.customer.username}}</td>
+                        <td><a href="mailto:{{order.customer.email}}">{{order.customer.email|truncatechars:'15'}}</a></td>
+                        <td><a href="tel:{{order.customer.phone_no}}">{{order.customer.phone_no|truncatechars:'7'}}</a></td>
+                        <td>{{order.name}}</td>
+                        <td>{{order.category.name}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.date}} {{order.time}}</td>
+                        <td colspan="2">{{order.order.delivered_point}}</td>
+                        <input type="text" hidden value="{% url 'kitchen:confirm-order' order.id %}" id="confirm{{order.id}}">
+                        <input type="text" hidden value="{% url 'kitchen:decline-order' order.id %}" id="decline{{order.id}}">
+                        <td class="table-actions">
+                            {% if order.status == 'D' %}
+                            <button id="tr{{order.id}}-confirm" onclick="declineModal('{{order.id}}')">
+                                Decline
+                            </button>
+                                {% else %}
+                                <button id="tr{{order.id}}-confirm" onclick="confirm(document.querySelector('#confirm{{order.id}}').value,'{{order.id}}')">
+                                    Confirm
+                                </button>
+                            {% endif %} 
+                        </td>
+                    </tr>
+                {% endfor %}
+                    
+            </tbody>
+        </table>
+    </div>
+    
+
 </div>
 
 {% endblock main %}
+
+
+{% block script %}
+<script src="{% static 'js/admin.js' %}" defer></script>
+<script>
+    var ID = 0
+    async function confirm(url,id){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'confirming order...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url)
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            document.querySelector(`#tr${id}-confirm`).innerText = document.querySelector(`#tr${id}-confirm`).innerText == 'Confirm' ? 'Decline' : 'Confirm'
+         }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
+    async function decline(url){
+        let loading = document.querySelector('.loading-modal')
+        loading.querySelector('p').innerText = 'Declined Order...'
+        loading.style.display = 'flex'
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                reason: document.querySelector('[name="reason"]').value
+            }),
+            headers:{
+                'X-CSRFToken': document.querySelector('[name="csrfmiddlewaretoken"]').value
+            }
+        })
+        const data = await response.json()
+        if(data.success){
+            loading.querySelector('p').innerText = 'successfully'
+            //document.querySelector(`#tr${id}-confirm`).innerText = document.querySelector(`#tr${id}-confirm`).innerText == 'Confirm' ? 'Decline' : 'Confirm'
+            //document.querySelector(`#tr${id}`).remove()
+            location.reload()
+        }else{
+            loading.querySelector('p').innerText =  'Error occured'
+        }
+        setTimeout(()=>loading.style.display = 'none', 1500)
+    }
+    function declineModal(id){
+        ID = id
+        openModal()
+    }
+    function printSelected(id){
+        alert('not workin right now...later work')
+        return
+        const printable = document.getElementById(id).innerHTML;
+        const originlContent = document.body.innerHTML;
+        //document.body.innerHTML = printable;
+        let o = window.open('','processPrint')
+        o.document.open()
+        o.document.write(`<!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <link rel="stylesheet" href="/static/css/admin-dashboard.css">  
+                    </head>
+                    <body>
+                    ${printable}
+                    </body>
+                    </html>
+        `)
+        o.document.close()
+        o.print()
+        //window.print()
+        //document.body.innerHTML = originlContent;
+    }
+</script>
+
+
+{% endblock script %}
+    

@@ -53,7 +53,7 @@
         {% csrf_token %}
         <p>Fill the form to proceed your order</p>
         <input type="tel" name="phone_number" placeholder="phone number to call" value="{{customer_order.phone_no}}">
-        <textarea name="delivery_point" value="{{customer_order.delivery_point}}" placeholder="Address to deliver items"></textarea>
+        <textarea name="delivery_point" placeholder="Address to deliver items">{{customer_order.delivery_point}}</textarea>
         <p>Select Payment method</p>
         <select name="payment_type" value="{{customer_order.payment_type}}">
             <option value="N">Not specify</option>

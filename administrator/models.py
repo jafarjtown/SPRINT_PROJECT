@@ -14,6 +14,7 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     attached_file = models.ImageField(upload_to='message/files/')
 
+
 class Blog(models.Model):
     author = models.ForeignKey('authentication.User', models.SET_NULL, null=True,  related_name='posts')
     body = models.TextField()
@@ -77,3 +78,4 @@ class RestaurantService(models.Model):
             obj[str(o.order.ordered_date)]['total'] += (int(o.price) * int(o.quantity))
     
         return obj
+    

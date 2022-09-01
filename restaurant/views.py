@@ -22,15 +22,17 @@ def Home(request):
 
 def Category(request):
     categories = Cat.objects.all()
-    context = {'categories': categories}
+    restaurants = RestaurantService.objects.all()
+    context = {'categories': categories,'restaurants':restaurants}
     if request.GET.get('food'):
         food = request.GET.get('food')
+        context['q']=food
         rest = request.GET.get('restaurant')
         cat = request.GET.get('category')
         search = None
         result = Food.objects.filter(name__icontains = food)
         if rest != 'all':
-            result = result
+            result = result.filter(kitchen_offered__restaurant_kitchen__name=rest)
         if cat != 'all':
             result = result.filter(category__name = cat)
         context['foods'] = result
@@ -141,16 +143,19 @@ def Dashboard(request):
 @login_required
 @customer_only
 def CustomerChat(request):
-    attendants = User.objects.filter(is_kitchen = True)
+    restaurants = RestaurantService.objects.all()
     recent_chats = Chat.objects.filter(customer=request.user)
-    return render(request, 'restaurant/chats.html', {'attendants':attendants,'recent_chats':recent_chats})
+    print(restaurants,  recent_chats)
+    return render(request, 'restaurant/chats.html', {'restaurants':restaurants,'recent_chats':recent_chats})
 
 @login_required
 @customer_only
-def CustomerAttendantChat(request, attendant_id):
-    attendant = User.objects.get(id = attendant_id)
+def CustomerAttendantChat(request, restaurant_id):
+    restaurant = RestaurantService.objects.get(id = restaurant_id)
     user = request.user
-    chat,_ = Chat.objects.get_or_create(customer=user, attendant=attendant)
+    if Chat.objects.filter(restaurant = restaurant, customer=user).exists() is not True:
+        Chat.objects.get_or_create(restaurant = restaurant, customer=user)
+    
     if request.method == 'POST':
         user = request.user.username
         text = request.POST.get('text')
@@ -160,10 +165,10 @@ def CustomerAttendantChat(request, attendant_id):
         if request.FILES.get('file') != None:
             message.attached_file = request.FILES.get('file')
         message.save()
-        chat.messages.add(message)
-        chat.save()
-        return redirect('restaurant:chat', attendant.id)
-    return render(request, 'restaurant/chat.html', {'chat':chat})
+        restaurant.foodify_chat.add(message)
+        restaurant.save()
+        return redirect('restaurant:chat', restaurant_id)
+    return render(request, 'restaurant/chat.html', {'chat':restaurant.foodify_chat.all(), 'restaurant':restaurant})
 
 
 @login_required
@@ -226,6 +231,8 @@ def UpdateProfile(request):
             first_name, last_name = data.get('full name').split(' ')
             user.first_name = first_name
             user.last_name = last_name
+        if request.FILES.get('profile_picture'):
+            user.profile_picture = request.FILES.get('profile_picture')
         user.save()
         add_message(request, constants.SUCCESS, 'Profile Updated')
     return render(request, 'restaurant/update_profile.html')

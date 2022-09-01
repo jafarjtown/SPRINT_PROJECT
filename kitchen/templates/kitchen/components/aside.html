@@ -8,12 +8,12 @@
     <ul>
         <li><a href="{% url 'kitchen:dashboard' %}"><i class="bi bi-ui-radios-grid"></i> Dashboard</a></li>
         {% comment %} <li><a href="{% url 'administrator:category' %}"><i class="bi bi-collection"></i> Categories</a></li> {% endcomment %}
-        <li><a href="{% url 'kitchen:add-food' %}"><i class="bi bi-cart-check"></i> Add food</a></li>
-        <li><a href="{% url 'kitchen:delivered' %}"><i class="bi bi-bag-check"></i> Delivered food</a></li>
-        <li><a href="{% url 'kitchen:not-available-food' %}"><i class="bi bi-x-circle"></i>  out of food</a></li>
+        <li><a href="{% url 'kitchen:add-food' %}"><i class="bi bi-cart-plus"></i> Add food</a></li>
+        <li><a href="{% url 'kitchen:delivered' %}"><i class="bi bi-bag-check"></i> orders</a></li>
+        <li><a href="{% url 'kitchen:manage-food' %}"><i class="bi bi-x-circle"></i> manage food</a></li>
         <hr>
-        <li><a href="{% url 'administrator:foodify-chat' %}"><i class="bi bi-chat-right-text"></i> foodify public</a></li>
-        <li><a href="{% url 'administrator:staff-chat' %}"><i class="bi bi-chat-right-quote"></i>  Staff chat </a></li>
+        <li><a href="{% url 'kitchen:foodify-chat' %}"><i class="bi bi-chat-right-text"></i> foodify public</a></li>
+        <li><a href="{% url 'kitchen:staff-chat' %}"><i class="bi bi-chat-right-quote"></i>  Staff chat </a></li>
         <div class="last">
             <hr>
             <li><button onClick="changeTheme()"><i class="bi bi-cloud-moon-fill"></i> Change theme</button></li>

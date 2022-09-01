@@ -19,11 +19,11 @@
         <section class="view">
             <div>
 
-                <h2>{{chat.attendant.get_full_name}} inbox</h2>
+                <h2>{{restaurant.name}} inbox</h2>
             </div>
             <hr>
 
-            {% include 'administrator/components/chat.html' with messages=chat.messages.all %}
+            {% include 'administrator/components/chat.html' with messages=chat %}
           
         </section>
 

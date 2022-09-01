@@ -11,21 +11,22 @@ body{
 .signin-wrapper{
     width: 100%;
     height: 100vh;
-    /* background-color: rgba(255, 255, 255, 0.473); */
+    background-color: rgba(255, 255, 255, 0.473);
     /* background-position-y: -50px; */
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 .signin-wrapper form{
     width: 70%;
-    /* height: 80vh; */
+    height: fit-content;
     background-color: rgb(255 255 255);
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
     /* border-radius: 30px; */
-    border: 3px solid #47730e;
+    /* border: 3px solid #47730e; */
 }
 form label{
     font-weight: 600;
@@ -62,7 +63,7 @@ form button{
     width: 140px;
     height: 140px;
     align-self: center;
-    border-radius: 50%
+    /* border-radius: 50%; */
 }
 .body label{
     display: flex;
@@ -74,10 +75,9 @@ form button{
     width: 100%;
     padding: 10px;
     background-color: transparent;
-    border: none;
-    border-bottom: 2px solid;
+    border: 1px solid lightgray;
+    /* border-bottom: 2px solid; */
     outline: none;
-    
 }
 .down{
     width: 100%;
@@ -115,9 +115,9 @@ form button{
     width: 300px;
     padding: 10px;
     background-color: transparent;
-    border: none;
+    border: 1px solid lightgray;
     outline: none;
-    border-bottom: 1px solid;
+    /* border-bottom: 1px solid; */
 }
 .tail{
     display: flex;
@@ -134,6 +134,7 @@ form button{
 @media screen and (max-width: 445px){
     .signin-wrapper{
         /* height: fit-content; */
+        background-color: #ffffffde;
     }
     .signin-wrapper.signin{
         height: fit-content;
