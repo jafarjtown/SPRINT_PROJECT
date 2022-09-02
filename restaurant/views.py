@@ -37,7 +37,7 @@ def Category(request):
         rest = request.GET.get('restaurant')
         cat = request.GET.get('category')
         search = None
-        result = Food.objects.filter(name__icontains = food,quantity_gt=1)
+        result = Food.objects.filter(name__icontains = food,quantity__gt=1)
         if rest != 'all':
             result = result.filter(kitchen_offered__restaurant_kitchen__name=rest)
         if cat != 'all':
