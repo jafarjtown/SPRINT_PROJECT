@@ -23,7 +23,7 @@ from . import models
 
 def initiate_restaurant_kitchen(request):
     user = request.user
-    kitchen = user.kitchen.first()
+    kitchen = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
     restaurant = kitchen.restaurant_kitchen
     return restaurant, kitchen
 
@@ -125,9 +125,9 @@ def Dashboard(request):
     restaurant,kitchen = initiate_restaurant_kitchen(request)
     context = {
         "active_orders": get_active_orders(kitchen).order_by('-order__ordered_date'),
-        "available_foods": len(kitchen.available_foods),
-        "not_available_foods": len(kitchen.not_available_foods),
-        "all_foods": len(kitchen.foods.all()),
+        "available_foods": kitchen.available_foods.count(),
+        "not_available_foods": kitchen.foods_not_available,
+        "all_foods": kitchen.foods.all().count(),
         "kitchen": kitchen
     }
     return render(request, 'kitchen/kitchen_dashboard.html', context)
@@ -163,7 +163,7 @@ def Add_food(request):
 
 @login_required
 @kitchen_only
-def Manage_Food(request):
+def Manage_Food(request, page):
     restaurant,kitchen = initiate_restaurant_kitchen(request)
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -175,7 +175,12 @@ def Manage_Food(request):
         f.name = name
         f.price = price
         f.save()
-    foods = kitchen.foods.all().order_by('quantity')
+    if page == 'not':
+        foods = kitchen.foods.filter(quantity__lte=1).order_by('quantity')
+    elif page == 'all':
+        foods = kitchen.foods.all().order_by('quantity')
+    else:
+        foods = kitchen.foods.filter(quantity__gte=1).order_by('quantity')
         
     return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen})
 

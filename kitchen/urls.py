@@ -15,7 +15,7 @@ urlpatterns = [
     path('orders/<str:order_id>/confirm/', views.OrderConfirm, name='confirm-order'),
     path('orders/<str:order_id>/decline/', views.OrderDecline, name='decline-order'),
     path('add-food/', views.Add_food, name='add-food'),
-    path('manage-food/', views.Manage_Food, name='manage-food'),
+    path('manage-food/<str:page>/state/', views.Manage_Food, name='manage-food'),
     path('manage-food/<int:food_id>/', views.SaveFood, name='save-food'),
 
 ]
