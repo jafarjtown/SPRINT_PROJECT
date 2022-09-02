@@ -10,12 +10,14 @@
         <li><a href="{% url 'administrator:dashboard' %}"><i class="bi bi-ui-radios-grid"></i> Dashboard</a></li>
         <li><a href="{% url 'administrator:category' %}"><i class="bi bi-collection"></i> Categories</a></li>
         <li><a href="{% url 'administrator:orders' %}"><i class="bi bi-cart-check"></i> All Sells</a></li>
+        <hr>
         <li><a href="{% url 'administrator:foodify-chat' %}"><i class="bi bi-chat-right-text"></i> foodify public</a></li>
         <li><a href="{% url 'administrator:staff-chat' %}"><i class="bi bi-chat-right-quote"></i>  Staff chat </a></li>
         <li><a href="{% url 'administrator:kitchen' %}"><i class="bi bi-people"></i>  Kitchen</a></li>
         <div class="last">
             <hr>
             <li><button onClick="changeTheme()"><i class="bi bi-cloud-moon-fill"></i> Change theme</button></li>
+            <li><a href="{% url 'administrator:change-password' %}"><i class="bi bi-shield-lock"></i>Change Password</a></li>
             {% comment %} <li><a href="{% url 'administrator:posts' %}"><i class="bi bi-gear"></i> Setting</a></li> {% endcomment %}
             <li><a href="{% url 'authentication:logout' %}"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
 

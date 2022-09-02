@@ -40,11 +40,12 @@ def get_this_week_sells(total):
     return last_weeks
 
 def get_total_sells(admin):
-    return Ordered.objects.filter(kitchen = admin.kitchen, order__payment__is_payed = True)
+    return Ordered.objects.filter(kitchen = admin.kitchen, order__payment__is_payed = True, status='D')
 def get_customers(sells):
     customers = set(sell.order.customer for sell in sells)
     return customers
-   
+
+@login_required
 @administrator_only
 def Dashboard(request):
     admin,kitchen_instance = initiate_admin_kitchen(request)
@@ -65,6 +66,7 @@ def Dashboard(request):
         }
     return render(request, 'administrator/dashboard.html',context)
 
+@login_required
 @administrator_only
 def FoodifyChat(request):
     admin,_ = initiate_admin_kitchen(request)
@@ -85,6 +87,7 @@ def FoodifyChat(request):
     messages = admin.foodify_chat.all()[:15]
     return render(request, 'administrator/stemchat-public.html', {'msgs':messages})
 
+@login_required
 @administrator_only
 def StaffChat(request):
     admin,_ = initiate_admin_kitchen(request)
@@ -106,6 +109,7 @@ def StaffChat(request):
     return render(request, 'administrator/stemchat.html', {'msgs':messages})
 
 
+@login_required
 @administrator_only
 def UpdateProfile(request):
     user = request.user
@@ -122,6 +126,7 @@ def UpdateProfile(request):
         return redirect('administrator:profile')
     return render(request, 'administrator/profile.html',{'restaurant':admin})
 
+@login_required
 @administrator_only
 def Orders(request):
     admin,kitchen_instance = initiate_admin_kitchen(request)
@@ -133,76 +138,13 @@ def Orders(request):
 
 # i do not touch
 
+@login_required
 @administrator_only
 def Profile(request):
     admin,_ = initiate_admin_kitchen(request)
     return render(request, 'administrator/profile-view.html', {'restaurant':admin})
 
-
-@administrator_only
-def Blogs(request):
-    blogs = request.user.posts.all()
-    return render(request, 'administrator/posts.html', {'posts': blogs})
-
-
-@administrator_only
-def NewBlog(request):
-    form = BlogForm()
-    if request.method == 'POST':
-        form = BlogForm(request.POST)
-        if form.is_valid():
-            blog = form.save(commit=False)
-            blog.author = request.user
-            blog.save()
-    return render(request, 'administrator/new-post.html', {'form': form})
-
-@administrator_only
-def UpdateBlog(request, blog_id):
-    blog = Blog.objects.get(id=blog_id)
-    form = BlogForm(instance=blog)
-    if request.method == 'DELET':
-        blog.delete()
-        return redirect('administrator:posts')
-    if request.method == 'POST':
-        form = BlogForm(request.POST, instance=blog)
-        if form.is_valid():
-            blog = form.save(commit=False)
-            blog.author = request.user
-            blog.save()
-    return render(request, 'administrator/new-post.html', {'form': form})
-
-
-
-@administrator_only
-def NotAvailable(request):
-    foods = RestaurantService.objects.get(admin=request.user).not_available_foods
-    return render(request, 'administrator/not-available.html', {'foods': foods})
-
-
-@administrator_only
-def StudentCustomers(request):
-    admin,kitchen_instance = initiate_admin_kitchen(request)
-    total_sell = get_total_sells(admin)
-    customers = get_customers(total_sell)
-    return render(request, 'administrator/customers.html', {'customers': customers})
-
-
-@administrator_only
-def OrderSummary(request):
-
-    orders = []
-    restaurant = RestaurantService.objects.first()
-    orders.extend(restaurant.orders_sum)
-    return render(request, 'administrator/order-summary.html', {'summary': orders})
-
-@administrator_only
-def PrintOrderSummary(request, date):
-
-    orders = RestaurantService.objects.first().orders_sum_print
-
-    return render(request, 'administrator/components/print_orders.html', {'order': orders[date]})
-
-
+@login_required
 @administrator_only
 def Foods(request):
     admin = RestaurantService.objects.get(admin=request.user)
@@ -213,44 +155,14 @@ def Foods(request):
     return render(request, 'administrator/foods.html', {'foods': foods})
 
 
-@administrator_only
-def NewRestaurant(request):
-    if request.method == 'POST':
-        data = request.POST
-        name = data.get('name')
-        phone_no = data.get('phone_no')
-        address = data.get('address')
-        rest = RestaurantService.objects.create(
-            admin=request.user, name=name, address=address, phone_no=phone_no)
-        return redirect('administrator:dashboard')
-    return render(request, 'administrator/new-restaurant.html')
-
-# !! YOU CAN'T CREATE MORE THAN ONE KITCHEN
-
-
-@administrator_only
-def NewKitchen(request):
-    if request.method == 'POST':
-        user = request.user
-        data = request.POST
-        name = data.get('name')
-        phone_no = data.get('phone_no')
-        address = data.get('address')
-        image = request.FILES.get('image')
-        kitchen = Kitchen.objects.create(
-            image=image, name=name, address=address, phone_number=phone_no)
-        user.restaurant.kitchens.add(kitchen)
-        user.restaurant.save()
-        return redirect('administrator:kitchens')
-    return render(request, 'administrator/new-kitchen.html')
-
-
+@login_required
 @administrator_only
 def KitchenView(request):
     admin,kitchen = initiate_admin_kitchen(request)
     attendants = kitchen.attendants.all()
     return render(request, 'administrator/kitchen.html', {'kitchen': kitchen, 'attendants':attendants})
 
+@login_required
 @administrator_only
 def SuspendAttendant(request, attendant_id):
     try:
@@ -269,6 +181,7 @@ def SuspendAttendant(request, attendant_id):
     except:
         return JsonResponse({'success': False})
 
+@login_required
 @administrator_only
 def DeleteAttendant(request, attendant_id):
     try:
@@ -282,6 +195,7 @@ def DeleteAttendant(request, attendant_id):
     except:
         return JsonResponse({'success': False})
 
+@login_required
 @administrator_only
 def AssignKitchenAttendant(request):
 
@@ -317,28 +231,8 @@ def AssignKitchenAttendant(request):
             return redirect('administrator:dashboard')
     return render(request, 'administrator/new-kitchen-attendant.html')
 
-
-@administrator_only
-def KitchenOrders(request):
-
-    kitchen = Kitchen.objects.first()
-    orders = kitchen.ordered.all()
-    return render(request, 'administrator/orders.html', {'orders': orders})
-
-
-@administrator_only
-def KitchenOrdersSummary(request):
-    kitchen = Kitchen.objects.first()
-    summary = kitchen.orders_sum
-    print(summary)
-    return render(request, 'administrator/order-summary.html', {'summary': summary})
-
-
-def CustomerProfile(request, username):
-    customer = User.objects.get(username=username)
-    return render(request, 'administrator/customer-profile.html', {'customer': customer})
-
 @login_required
+@administrator_only
 def DeclinedOrder(request, order_id):
     ordered = Ordered.objects.get(id=order_id)
     try:
@@ -350,11 +244,13 @@ def DeclinedOrder(request, order_id):
         ordered.delete()
     return redirect('administrator:orders')
 
+@login_required
 @administrator_only
 def Categories(request):
     categories = Category.objects.all()
     return render(request, 'administrator/categories.html', {'categories': categories})
 
+@login_required
 @administrator_only
 def NewCategory(request):
     if request.method == 'POST':
@@ -364,11 +260,7 @@ def NewCategory(request):
         return redirect('administrator:category')
     return render(request, 'administrator/category.html')
 
-
-def AddFood(request):
-    return render(request, 'administrator/add-food.html')
-
-
+@login_required
 def ChangePassword(request):
     if request.method == 'POST':
         user = request.user

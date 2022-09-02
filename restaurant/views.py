@@ -19,6 +19,13 @@ from kitchen.models import Category as Cat, Food, Kitchen, Order, OrderFeed, Ord
 def Home(request):
     return render(request, 'restaurant/index.html')
 
+@login_required
+@customer_only
+def AllFoods(request):
+    foods = Food.objects.filter(quantity__gte=1)
+    context = {"category": 'All Foods', 'foods': foods}
+    return render(request, 'restaurant/cat-list.html', context)
+
 
 def Category(request):
     categories = Cat.objects.all()
@@ -30,7 +37,7 @@ def Category(request):
         rest = request.GET.get('restaurant')
         cat = request.GET.get('category')
         search = None
-        result = Food.objects.filter(name__icontains = food)
+        result = Food.objects.filter(name__icontains = food,quantity_gt=1)
         if rest != 'all':
             result = result.filter(kitchen_offered__restaurant_kitchen__name=rest)
         if cat != 'all':
@@ -40,6 +47,8 @@ def Category(request):
         context['result_count'] = len(result)
     return render(request, 'restaurant/categories.html', context)
 
+@login_required
+@customer_only
 def Cart(request):
     customer_order = Order.objects.filter(customer=request.user).last()
     context = {'customer_order': customer_order}
@@ -50,7 +59,8 @@ def Cart(request):
         customer_order.save()
     return render(request, 'restaurant/cart.html', context)
 
-
+@login_required
+@customer_only
 def PaymentSuccess(request, order_id):
     if request.method == 'POST':
         import json
@@ -77,12 +87,6 @@ def PaymentSuccess(request, order_id):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
-def AllFoods(request):
-    foods = Food.objects.filter(quantity__gte=1)
-    context = {"category": 'All Foods', 'foods': foods}
-    return render(request, 'restaurant/cat-list.html', context)
-
-
 def CategoryList(request, category):
     try:
         foods = Cat.objects.get(name=category).foods.filter(quantity__gte=1)
@@ -90,16 +94,6 @@ def CategoryList(request, category):
         return render(request, 'restaurant/cat-list.html', context)
     except:
         return redirect('restaurant:categories')
-
-
-def PostHome(request, post_id):
-    post = Blog.objects.get(id=post_id)
-    if request.method == 'POST':
-        username = request.POST.get('username') or 'Anonymous'
-        body = request.POST.get('body')
-
-    return render(request, 'restaurant/posts.html', {'post': post})
-
 
 def About(request):
     return render(request, 'restaurant/about.html')
@@ -130,13 +124,12 @@ def OrderFood(request, id):
         order_list.save()
         return redirect('restaurant:categories')
 
-
 @login_required
 @customer_only
 def Dashboard(request):
     user = request.user
     posts = Blog.objects.all()
-    foods = Food.objects.all()
+    foods = Food.objects.filter(quantity__gt=1)
     recents = user.recents_orders
     return render(request, 'restaurant/dashboard.html', {'posts': posts, 'recents': recents, 'foods':foods})
 
@@ -170,12 +163,10 @@ def CustomerAttendantChat(request, restaurant_id):
         return redirect('restaurant:chat', restaurant_id)
     return render(request, 'restaurant/chat.html', {'chat':restaurant.foodify_chat.all(), 'restaurant':restaurant})
 
-
 @login_required
 @customer_only
 def OrderStatus(request):
     return render(request, 'restaurant/order-status.html')
-
 
 @login_required
 @customer_only
@@ -184,7 +175,6 @@ def OrderHistory(request):
     all_orders = request.user.cart_order.filter(status = 'C')
     context['orders'] = all_orders
     return render(request, 'restaurant/order-history.html', context)
-
 
 @login_required
 @customer_only
@@ -198,7 +188,6 @@ def Order_feed(request, feed_id):
     feed = OrderFeed.objects.get(id = feed_id)
     return render(request, 'restaurant/feed.html', {'feed':feed})
 
-
 @login_required
 def Profile(request):
     return render(request, 'restaurant/profile.html')
@@ -211,7 +200,6 @@ def CancelOrder(request, order_id):
     order.save()
     ordered.delete()
     return redirect('restaurant:dashboard')
-
 
 @login_required
 @customer_only

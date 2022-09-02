@@ -76,7 +76,7 @@
                     <div class="activity">
                         
                         {% for activity in activities %}
-                        <a href="/">{{activity.datetimestamp}} - {{activity.message}}</a>
+                        <a>{{activity.datetimestamp}} - {{activity.message}}</a>
                         {% empty %}
                         <h1>No Activities</h1>
                         {% endfor %}
@@ -91,7 +91,7 @@
                 <div class="orders_wrapper">
                     
                     {% for order in last_few_recents %}
-                        <a href="/" class="order">
+                        <a class="order">
                             {{order.order.ordered_date}} {{order.time}} - <b>{{order.order.customer}}</b> order {{order.name}} from {{order.kitchen_attendant}} - {{order.get_status_display}}
                         </a>
                         {% empty %}

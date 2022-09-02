@@ -20,21 +20,21 @@
                 <h2>Foods available <i class="bi bi-cart2"></i></h2>
                 <div class="sell-count">
                     <h1>{{available_foods}}</h1>
-                    <a href="">check</a>
+                    <a href="{% url 'kitchen:manage-food' %}">check</a>
                 </div>
             </div>
             <div class="box">
                 <h2>Foods not available <i class="bi bi-cart4"></i></h2>
                 <div class="sell-count">
                     <h1>{{not_available_foods}}</h1>
-                    <a href="">update</a>
+                    <a href="{% url 'kitchen:manage-food' %}">update</a>
                 </div>
             </div>
             <div class="box">
                 <h2>All foods <i class="bi bi-minecart-loaded"></i></h2>
                 <div class="sell-count">
                     <h1>{{all_foods}}</h1>
-                    <a href="">check</a>
+                    <a href="{% url 'kitchen:manage-food' %}">check</a>
                 </div>
             </div>
         </section>

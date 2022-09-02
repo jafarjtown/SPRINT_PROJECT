@@ -201,7 +201,7 @@ section.view{
     /* height: 100px; */
 }
 .update{
-    width: 49%;
+    width: 100%;
     height: 200px;
     border: 1px solid lightgray;
     padding: 10px;
@@ -209,6 +209,8 @@ section.view{
     min-height: 50vh;
     background-color: rgb(245, 245, 245);
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 }
 .update table,.update tr, .update td,.status table, .status tr, .status td{
     border: 1px solid;
@@ -224,8 +226,9 @@ section.view{
     top: -10px;
 }
 .update table, .status table{
-    width: 100%;
+    width: 500px;
     height: 40px;
+    margin: auto;
     margin-top: 10px;
 }
 .update td, .status td{

@@ -52,6 +52,8 @@ def StemChat(request):
     messages = restaurant.staff_chat.all()
     return render(request, 'kitchen/stemchat.html', {'msgs':messages})
 
+@login_required
+@kitchen_only
 def FoodifyChat(request):
     restaurant, kitchen = initiate_restaurant_kitchen(request) 
     if request.method == 'POST':
@@ -69,8 +71,6 @@ def FoodifyChat(request):
         return redirect('kitchen:chat')
     messages = restaurant.foodify_chat.all()
     return render(request, 'kitchen/stemchat.html', {'msgs':messages})
-
-
 
 @login_required
 @kitchen_only
@@ -100,7 +100,7 @@ def Orders(request):
 @kitchen_only
 def Delivered(request):
     restaurant,kitchen = initiate_restaurant_kitchen(request)
-    delivered = models.Ordered.objects.select_related().filter(Q(status = 'D')|
+    delivered = models.Ordered.objects.select_related().filter(Q(status = 'R')|
                                                                Q(status = 'P'),kitchen=kitchen)
     return render(request, 'kitchen/delivered.html', {'delivered':delivered,"kitchen": kitchen})
 
@@ -117,7 +117,7 @@ def ActiveOrders(request):
     # why can't we just get Pending orders to be our Active Orders 
     context['object'] = models.Ordered.objects.select_related().filter(kitchen=kitchen_instance, status = 'P')
     return render(request, 'kitchen/kitchen_active_orders.html',context)
-    # return render(request, 'kitchen/kitchen_active_orders.html',context)
+    
 
 @login_required
 @kitchen_only
@@ -175,9 +175,12 @@ def Manage_Food(request):
         f.name = name
         f.price = price
         f.save()
-    foods = kitchen.foods.all()
+    foods = kitchen.foods.all().order_by('quantity')
         
     return render(request, 'kitchen/foods.html', {'foods': foods, 'kitchen':kitchen})
+
+@login_required
+@kitchen_only
 def SaveFood(request, food_id):
     data = json.loads(request.body)
     food = models.Food.objects.get(id = food_id)
@@ -189,6 +192,9 @@ def SaveFood(request, food_id):
     food.quantity = data.get('quantity')
     food.save()
     return JsonResponse({'success':True})
+
+
+@login_required
 @kitchen_only
 def OrderConfirm(request, order_id):
     order = models.Ordered.objects.get(id=order_id)
@@ -197,6 +203,7 @@ def OrderConfirm(request, order_id):
     # messages.info(request,'Order Status Changed to Delivered')
     return JsonResponse({'success': True})
 
+@login_required
 @kitchen_only
 def OrderDecline(request, order_id):
     
@@ -212,21 +219,3 @@ def OrderDecline(request, order_id):
         # messages.info(request,'Order Status Changed to Rejected')
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
-
-@kitchen_only
-def NotAvailable(request):
-    kitchen_instance = models.Kitchen.objects.select_related().filter(attendants=request.user)[0]
-    
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        price = request.POST.get('price')
-        quantity = request.POST.get('quantity')
-        food = request.POST.get('food')
-        f = kitchen_instance.foods.get(id = food)
-        f.quantity = int(quantity)
-        f.name = name
-        f.price = price
-        f.save()
-    foods = kitchen_instance.foods.filter(quantity__lte=1)
-    # kitchen = models.Kitchen.objects.all()[0]
-    return render(request, 'kitchen/not-available.html', {'foods': foods, 'kitchen':kitchen_instance})

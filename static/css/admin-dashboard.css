@@ -258,7 +258,7 @@ td{
 .order-item-wrapper{
     background-color: var(--background-color);
     flex: 1;
-    height: 100%;
+    /* height: 100%; */
     padding: 10px;
 }
 .order-item-wrapper .access button{
@@ -559,7 +559,7 @@ td{
     background-color: var(--text-color);
 }
 .food-manage-wr{
-    width: 100%;
+    width: 100vw;
     height: 100%;
     position: absolute;
     top: 0;
@@ -593,6 +593,8 @@ td{
 }
 .food-manage-wr div{
     grid-area: d;
+    display: flex;
+    justify-content: space-between;
 }
 .food-manage-wr  form [name="name"]{
     grid-area: n;

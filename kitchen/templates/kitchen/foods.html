@@ -12,7 +12,7 @@ Kitchen | Foods
 <div class="view">
      
     <div class="order-item-wrapper">
-        <h1>All active orders</h1>
+        <h1>All foods</h1>
         <div class="access">
             <button onclick="printSelected('tb')">print <i class="bi bi-printer"></i></button>
             <button onclick="printSelected('tb')">export pdf <i class="bi bi-filetype-pdf"></i></button>
@@ -43,7 +43,7 @@ Kitchen | Foods
                             {% csrf_token %}
                             <div>
                                 <h1>Managing {{order.name}}</h1>
-                                <button onclick="closeFoodModal()"></button>
+                                <button onclick="closeFoodModal()"><i class="bi bi-x-lg"></i></button>
                             </div>
                             <input type="hidden" name="url" value="{% url 'kitchen:save-food' order.id %}">
                             <input type="text" value="{{order.name}}" name="name" placeholder="name">
@@ -125,7 +125,9 @@ Kitchen | Foods
         }
         setTimeout(()=> loading.style.display = 'none', 1500)
     }
-    
+    function closeFoodModal(){
+        document.querySelectorAll('.food-manage-wr').forEach(tag=>tag.style.display = 'none')
+    }
 </script>
 
 

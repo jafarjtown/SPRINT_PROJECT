@@ -112,7 +112,7 @@
 
     async function suspendAttendant(url,id){
         let loading = document.querySelector('.loading-modal')
-        loading.querySelector('p').innerText = 'suspending Attendant...'
+        loading.querySelector('p').innerText = 'please wait...'
         loading.style.display = 'flex'
 
         const response = await fetch(url)

@@ -164,7 +164,7 @@ form button{
     padding: 20px;
 }
 .signin-wrapper.admin input{
-    width: 200px;
+    /* width: 200px; */
 }
 .signin-wrapper.admin button{
     align-self: auto;
